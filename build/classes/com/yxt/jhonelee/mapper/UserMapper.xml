@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 关于查询用户的sql -->
+<mapper namespace="com.yxt.jhonelee.mapper.UserMapper">
+	<!-- 解决表名与字段不匹配 -->
+	<resultMap type="User" id="userResultMap">
+		<id property="mId" column="id" />
+		<result property="mToken" column="token" />
+		<result property="mItvToken" column="ITV_TOKEN" />
+		<result property="mUserId" column="USER_ID" />
+		<result property="mUserName" column="USER_NAME" />
+		<result property="mUserPhone" column="USER_PHONE" />
+		<result property="mDocId" column="DOCTOR_ID" />
+		<result property="mIsSign" column="IS_SIGN" />
+		<result property="mRegState" column="REG_STATE" />
+		<result property="mRegTime" column="REG_TIME" />
+		<result property="mScanCount" column="SCAN_COUNT" />
+		<result property="mUpdateTime" column="UPDATE_TIME" />
+	</resultMap>
+	<!--查询医生id下的所有签约用户 -->
+	<select id="findAllUser" resultMap="userResultMap" resultType="User">
+		select * from ITV_REGIST where doctor_id = #{id} order by
+		TO_DAYS(REG_TIME) DESC, REG_TIME-TO_DAYS(REG_TIME)
+	</select>
+	<!--查询医生id下最新的预约用户 -->
+	<select id="findUserBydocId" resultMap="userResultMap"
+		resultType="User">
+		SELECT * FROM (select * from ITV_REGIST where doctor_id in
+		(select id from
+		doctor) ORDER BY REG_TIME DESC) st GROUP BY
+		st.doctor_id
+	</select>
+
+
+
+
+	<!-- 首页显示的分页实现 -->
+	<select id="selectUserHomeBypage" resultMap="userResultMap"
+		resultType="User">
+		SELECT * FROM (select * from ITV_REGIST where doctor_id in
+		(select id from
+		doctor) ORDER BY REG_TIME DESC) st GROUP BY
+		st.doctor_id limit #{startPos},#{pageSize}
+	</select>
+	<!--首页显示总数 -->
+	<select id="getHomeCount" resultType="int">
+		SELECT COUNT(*) FROM (SELECT * FROM (select * from ITV_REGIST where
+		doctor_id in (select id from
+		doctor) ORDER BY REG_TIME DESC) users
+		GROUP BY users.doctor_id) doc_user
+	</select>
+
+	<!-- 实现分页的sql在docid下的 -->
+	<select id="selectUserByPage" resultMap="userResultMap"
+		resultType="User">
+		select * from ITV_REGIST where doctor_id = #{id} order by
+		TO_DAYS(REG_TIME)
+		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
+		#{startPos},#{pageSize}
+	</select>
+	<!-- 取得要实现分页数据库docid下user的总数 -->
+	<select id="getUserCount" resultType="int">
+		select count(*) from
+		ITV_REGIST where doctor_id = #{id}
+	</select>
+</mapper>
+
