@@ -42,17 +42,15 @@ public class UserController {
 		int totalcount = userService.getHomeCount();
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
-			List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize());
-			request.setAttribute("listUser", listUser);
-			request.setAttribute("page", page);
-			return "/home";
+
 		}else{
 			page = new Page(totalcount, 1);
-			List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize());
-			request.setAttribute("listUser", listUser);
-			request.setAttribute("page", page);
-			return "/home";
+	
 		}
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize());
+		request.setAttribute("listUser", listUser);
+		request.setAttribute("page", page);
+		return "/home";
 	}
 	// 登录界面
 	/*
@@ -67,6 +65,7 @@ public class UserController {
 	 * 
 	 * }
 	 */
+	//分页显示医生id的签约用户信息
 	@RequestMapping("/detail")
 	public String selectUserByPage(HttpServletRequest request) {
 		String id = request.getParameter("id");
@@ -77,19 +76,15 @@ public class UserController {
 		
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
-			List<User> listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
-			request.setAttribute("id", docId);
-			request.setAttribute("listUser", listUser);
-			request.setAttribute("page", page);
-			return "/detail";
+			
 		}else{
 			page = new Page(totalcount, 1);
-			List<User> listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
-			request.setAttribute("id", docId);
-			request.setAttribute("listUser", listUser);
-			request.setAttribute("page", page);
-			return "/detail";
 		}
+		List<User> listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
+		request.setAttribute("id", docId);
+		request.setAttribute("listUser", listUser);
+		request.setAttribute("page", page);
+		return "/detail";
 	}
 	
 	
