@@ -41,12 +41,12 @@
 		<ul class="breadcrumb">
 			<li><img src="images/32/5025_networking.png" /></li>
 			<li><a href="<%=request.getContextPath()%>/home" target="right">
-					<span class="accordion-inner"> <span class="left-body">首页</span>
-				</span>
-
-			</a></li>
+					<span class="accordion-inner"> 
+						<span class="left-body">首页</span>
+					</span>
+				</a>
+			</li>
 			<li><span class="divider">>></span></li>
-
 			<li class="active"></li>
 		</ul>
 	</div>
@@ -59,7 +59,7 @@
 						<div class="accordion-heading">
 							<a class="accordion-toggle" data-toggle="collapse"
 								data-parent="#accordion2" href="#collapseOne"> <img
-								class="left-icon" src="images/32/5026_settings.png" /><span
+								class="left-icon" src="images/32/icon.png" /><span
 								class="left-title">医生列表</span>
 							</a>
 						</div>
@@ -70,8 +70,11 @@
 									<li><a
 										href="<%=request.getContextPath()%>/detail?id=${doctor.mId}"
 										target="right"> <div class="accordion-inner"> <img
-												class="left-icon-child" src="images/32/4957_customers.png" /><span
-												class="left-body">${doctor.mDocName }</span>
+												class="left-icon-child" src="images/32/doctoricon.jpg" /><span
+												class="left-body" title="预约用户">医生：${doctor.mDocName }</span>
+												<span class="left-body" style="display:none">
+												电话号码：${doctor.mDocPhone }
+												</span>
 										</div>
 									</a></li>
 								</c:forEach>
