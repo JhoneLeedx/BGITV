@@ -30,11 +30,11 @@
 								<th>用户姓名</th>
 								<th>用户电话</th>
 								<th>预约时间</th>
-								<th>最后更新时间</th>
 								<th>用户ITV编码</th>
 								<th>是否签约</th>
 								<th>扫码次数</th>
 								<th>联系状态</th>
+								<th>最后更新时间</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
@@ -46,10 +46,6 @@
 										<td>${user.mUserPhone }</td>
 										<td><fmt:formatDate value="${user.mRegTime }"
 												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
-										</td>
-										<td>
-											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
-												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
 										<td>${user.mItvToken }</td>
 										<td><c:choose>
@@ -75,6 +71,10 @@
 										网络问题
 										</c:otherwise>
 											</c:choose></td>
+										<td>
+											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
+												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
+										</td>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -83,53 +83,52 @@
 					<!-- 分页开始 -->
 					<div align="center" style="margin-top: 20px">
 
-						<c:choose> 
-						<c:when test="${page.totalPageCount==0}">
-						
-						</c:when>
-						<c:otherwise>
-						<div>
-								<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
-									${page.pageNow} 页</font> <a
-									href="<%=request.getContextPath()%>/home?pageNow=1">首页</a>
-								<c:choose>
-									<c:when test="${page.pageNow - 1 > 0}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow - 1}">上一页</a>
-									</c:when>
-									<c:when test="${page.pageNow - 1 <= 0}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=1">上一页</a>
-									</c:when>
-								</c:choose>
-								<c:choose>
-									<c:when test="${page.totalPageCount==0}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow}">下一页</a>
-									</c:when>
-									<c:when test="${page.pageNow + 1 < page.totalPageCount}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow + 1}">下一页</a>
-									</c:when>
-									<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.totalPageCount}">下一页</a>
-									</c:when>
-								</c:choose>
-								<c:choose>
-									<c:when test="${page.totalPageCount==0}">
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow}">尾页</a>
-									</c:when>
-									<c:otherwise>
-										<a
-											href="<%=request.getContextPath()%>/home?pageNow=${page.totalPageCount}">尾页</a>
-									</c:otherwise>
-								</c:choose>
+						<c:choose>
+							<c:when test="${page.totalPageCount==0}">
 
-							</div>
-						</c:otherwise>
-							
+							</c:when>
+							<c:otherwise>
+								<div>
+									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
+										${page.pageNow} 页</font> <a
+										href="<%=request.getContextPath()%>/home?pageNow=1">首页</a>
+									<c:choose>
+										<c:when test="${page.pageNow - 1 > 0}">
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow - 1}">上一页</a>
+										</c:when>
+										<c:when test="${page.pageNow - 1 <= 0}">
+											<a href="<%=request.getContextPath()%>/home?pageNow=1">上一页</a>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when test="${page.totalPageCount==0}">
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow}">下一页</a>
+										</c:when>
+										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow + 1}">下一页</a>
+										</c:when>
+										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.totalPageCount}">下一页</a>
+										</c:when>
+									</c:choose>
+									<c:choose>
+										<c:when test="${page.totalPageCount==0}">
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.pageNow}">尾页</a>
+										</c:when>
+										<c:otherwise>
+											<a
+												href="<%=request.getContextPath()%>/home?pageNow=${page.totalPageCount}">尾页</a>
+										</c:otherwise>
+									</c:choose>
+
+								</div>
+							</c:otherwise>
+
 						</c:choose>
 
 					</div>
