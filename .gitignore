@@ -3,6 +3,6 @@
 /build
 /captures
 .classpath
-.settings
+/.settings
 .tern-project
 .project
