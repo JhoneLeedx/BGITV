@@ -140,7 +140,7 @@
 		</div>
 	</div>
 	<div id="callfaile" 
-		style="display: none; width: 600px; height: 400px; margin: auto;; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 0; left: 50%;">
+		style="display: none; width: 800px; height: 600px; margin-left:auto;margin-right:auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form action="#">
@@ -150,8 +150,12 @@
 				<p>
 					用户id <input type="text" name="lname" />
 				</p>
-				<p><input type="checkbox" value="已通知医生" name = "checkDoc" >已通知医生</p>
-				<p><input type="checkbox" value="已通知用户" name = "checkUser">已通知用户</p>
+				
+				<select id="notifcation">
+					<option>选择通知状态</option>
+				<option>已通知医生</option>
+				<option>已通知用户</option>
+				</select>
 				<textarea   name="neirong" style="width: 450px;height: 150px;" onfocus="if(value=='原因：'){value=''}"  
     onblur="if (value ==''){value='原因：'}"></textarea>
 				<input type="submit" value="提交" />

@@ -19,7 +19,7 @@
 <body>
 	<div class="header">
 
-		<img class="logo" src="images/logo.png" /> <label class="logo-title">ITV后台管理中心</label>
+		<img class="logo" src="images/logo.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
 		<ul class="inline">
 			<li><img src="images/32/client.png">&nbsp;&nbsp;欢迎您,${user.username }</>
 			</li>
@@ -89,7 +89,6 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="foot"></div>
-	
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>

@@ -4,6 +4,7 @@
 $(".accordion-inner").click(function () {
 	if( $(this).find(".left-body").text()=="首页"){
 		$(".active").html("");
+		$(".newli").html("");
 	}else{
 		console.log(this.getElementsByClassName("left-body"));
 		var newli=document.getElementsByClassName('newli');
