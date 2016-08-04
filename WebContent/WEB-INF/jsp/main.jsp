@@ -41,11 +41,9 @@
 		<ul class="breadcrumb">
 			<li><img src="images/32/5025_networking.png" /></li>
 			<li><a href="<%=request.getContextPath()%>/home" target="right">
-					<span class="accordion-inner"> 
-						<span class="left-body">首页</span>
-					</span>
-				</a>
-			</li>
+					<span class="accordion-inner"> <span class="left-body">首页</span>
+				</span>
+			</a></li>
 			<li><span class="divider">>></span></li>
 			<li class="active"></li>
 		</ul>
@@ -69,22 +67,20 @@
 								<c:forEach items="${listdoc }" var="doctor">
 									<li><a
 										href="<%=request.getContextPath()%>/detail?id=${doctor.mId}"
-										target="right"> <div class="accordion-inner"> <img
-												class="left-icon-child" src="images/32/doctoricon.jpg" /><span
-												class="left-body" title="预约用户">医生：${doctor.mDocName }</span>
-												<span class="left-body" style="display:none">
-												电话号码：${doctor.mDocPhone }
-												</span>
-										</div>
+										target="right">
+											<div class="accordion-inner">
+												<img class="left-icon-child" src="images/32/doctoricon.jpg" />
+												<span class="left-body" title="预约用户的详细列表">${doctor.mDocName }
+												</span> <span class="left-body" style="display: none">
+													电话号码：${doctor.mDocPhone } </span>
+											</div>
 									</a></li>
 								</c:forEach>
 							</c:if>
 						</ul>
 					</div>
 				</div>
-
 			</div>
-
 			<div class="span10 content-right">
 				<iframe name="right" src="<%=request.getContextPath()%>/home"
 					class="iframe"></iframe>
@@ -93,6 +89,8 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="foot"></div>
+	
+	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/Index.js"></script>

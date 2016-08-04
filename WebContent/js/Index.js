@@ -18,7 +18,7 @@ $(".accordion-inner").click(function () {
 			htm+="<li class='newli'>"+"&nbsp&nbsp&nbsp"+li[i].firstChild.nodeValue+"</li>";
 		}
     $(".breadcrumb").append(htm);
-    $(".newli:last").css({'position':'absolutew]','right':'0'});
+    $(".newli:last").css({'position':'absolute','right':'300px'});
 	}
 })
 

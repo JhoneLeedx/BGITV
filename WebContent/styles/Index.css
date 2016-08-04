@@ -1,4 +1,4 @@
-﻿body {
+body {
     background-color: #eae5e5;
 }
 
@@ -88,7 +88,6 @@
 }
 
 .left-icon-child {
-    margin-left: 15%;
     width: 10%;
 }
 
@@ -96,8 +95,6 @@
     margin-left: 10px;
     font-weight: bold;
 }
-
-
 
 
 .accordion-toggle {

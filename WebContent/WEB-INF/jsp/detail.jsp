@@ -35,6 +35,7 @@
 								<th>扫码次数</th>
 								<th>联系状态</th>
 								<th>最后更新时间</th>
+								<th>通知状态</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
@@ -75,6 +76,7 @@
 											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
+										<td><button onclick="showForm()">添加通知状态</button></td>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -137,7 +139,34 @@
 			</div>
 		</div>
 	</div>
-
+	<div id="callfaile" 
+		style="display: none; width: 600px; height: 400px; margin: auto;; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 0; left: 50%;">
+		<div
+			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
+			<form action="#">
+				<p>
+					 医生id<input type="text" name="fname" />
+				</p>
+				<p>
+					用户id <input type="text" name="lname" />
+				</p>
+				<p><input type="checkbox" value="已通知医生" name = "checkDoc" >已通知医生</p>
+				<p><input type="checkbox" value="已通知用户" name = "checkUser">已通知用户</p>
+				<textarea   name="neirong" style="width: 450px;height: 150px;" onfocus="if(value=='原因：'){value=''}"  
+    onblur="if (value ==''){value='原因：'}"></textarea>
+				<input type="submit" value="提交" />
+				<input type="button" onclick="closeForm()" value="取消">
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+	function showForm(){
+		document.getElementById("callfaile").style.display = "block";
+	}
+	function closeForm(){
+		document.getElementById("callfaile").style.display = "none";
+	}
+	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="layer-v2.3/layer/layer.js"></script>
