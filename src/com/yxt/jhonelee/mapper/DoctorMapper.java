@@ -6,5 +6,5 @@ import com.yxt.jhonelee.model.Doctor;
 
 public interface DoctorMapper {
 
-	List<Doctor> findAllDoc();
+	List<Doctor> findAllDoc();//找到所有医生信息
 }
