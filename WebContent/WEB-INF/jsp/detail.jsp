@@ -79,7 +79,7 @@
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
 																		<c:if test="${statusId!=1 }">
-								<td><button onclick="showForm()">添加通知状态</button></td>
+								<td><button onclick="showForm(${user.mUserId },${user.mDocId })">添加通知状态</button></td>
 								</c:if>
 										
 									</tr>
@@ -145,18 +145,18 @@
 		</div>
 	</div>
 	<div id="callfaile" 
-		style="display: none; width: 800px; height: 600px; margin-left:auto;margin-right:auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
+		style="display: none; width: 500px; height: 380px; margin-left:auto;margin-right:auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form action="#">
+			<form action="<%=request.getContextPath()%>/insert">
 				<p>
-					 医生id<input type="text" name="fname" />
+					 用户id<input type="text" id="userid" name="userid"/>
 				</p>
 				<p>
-					用户id <input type="text" name="lname" />
+					医生id <input type="text" id="docid" name="docid" />
 				</p>
 				
-				<select id="notifcation">
+				<select id="notifcation" name="notifcat">
 					<option>选择通知状态</option>
 				<option>已通知医生</option>
 				<option>已通知用户</option>
@@ -169,8 +169,10 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	function showForm(){
+	function showForm(userId,docId){
 		document.getElementById("callfaile").style.display = "block";
+		$("#userid").val(userId);
+		document.getElementById("docid").value= docId;
 	}
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
