@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<title>ITV后台管理首页</title>
+<title>家庭医生预约协同服务中心首页</title>
 <link href="styles/Common.css" rel="stylesheet" />
 <link href="styles/Index.css" rel="stylesheet" />
 </head>
@@ -31,7 +31,6 @@
 				</ul></li> -->
 			<li><img src="images/32/200.png" />&nbsp;&nbsp;<a
 				class="loginout" href="<%=request.getContextPath()%>/home">退出</a></li>
-
 		</ul>
 
 	</div>
@@ -65,7 +64,24 @@
 						<ul id="collapseOne" class="accordion-body collapse in">
 							<c:if test="${!empty listdoc }">
 								<c:forEach items="${listdoc }" var="doctor">
-									<li><a
+									
+									<li>
+									<a  class="accordion-toggle "
+				data-toggle="collapse" href="#${doctor.mId}">
+				<div class="accordion-inner">
+												<img class="left-icon-child" src="images/32/doctoricon.jpg" />
+												<span class="left-body" title="预约用户的详细列表">${doctor.mDocName }
+												</span> <span class="left-body" style="display: none">
+													电话号码：${doctor.mDocPhone } </span>
+											</div>
+									</a>
+													<ul id="${doctor.mId}" class="collapse">
+					<li><a href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&status=1"
+										target="right"><span>成功预约的用户</span></a></li>
+					<li><a href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&status=2"
+										target="right"><span>其他状态的用户</span></a></li>
+				</ul></li>
+						<%-- 			<a
 										href="<%=request.getContextPath()%>/detail?id=${doctor.mId}"
 										target="right">
 											<div class="accordion-inner">
@@ -74,7 +90,7 @@
 												</span> <span class="left-body" style="display: none">
 													电话号码：${doctor.mDocPhone } </span>
 											</div>
-									</a></li>
+									</a> --%>
 								</c:forEach>
 							</c:if>
 						</ul>
@@ -89,7 +105,6 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="foot"></div>
-	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/Index.js"></script>

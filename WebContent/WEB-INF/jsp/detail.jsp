@@ -35,7 +35,9 @@
 								<th>扫码次数</th>
 								<th>联系状态</th>
 								<th>最后更新时间</th>
+								<c:if test="${statusId!=1 }">
 								<th>通知状态</th>
+								</c:if>
 							</tr>
 						</thead>
 						<tbody id="tbody">
@@ -76,7 +78,10 @@
 											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
-										<td><button onclick="showForm()">添加通知状态</button></td>
+																		<c:if test="${statusId!=1 }">
+								<td><button onclick="showForm()">添加通知状态</button></td>
+								</c:if>
+										
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -93,39 +98,39 @@
 								<div>
 									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
 										${page.pageNow} 页</font> <a
-										href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">首页</a>
+										href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1&status=${statusId}">首页</a>
 									<c:choose>
 										<c:when test="${page.pageNow - 1 > 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow - 1}">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow - 1}">上一页</a>
 										</c:when>
 										<c:when test="${page.pageNow - 1 <= 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=1">上一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow + 1}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow + 1}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.totalPageCount}">下一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow}">尾页</a>
 										</c:when>
 										<c:otherwise>
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.totalPageCount}">尾页</a>
 										</c:otherwise>
 									</c:choose>
 

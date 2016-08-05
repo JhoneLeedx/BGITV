@@ -69,23 +69,26 @@ public class UserController {
 	@RequestMapping("/detail")
 	public String selectUserByPage(HttpServletRequest request) {
 		String id = request.getParameter("id");
+		String status = request.getParameter("status");
+		int statusId= Integer.parseInt(status);
 		int  docId = Integer.parseInt(id);
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount = userService.getUserCount(docId);
-		
-		if (pageNow != null) {
-			page = new Page(totalcount, Integer.parseInt(pageNow));
-			
-		}else{
-			page = new Page(totalcount, 1);
-		}
-		List<User> listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
+		int totalcount =0;
+		List<User> listUser = null;
+	    totalcount = userService.getUserCount(docId,statusId);
+			if (pageNow != null) {
+				page = new Page(totalcount, Integer.parseInt(pageNow));
+				
+			}else{
+				page = new Page(totalcount, 1);
+			}
+			listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(),statusId);
+		request.setAttribute("statusId", statusId);
 		request.setAttribute("id", docId);
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("page", page);
 		return "/detail";
 	}
-	
 	
 }

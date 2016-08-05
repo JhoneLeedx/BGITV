@@ -54,7 +54,18 @@
 	<!-- 实现分页的sql在docid下的 -->
 	<select id="selectUserByPage" resultMap="userResultMap"
 		resultType="User">
-		select * from ITV_REGIST where doctor_id = #{id} order by
+		select * from ITV_REGIST 
+		<where>
+		  doctor_id = #{id}
+		  <choose>
+		  <when test="status==1">
+		  and reg_state =#{status}
+		  </when>
+		  <otherwise>
+		  and reg_state != 1
+		  </otherwise>
+		  </choose>
+		</where> order by
 		TO_DAYS(REG_TIME)
 		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
 		#{startPos},#{pageSize}
@@ -62,7 +73,18 @@
 	<!-- 取得要实现分页数据库docid下user的总数 -->
 	<select id="getUserCount" resultType="int">
 		select count(*) from
-		ITV_REGIST where doctor_id = #{id}
+		ITV_REGIST 
+		<where>
+		  doctor_id = #{id}
+		  <choose>
+		  <when test="status==1">
+		  and reg_state =#{status}
+		  </when>
+		  <otherwise>
+		  and reg_state != 1
+		  </otherwise>
+		  </choose>
+		</where>
 	</select>
 </mapper>
 
