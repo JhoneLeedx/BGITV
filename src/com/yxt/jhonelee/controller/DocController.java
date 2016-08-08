@@ -13,8 +13,8 @@ import com.yxt.jhonelee.service.DoctorService;
 /**
  * 
  * @author JhoneLee
- * 医生控制器
- * 医生数据和前台jsp交互
+ * @category医生控制器
+ * {@linkplain}医生数据和前台jsp交互
  */
 @Controller
 public class DocController {

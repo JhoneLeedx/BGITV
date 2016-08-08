@@ -149,15 +149,15 @@
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form action="<%=request.getContextPath()%>/insert">
+			<form id="form"<%-- action="<%=request.getContextPath()%>/insert" --%>>
 				<p>
-					用户 id<input type="text" id="userid" name="userid" />
+					用户i d <input type="text" id="userid" name="userid" />
 				</p>
 				<p>
 					用户姓名<input type="text" id="userName" name="userName" />
 				</p>
 				<p>
-					医生 id<input type="text" id="docid" name="docid" />
+					医生i d <input type="text" id="docid" name="docid" />
 				</p>
 				<p>
 					医生姓名<input type="text" id="docName" name="docName" />
@@ -170,7 +170,7 @@
 				<textarea name="neirong" style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="submit" value="提交" /> <input type="button"
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /> <input type="button"
 					onclick="closeForm()" value="取消">
 			</form>
 		</div>
@@ -186,6 +186,35 @@
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
 	}
+	function btnSubmit(){
+		 
+		$.ajax({
+		 
+		cache: false,
+		 
+		type: "POST",
+		 
+		url:"ajax.jsp", //把表单数据发送到ajax.jsp
+		 
+		data:$('#form').serialize(), //要发送的是ajaxFrm表单中的数据
+		 
+		async: false,
+		 
+		error: function(request) {
+		 
+		alert("发送请求失败！");
+		 
+		},
+		 
+		success: function(data) {
+		 
+		$("#ajaxDiv").html(data); //将返回的结果显示到ajaxDiv中
+		 
+		}
+		 
+		});
+	}
+	
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
