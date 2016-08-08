@@ -167,7 +167,7 @@
 					<option>已通知医生</option>
 					<option>已通知用户</option>
 				</select>
-				<textarea name="neirong" style="width: 450px; height: 150px;"
+				<textarea id = "neirong" name="neirong" style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
 				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /> <input type="button"
@@ -185,6 +185,7 @@
 	}
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
+		$("#neirong").val("");
 	}
 	function btnSubmit(){
 		 
@@ -194,7 +195,7 @@
 		 
 		type: "POST",
 		 
-		url:"ajax.jsp", //把表单数据发送到ajax.jsp
+		url:"<%=request.getContextPath()%>/insert", //把表单数据发送到ajax.jsp
 		 
 		data:$('#form').serialize(), //要发送的是ajaxFrm表单中的数据
 		 
