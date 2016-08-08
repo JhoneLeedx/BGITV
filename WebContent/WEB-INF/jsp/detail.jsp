@@ -79,7 +79,7 @@
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
 																		<c:if test="${statusId!=1 }">
-								<td><button onclick="showForm(${user.mUserId },${user.mDocId })">添加通知状态</button></td>
+								<td><button onclick="showForm('${user.mUserName }',${user.mUserId },${user.mDocId })">添加通知状态</button></td>
 								</c:if>
 										
 									</tr>
@@ -150,10 +150,10 @@
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form action="<%=request.getContextPath()%>/insert">
 				<p>
-					 用户id<input type="text" id="userid" name="userid"/>
+					 用 户<input type="text" id="userid" name="userid"/>
 				</p>
 				<p>
-					医生id <input type="text" id="docid" name="docid" />
+					医生 <input type="text" id="docid" name="docid" />
 				</p>
 				
 				<select id="notifcation" name="notifcat">
@@ -169,9 +169,9 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	function showForm(userId,docId){
+	function showForm(mUserName,mUserId,docId){
 		document.getElementById("callfaile").style.display = "block";
-		$("#userid").val(userId);
+		$("#userid").val(mUserId+"."+mUserName);
 		document.getElementById("docid").value= docId;
 	}
 	function closeForm(){

@@ -3,6 +3,7 @@ package com.yxt.jhonelee.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,6 +90,12 @@ public class UserController {
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("page", page);
 		return "/detail";
+	}
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "/logins";
 	}
 	
 }

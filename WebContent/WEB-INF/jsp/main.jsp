@@ -30,7 +30,7 @@
 					<li><a href="#">修改密码</a></li>
 				</ul></li> -->
 			<li><img src="images/32/200.png" />&nbsp;&nbsp;<a
-				class="loginout" href="<%=request.getContextPath()%>/home">退出</a></li>
+				class="loginout" href="<%=request.getContextPath()%>/logout">退出</a></li>
 		</ul>
 
 	</div>

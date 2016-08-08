@@ -20,7 +20,6 @@
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<!--        <div class="add"><a class="btn btn-success" onclick="openadd();">新增</a></div> -->
 			<div class="w">
 				<div class="span12">
 					<table class="table table-condensed table-bordered table-hover tab">
