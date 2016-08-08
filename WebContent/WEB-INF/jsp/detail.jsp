@@ -36,7 +36,7 @@
 								<th>联系状态</th>
 								<th>最后更新时间</th>
 								<c:if test="${statusId!=1 }">
-								<th>通知状态</th>
+									<th>通知状态</th>
 								</c:if>
 							</tr>
 						</thead>
@@ -78,10 +78,11 @@
 											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
-																		<c:if test="${statusId!=1 }">
-								<td><button onclick="showForm('${user.mUserName }',${user.mUserId },${user.mDocId })">添加通知状态</button></td>
-								</c:if>
-										
+										<c:if test="${statusId!=1 }">
+											<td><button
+													onclick="showForm('${user.mUserName }',${user.mUserId },${id },'${docName }')">添加通知状态</button></td>
+										</c:if>
+
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -144,34 +145,42 @@
 			</div>
 		</div>
 	</div>
-	<div id="callfaile" 
-		style="display: none; width: 500px; height: 380px; margin-left:auto;margin-right:auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
+	<div id="callfaile"
+		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form action="<%=request.getContextPath()%>/insert">
 				<p>
-					 用 户<input type="text" id="userid" name="userid"/>
+					用户 id<input type="text" id="userid" name="userid" />
 				</p>
 				<p>
-					医生 <input type="text" id="docid" name="docid" />
+					用户姓名<input type="text" id="userName" name="userName" />
 				</p>
-				
+				<p>
+					医生 id<input type="text" id="docid" name="docid" />
+				</p>
+				<p>
+					医生姓名<input type="text" id="docName" name="docName" />
+				</p>
 				<select id="notifcation" name="notifcat">
 					<option>选择通知状态</option>
-				<option>已通知医生</option>
-				<option>已通知用户</option>
+					<option>已通知医生</option>
+					<option>已通知用户</option>
 				</select>
-				<textarea   name="neirong" style="width: 450px;height: 150px;" onfocus="if(value=='原因：'){value=''}"  
-    onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="submit" value="提交" />
-				<input type="button" onclick="closeForm()" value="取消">
+				<textarea name="neirong" style="width: 450px; height: 150px;"
+					onfocus="if(value=='原因：'){value=''}"
+					onblur="if (value ==''){value='原因：'}"></textarea>
+				<input type="submit" value="提交" /> <input type="button"
+					onclick="closeForm()" value="取消">
 			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
-	function showForm(mUserName,mUserId,docId){
+	function showForm(mUserName,mUserId,docId,docName){
 		document.getElementById("callfaile").style.display = "block";
-		$("#userid").val(mUserId+"."+mUserName);
+		$("#userid").val(mUserId);
+		$("#userName").val(mUserName);
+		$("#docName").val(docName);
 		document.getElementById("docid").value= docId;
 	}
 	function closeForm(){

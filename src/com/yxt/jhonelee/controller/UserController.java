@@ -25,34 +25,34 @@ public class UserController {
 	private UserService userService;
 
 	// 显示详细的用户信息
-/*	@RequestMapping("/detail")
-	public String findAllUser(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		int docId = Integer.parseInt(id);
-		List<User> listUser = userService.findAllUser(docId);
-		request.setAttribute("listUser", listUser);
-		return "/detail";
-	}*/
+	/*
+	 * @RequestMapping("/detail") public String findAllUser(HttpServletRequest
+	 * request) { String id = request.getParameter("id"); int docId =
+	 * Integer.parseInt(id); List<User> listUser =
+	 * userService.findAllUser(docId); request.setAttribute("listUser",
+	 * listUser); return "/detail"; }
+	 */
 
 	// 显示每个医生最近的预约的用户信息
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
-		
+
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
 		int totalcount = userService.getHomeCount();
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
-		}else{
+		} else {
 			page = new Page(totalcount, 1);
-	
+
 		}
 		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize());
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("page", page);
 		return "/home";
 	}
+
 	// 登录界面
 	/*
 	 * @RequestMapping("/login") public String login(HttpServletRequest request)
@@ -66,36 +66,39 @@ public class UserController {
 	 * 
 	 * }
 	 */
-	//分页显示医生id的签约用户信息
+	// 分页显示医生id的签约用户信息
 	@RequestMapping("/detail")
 	public String selectUserByPage(HttpServletRequest request) {
+		String docName = request.getParameter("docName");
 		String id = request.getParameter("id");
 		String status = request.getParameter("status");
-		int statusId= Integer.parseInt(status);
-		int  docId = Integer.parseInt(id);
+		int statusId = Integer.parseInt(status);
+		int docId = Integer.parseInt(id);
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount =0;
+		int totalcount = 0;
 		List<User> listUser = null;
-	    totalcount = userService.getUserCount(docId,statusId);
-			if (pageNow != null) {
-				page = new Page(totalcount, Integer.parseInt(pageNow));
-				
-			}else{
-				page = new Page(totalcount, 1);
-			}
-			listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(),statusId);
+		totalcount = userService.getUserCount(docId, statusId);
+		if (pageNow != null) {
+			page = new Page(totalcount, Integer.parseInt(pageNow));
+
+		} else {
+			page = new Page(totalcount, 1);
+		}
+		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(), statusId);
 		request.setAttribute("statusId", statusId);
+		request.setAttribute("docName", docName);
 		request.setAttribute("id", docId);
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("page", page);
 		return "/detail";
 	}
+
 	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request){
+	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return "/logins";
 	}
-	
+
 }

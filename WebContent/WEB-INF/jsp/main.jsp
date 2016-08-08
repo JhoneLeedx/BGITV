@@ -19,7 +19,7 @@
 <body>
 	<div class="header">
 
-		<img class="logo" src="images/logo.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
+		<img class="logo" src="images/u4.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
 		<ul class="inline">
 			<li><img src="images/32/client.png">&nbsp;&nbsp;欢迎您,${user.username }</>
 			</li>
@@ -75,11 +75,12 @@
 											</div>
 									</a>
 										<ul id="${doctor.mId}" class="collapse">
-											<li><a
-												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&status=1"
-												target="right"><span>成功预约的用户</span></a></li>
-											<li><a
-												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&status=2"
+											<li><a class="acss"
+												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=1"
+												target="right"><span>成功预约的用户</span></a>
+												</li>
+											<li><a class="acss"
+												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=2"
 												target="right"><span>其他状态的用户</span></a></li>
 										</ul></li>
 								</c:forEach>

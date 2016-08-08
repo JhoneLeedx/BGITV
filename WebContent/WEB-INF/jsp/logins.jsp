@@ -40,8 +40,8 @@
 					<p style="font-size: 30px">ITV管理登录</p>
 				</div>
 				<div class="login_form">
-					<form action="<%=request.getContextPath()%>/main" id="login_form"
-						method="post">
+					<form action="<%=request.getContextPath()%>/main"
+						id="login_form" method="post">
 						<div class="form-group">
 							<label for="j_username" class="t">用户名：</label> <input id="email"
 								value="" name="username" type="text"
@@ -55,9 +55,11 @@
 						<div class="form-group space">
 							<label class="t"></label>
 							<button type="submit" class="btn btn-primary btn-lg"
-								style="margin-left: 50px">&nbsp;登&nbsp;录&nbsp</button>
+							style="margin-left: 50px">&nbsp;登&nbsp;录&nbsp
+							</button>
 							<input type="reset" value="&nbsp;重&nbsp;置&nbsp;"
-								class="btn btn-default btn-lg" style="margin-left: 20px">
+								class="btn btn-default btn-lg"
+								style="margin-left: 20px">
 						</div>
 					</form>
 				</div>
@@ -69,7 +71,6 @@
 	<script src="js/supersized.3.2.7.min.js"></script>
 	<script src="js/supersized-init.js"></script>
 	<script src="js/scripts.js"></script>
-
 	<div style="text-align: center;"></div>
 </body>
 </html>

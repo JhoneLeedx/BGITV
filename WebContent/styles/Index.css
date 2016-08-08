@@ -113,7 +113,17 @@ body {
     color: white !important;
     cursor: pointer;
 }
-
+.acss:hover{
+	background-image: url(../images/left-title-bg-h.png);
+    text-decoration: none;
+    color: white !important;
+    cursor: pointer;
+}
+.acss:visited{
+	background-image: url(../images/left-title-bg-h.png);
+    text-decoration: none;
+    cursor: pointer;
+}
 .content {
     margin;
 }
