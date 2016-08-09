@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxt.jhonelee.mapper.AdminMapper">
+<resultMap type="ITVRecord" id="ITVRECORDMAP">
+		<id property="mId" column="id" />
+		<result property="mAdminId" column="admin_id" />
+		<result property="mRegistId" column="regist_id" />
+		<result property="mReason" column="reason" />
+	</resultMap>
+	
+	<select id="SelectAllRecord" resultType="ITVRecord">
+	select * from ITV_RECORD where regist_id = #{id}
+	</select>
+	
+	
+</mapper>
