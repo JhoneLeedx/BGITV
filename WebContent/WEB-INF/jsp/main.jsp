@@ -38,7 +38,7 @@
 	<div class="nav">
 
 		<ul class="breadcrumb">
-			<li><img src="images/32/5025_networking.png" /></li>
+			<li><img src="images/home.png" /></li>
 			<li><a href="<%=request.getContextPath()%>/home" target="right">
 					<span class="accordion-inner"> <span class="left-body">首页</span>
 				</span>
@@ -65,8 +65,9 @@
 							<c:if test="${!empty listdoc }">
 								<c:forEach items="${listdoc }" var="doctor">
 
-									<li><a class="accordion-toggle " data-toggle="collapse"
-										href="#${doctor.mId}">
+									<li><a 
+										href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }"
+												target="right"">
 											<div class="accordion-inner">
 												<img class="left-icon-child" src="images/32/doctoricon.jpg" />
 												<span class="left-body" title="预约用户的详细列表">${doctor.mDocName }
@@ -74,7 +75,7 @@
 													电话号码：${doctor.mDocPhone } </span>
 											</div>
 									</a>
-										<ul id="${doctor.mId}" class="collapse">
+										<%-- <ul id="${doctor.mId}" class="collapse">
 											<li><a class="acss"
 												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=1"
 												target="right"><span>成功预约的用户</span></a>
@@ -82,7 +83,7 @@
 											<li><a class="acss"
 												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=2"
 												target="right"><span>其他状态的用户</span></a></li>
-										</ul></li>
+										</ul> --%></li>
 								</c:forEach>
 							</c:if>
 						</ul>

@@ -71,22 +71,19 @@ public class UserController {
 	public String selectUserByPage(HttpServletRequest request) {
 		String docName = request.getParameter("docName");
 		String id = request.getParameter("id");
-		String status = request.getParameter("status");
-		int statusId = Integer.parseInt(status);
 		int docId = Integer.parseInt(id);
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
 		int totalcount = 0;
 		List<User> listUser = null;
-		totalcount = userService.getUserCount(docId, statusId);
+		totalcount = userService.getUserCount(docId);
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
 		} else {
 			page = new Page(totalcount, 1);
 		}
-		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(), statusId);
-		request.setAttribute("statusId", statusId);
+		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
 		request.setAttribute("docName", docName);
 		request.setAttribute("id", docId);
 		request.setAttribute("listUser", listUser);

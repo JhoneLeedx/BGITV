@@ -56,15 +56,7 @@
 		resultType="User">
 		select * from ITV_REGIST 
 		<where>
-		  doctor_id = #{id}
-		  <choose>
-		  <when test="status==1">
-		  and reg_state =#{status}
-		  </when>
-		  <otherwise>
-		  and reg_state != 1
-		  </otherwise>
-		  </choose>
+		  doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
 		</where> order by
 		TO_DAYS(REG_TIME)
 		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
@@ -75,15 +67,8 @@
 		select count(*) from
 		ITV_REGIST 
 		<where>
-		  doctor_id = #{id}
-		  <choose>
-		  <when test="status==1">
-		  and reg_state =#{status}
-		  </when>
-		  <otherwise>
-		  and reg_state != 1
-		  </otherwise>
-		  </choose>
+		  doctor_id = #{id} <!-- and  TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
+
 		</where>
 	</select>
 </mapper>

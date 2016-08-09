@@ -35,9 +35,7 @@
 								<th>扫码次数</th>
 								<th>联系状态</th>
 								<th>最后更新时间</th>
-								<c:if test="${statusId!=1 }">
-									<th>通知状态</th>
-								</c:if>
+								<th>通知状态</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
@@ -78,11 +76,17 @@
 											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
-										<c:if test="${statusId!=1 }">
-											<td><button
-													onclick="showForm('${user.mUserName }',${user.mUserId },${id },'${docName }')">添加通知状态</button></td>
-										</c:if>
-
+										<c:choose>
+											<c:when test="${user.mRegState==1 }">
+											<td></td>
+											</c:when>
+											<c:otherwise>
+												<td>
+													<button
+														onclick="showForm('${user.mUserName }','${docName }',${user.mId })">添加通知状态</button>
+												</td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -99,39 +103,39 @@
 								<div>
 									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
 										${page.pageNow} 页</font> <a
-										href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1&status=${statusId}">首页</a>
+										href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">首页</a>
 									<c:choose>
 										<c:when test="${page.pageNow - 1 > 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow - 1}">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow - 1}">上一页</a>
 										</c:when>
 										<c:when test="${page.pageNow - 1 <= 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=1">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">上一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}}&pageNow=${page.pageNow}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow + 1}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow + 1}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.totalPageCount}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">下一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.pageNow}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow}">尾页</a>
 										</c:when>
 										<c:otherwise>
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&status=${statusId}&pageNow=${page.totalPageCount}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">尾页</a>
 										</c:otherwise>
 									</c:choose>
 
@@ -150,14 +154,10 @@
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form id="form"<%-- action="<%=request.getContextPath()%>/insert" --%>>
-				<p>
-					用户i d <input type="text" id="userid" name="userid" />
-				</p>
+			
+			<span id="regist_id"></span>
 				<p>
 					用户姓名<input type="text" id="userName" name="userName" />
-				</p>
-				<p>
-					医生i d <input type="text" id="docid" name="docid" />
 				</p>
 				<p>
 					医生姓名<input type="text" id="docName" name="docName" />
@@ -167,21 +167,21 @@
 					<option>已通知医生</option>
 					<option>已通知用户</option>
 				</select>
-				<textarea id = "neirong" name="neirong" style="width: 450px; height: 150px;"
+				<textarea id="neirong" name="neirong"
+					style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /> <input type="button"
-					onclick="closeForm()" value="取消">
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
+				<input type="button" onclick="closeForm()" value="取消">
 			</form>
 		</div>
 	</div>
 	<script type="text/javascript">
-	function showForm(mUserName,mUserId,docId,docName){
+	function showForm(mUserName,docName,mId){
 		document.getElementById("callfaile").style.display = "block";
-		$("#userid").val(mUserId);
+		$("#regist_id").val(mId);
 		$("#userName").val(mUserName);
 		$("#docName").val(docName);
-		document.getElementById("docid").value= docId;
 	}
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
