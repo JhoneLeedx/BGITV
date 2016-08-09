@@ -78,7 +78,10 @@
 										</td>
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
-											<td></td>
+											<td>
+											
+											
+											</td>
 											</c:when>
 											<c:otherwise>
 												<td>

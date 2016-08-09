@@ -22,6 +22,7 @@ public class User {
 	 private Date mRegTime;//预约时间
 	 private Date  mUpdateTime;//最后一次更新时间
 	 private int mScanCount;//扫码次数
+	 private ITVRecord mItvRecord;//
 	 
      public int getmId() {
 		return mId;
@@ -95,6 +96,12 @@ public class User {
 	}
 	public void setmScanCount(int mScanCount) {
 		this.mScanCount = mScanCount;
+	}
+	public ITVRecord getmItvRecord() {
+		return mItvRecord;
+	}
+	public void setmItvRecord(ITVRecord mItvRecord) {
+		this.mItvRecord = mItvRecord;
 	}
 	 
 	

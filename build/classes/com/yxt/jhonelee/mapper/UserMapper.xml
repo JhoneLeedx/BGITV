@@ -45,19 +45,24 @@
 	</select>
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
-		SELECT COUNT(*) FROM (SELECT * FROM (select * from ITV_REGIST where
-		doctor_id in (select id from
+		SELECT COUNT(*) FROM
+		(SELECT * FROM (select * from ITV_REGIST where
+		doctor_id in (select id
+		from
 		doctor) ORDER BY REG_TIME DESC) users
-		GROUP BY users.doctor_id) doc_user
+		GROUP BY users.doctor_id)
+		doc_user
 	</select>
-
+<!--  SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) 
+order by TO_DAYS(itv_regist.REG_TIME) DESC, REG_TIME-TO_DAYS(itv_regist.REG_TIME)  -->
 	<!-- 实现分页的sql在docid下的 -->
 	<select id="selectUserByPage" resultMap="userResultMap"
 		resultType="User">
-		select * from ITV_REGIST 
+		select * from ITV_REGIST
 		<where>
-		  doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
-		</where> order by
+			doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
+		</where>
+		order by
 		TO_DAYS(REG_TIME)
 		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
 		#{startPos},#{pageSize}
@@ -65,9 +70,9 @@
 	<!-- 取得要实现分页数据库docid下user的总数 -->
 	<select id="getUserCount" resultType="int">
 		select count(*) from
-		ITV_REGIST 
+		ITV_REGIST
 		<where>
-		  doctor_id = #{id} <!-- and  TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
+			doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
 
 		</where>
 	</select>
