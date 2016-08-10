@@ -17,6 +17,16 @@
 		<result property="mRegTime" column="REG_TIME" />
 		<result property="mScanCount" column="SCAN_COUNT" />
 		<result property="mUpdateTime" column="UPDATE_TIME" />
+
+		<association property="mItvRecord" javaType="ITVRecord">
+			<id property="mId" column="id" />
+			<result property="mAdminId" column="admin_id" />
+			<result property="mRegistId" column="regist_id" />
+			<result property="mReason" column="reason" />
+			<result property="mHandle" column="handle"/>
+		</association>
+
+
 	</resultMap>
 	<!--查询医生id下的所有签约用户 -->
 	<select id="findAllUser" resultMap="userResultMap" resultType="User">
@@ -53,19 +63,29 @@
 		GROUP BY users.doctor_id)
 		doc_user
 	</select>
-<!--  SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) 
-order by TO_DAYS(itv_regist.REG_TIME) DESC, REG_TIME-TO_DAYS(itv_regist.REG_TIME)  -->
+	<!-- SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record 
+		on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) order 
+		by TO_DAYS(itv_regist.REG_TIME) DESC, REG_TIME-TO_DAYS(itv_regist.REG_TIME) -->
 	<!-- 实现分页的sql在docid下的 -->
 	<select id="selectUserByPage" resultMap="userResultMap"
 		resultType="User">
-		select * from ITV_REGIST
+		
+		SELECT ITV_REGIST.*,ITV_RECORD.* FROM ITV_REGIST LEFT JOIN ITV_RECORD 
+		on(ITV_RECORD.REGIST_ID = ITV_REGIST.ID) 
 		<where>
-			doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
+		ITV_REGIST.DOCTOR_ID=#{id} <!-- and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW()) -->
+		</where>
+		order 
+		by TO_DAYS(ITV_REGIST.REG_TIME) DESC, REG_TIME-TO_DAYS(ITV_REGIST.REG_TIME)
+		limit #{startPos},#{pageSize}
+		<!-- select * from ITV_REGIST
+		<where>
+			doctor_id = #{id} and TO_DAYS(REG_TIME) = TO_DAYS(NOW())
 		</where>
 		order by
 		TO_DAYS(REG_TIME)
 		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
-		#{startPos},#{pageSize}
+		#{startPos},#{pageSize} -->
 	</select>
 	<!-- 取得要实现分页数据库docid下user的总数 -->
 	<select id="getUserCount" resultType="int">
@@ -73,7 +93,6 @@ order by TO_DAYS(itv_regist.REG_TIME) DESC, REG_TIME-TO_DAYS(itv_regist.REG_TIME
 		ITV_REGIST
 		<where>
 			doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
-
 		</where>
 	</select>
 </mapper>

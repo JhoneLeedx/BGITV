@@ -1,9 +1,12 @@
 package com.yxt.jhonelee.controller;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yxt.jhonelee.model.ITVRecord;
 import com.yxt.jhonelee.service.AdminService;
@@ -31,6 +34,11 @@ public class AdminController {
 		request.setAttribute("itvRecord", itvRecord);
 		
 		return null;
+	}
+	@RequestMapping("/insertReason")
+	public void insertReason(HttpServletRequest request,PrintWriter out){
+			 out.write("chenggong");
+		
 	}
 	
 }

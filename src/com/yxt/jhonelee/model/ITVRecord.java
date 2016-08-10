@@ -12,6 +12,7 @@ public class ITVRecord {
 	private int mId;
 	private int mRegistId;
 	private String mReason;
+	private int mHandle;
 
 	public int getmAdminId() {
 		return mAdminId;
@@ -43,6 +44,14 @@ public class ITVRecord {
 
 	public void setmReason(String mReason) {
 		this.mReason = mReason;
+	}
+
+	public int getmHandle() {
+		return mHandle;
+	}
+
+	public void setmHandle(int mHandle) {
+		this.mHandle = mHandle;
 	}
 
 }

@@ -10,6 +10,7 @@
 	<mappers>
 		<mapper resource="com/yxt/jhonelee/mapper/DoctorMapper.xml" />
 		<mapper resource="com/yxt/jhonelee/mapper/UserMapper.xml"/>
+		<mapper resource="com/yxt/jhonelee/mapper/ItvRecordMapper.xml"/>
 	</mappers>
 </configuration>
 

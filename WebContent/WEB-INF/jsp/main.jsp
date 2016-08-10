@@ -21,7 +21,7 @@
 
 		<img class="logo" src="images/u4.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
 		<ul class="inline">
-			<li><img src="images/32/client.png">&nbsp;&nbsp;欢迎您,${user.username }</>
+			<li><img src="images/32/client.png">&nbsp;&nbsp;欢迎您,${user.username }
 			</li>
 			<!-- 			<li class="dropdown"><a class="dropdown-toggle mymsg"
 				data-toggle="dropdown" href="#"><img src="images/32/166.png" />&nbsp;&nbsp;修改个人信息<b
@@ -65,17 +65,16 @@
 							<c:if test="${!empty listdoc }">
 								<c:forEach items="${listdoc }" var="doctor">
 
-									<li><a 
+									<li><a
 										href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }"
-												target="right"">
+										target="right">
 											<div class="accordion-inner">
 												<img class="left-icon-child" src="images/32/doctoricon.jpg" />
 												<span class="left-body" title="预约用户的详细列表">${doctor.mDocName }
 												</span> <span class="left-body" style="display: none">
 													电话号码：${doctor.mDocPhone } </span>
 											</div>
-									</a>
-										<%-- <ul id="${doctor.mId}" class="collapse">
+									</a> <%-- <ul id="${doctor.mId}" class="collapse">
 											<li><a class="acss"
 												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=1"
 												target="right"><span>成功预约的用户</span></a>

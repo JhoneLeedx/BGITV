@@ -142,6 +142,5 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="layer-v2.3/layer/layer.js"></script>
 	<script src="laypage-v1.3/laypage/laypage.js"></script>
-	<script src="js/Index2.js"></script>
 </body>
 </html>

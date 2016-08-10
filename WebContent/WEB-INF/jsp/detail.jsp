@@ -78,10 +78,15 @@
 										</td>
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
-											<td>
-											
-											
-											</td>
+												<td style="color: red;">
+												成功预约
+												</td>
+											</c:when>
+											<c:when test="${user.mItvRecord.mHandle==1 }">
+												<td>已通知医生：'${user.mItvRecord.mReason }'</td>
+											</c:when>
+											<c:when test="${user.mItvRecord.mHandle==2 }">
+												<td>已通知用户：'${user.mItvRecord.mReason }'</td>
 											</c:when>
 											<c:otherwise>
 												<td>
@@ -156,9 +161,8 @@
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form id="form"<%-- action="<%=request.getContextPath()%>/insert" --%>>
-			
-			<span id="regist_id"></span>
+			<form id="form" <%-- action="<%=request.getContextPath()%>/insertReason" --%> >
+
 				<p>
 					用户姓名<input type="text" id="userName" name="userName" />
 				</p>
@@ -174,7 +178,7 @@
 					style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /><!--  --> 
 				<input type="button" onclick="closeForm()" value="取消">
 			</form>
 		</div>
@@ -193,26 +197,18 @@
 	function btnSubmit(){
 		 
 		$.ajax({
-		 
 		cache: false,
-		 
-		type: "POST",
-		 
-		url:"<%=request.getContextPath()%>/insert", //把表单数据发送到ajax.jsp
-		 
-		data:$('#form').serialize(), //要发送的是ajaxFrm表单中的数据
-		 
-		async: false,
-		 
-		error: function(request) {
-		 
+		url: "<%=request.getContextPath()%>/insertReason", 
+		data:$('#form').serializeArray(), //要发送的是ajaxFrm表单中的数据
+		dataType : 'text',
+		contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+		async: true,
+		error: function(data) {
 		alert("发送请求失败！");
-		 
 		},
-		 
 		success: function(data) {
 		 
-		$("#ajaxDiv").html(data); //将返回的结果显示到ajaxDiv中
+			alert(data); //将返回的结果显示到ajaxDiv中
 		 
 		}
 		 
@@ -224,6 +220,5 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="layer-v2.3/layer/layer.js"></script>
 	<script src="laypage-v1.3/laypage/laypage.js"></script>
-	<script src="js/Index2.js"></script>
 </body>
 </html>
