@@ -3,7 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.AdminMapper">
 	<resultMap type="ITVRecord" id="ITVRECORDMAP">
-		<id property="mId" column="id" />
 		<result property="mAdminId" column="admin_id" />
 		<result property="mRegistId" column="regist_id" />
 		<result property="mReason" column="reason" />
@@ -14,11 +13,7 @@
 		select * from ITV_RECORD where regist_id = #{id}
 	</select>
 
-	<insert id="InsertRecord" keyProperty="id" timeout="5000"
-		parameterType="ITVRecord">
-	<selectKey resultType="int" keyProperty="id">  
-        select  id  
-    </selectKey>
+	<insert id="InsertRecord" parameterType="ITVRecord">
 		insert into ITV_RECORD (admin_id,REGIST_ID,reason,handle)
 		values(#{mAdminId}, #{mRegistId}, #{mReason},#{mHandle})
 	</insert>
