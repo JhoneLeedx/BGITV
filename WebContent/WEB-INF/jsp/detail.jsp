@@ -169,6 +169,7 @@
 				<p>
 					医生姓名<input type="text" id="docName" name="docName" />
 				</p>
+				<input type="text" id="RegistId" style="display: none;"/>
 				<select id="notifcation" name="notifcat">
 					<option>选择通知状态</option>
 					<option>已通知医生</option>
@@ -178,7 +179,7 @@
 					style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /><!--  --> 
+				<input type="button" id="submit" value="提交" onclick="btnSubmit(${user})" /><!--  --> 
 				<input type="button" onclick="closeForm()" value="取消">
 			</form>
 		</div>
@@ -186,9 +187,9 @@
 	<script type="text/javascript">
 	function showForm(mUserName,docName,mId){
 		document.getElementById("callfaile").style.display = "block";
-		$("#regist_id").val(mId);
 		$("#userName").val(mUserName);
 		$("#docName").val(docName);
+		$("#RegistId").val(mId);
 	}
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
@@ -196,23 +197,40 @@
 	}
 	function btnSubmit(){
 		 
-		$.ajax({
-		cache: false,
-		url: "<%=request.getContextPath()%>/insertReason", 
-		data:$('#form').serializeArray(), //要发送的是ajaxFrm表单中的数据
-		dataType : 'text',
-		contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-		async: true,
-		error: function(data) {
-		alert("发送请求失败！");
-		},
-		success: function(data) {
-		 
-			alert(data); //将返回的结果显示到ajaxDiv中
-		 
+		var adminId=1;
+		var registid =$("#RegistId").val();
+		var reason = $('#neirong').val();
+		var handle = 0;
+		if($('#notifcation').val()=='选择通知状态'){
+			handle =0;
+		}else if($('#notifcation').val()=='已通知医生'){
+			handle =1;
+		}else{
+			handle =2;
 		}
-		 
-		});
+		
+		
+		if($('#neirong').val() == '原因：'||$('#neirong').val() == ''){
+			$('#neirong').focus();
+		}else{
+			$.ajax({
+				cache: false,
+				url: "<%=request.getContextPath()%>/insertReason", 
+				data:{'adminid':adminId,'registid':registid,'reason':reason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
+				dataType : 'text',
+				contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+				async: true,
+				error: function(data) {
+				alert("发送请求失败！");
+				},
+				success: function(data) {
+					 alert(data); //将返回的结果显示到ajaxDiv中
+					closeForm(); 
+					location.href="<%=request.getContextPath()%>/detail?id=${id}";
+				}
+				 
+				});
+		}
 	}
 	
 	</script>

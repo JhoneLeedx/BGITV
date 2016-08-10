@@ -21,5 +21,11 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return mapper.SelectAllRecord(id);
 	}
+
+	@Override
+	public boolean InsertRecord(ITVRecord itvRecord) {
+		// TODO Auto-generated method stub
+		return mapper.InsertRecord(itvRecord);
+	}
 	
 }

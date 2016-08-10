@@ -14,7 +14,6 @@
     	$(function(){
 			//提交表单
 			$('#submit_btn').click(function(){
-				show_loading();
 				if($('#email').val() == ''){
 					show_err_msg('用户名还没填呢！');	
 					$('#email').focus();
