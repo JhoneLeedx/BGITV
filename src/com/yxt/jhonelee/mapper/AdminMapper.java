@@ -6,5 +6,5 @@ public interface AdminMapper {
 
 	public ITVRecord SelectAllRecord(int id);
 	
-	public boolean InsertRecord(ITVRecord itvRecord);
+	public Integer InsertRecord(ITVRecord itvRecord);
 }

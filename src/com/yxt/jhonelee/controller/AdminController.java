@@ -57,7 +57,7 @@ public class AdminController {
 			}
 			itvRecord.setmReason(sreason);
 			
-			if (adminService.InsertRecord(itvRecord)) {
+			if (adminService.InsertRecord(itvRecord)!=null) {
 				out.write("添加成功");
 			}else{
 				out.write("添加失败");

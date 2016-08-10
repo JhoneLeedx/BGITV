@@ -23,7 +23,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public boolean InsertRecord(ITVRecord itvRecord) {
+	public Integer InsertRecord(ITVRecord itvRecord) {
 		// TODO Auto-generated method stub
 		return mapper.InsertRecord(itvRecord);
 	}

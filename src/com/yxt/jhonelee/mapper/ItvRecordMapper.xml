@@ -14,8 +14,11 @@
 		select * from ITV_RECORD where regist_id = #{id}
 	</select>
 
-	<insert id="InsertRecord" keyProperty="mId" timeout="5000"
+	<insert id="InsertRecord" keyProperty="id" timeout="5000"
 		parameterType="ITVRecord">
+	<selectKey resultType="int" keyProperty="id">  
+        select  id  
+    </selectKey>
 		insert into ITV_RECORD (admin_id,REGIST_ID,reason,handle)
 		values(#{mAdminId}, #{mRegistId}, #{mReason},#{mHandle})
 	</insert>
