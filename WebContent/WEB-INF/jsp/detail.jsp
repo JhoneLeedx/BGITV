@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -30,6 +31,7 @@
 								<th>用户姓名</th>
 								<th>用户电话</th>
 								<th>预约时间</th>
+								<th>已经预约时间</th>
 								<th>用户ITV编码</th>
 								<th>是否签约</th>
 								<th>扫码次数</th>
@@ -47,6 +49,16 @@
 										<td>${user.mUserPhone }</td>
 										<td><fmt:formatDate value="${user.mRegTime }"
 												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
+										</td>
+										<td>
+										<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+										<c:set var="interval" value="${now.time - user.mRegTime.time}"/>
+									     <c:set var="time" value="${interval/1000/60}" />
+									     <c:if test="${time>30 }">
+									     等待已经超时了, 请管理员联系医生或用户
+									     </c:if>
+									     
+									     
 										</td>
 										<td>${user.mItvToken }</td>
 										<td><c:choose>
@@ -83,10 +95,10 @@
 												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==1 }">
-												<td>已通知医生：'${user.mItvRecord.mReason }'</td>
+												<td style="color: green;">医生:${user.mItvRecord.mReason }</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==2 }">
-												<td>已通知用户：'${user.mItvRecord.mReason }'</td>
+												<td style="color: green;">用户:${user.mItvRecord.mReason }</td>
 											</c:when>
 											<c:otherwise>
 												<td>
@@ -179,7 +191,7 @@
 					style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit(${user})" /><!--  --> 
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /><!--  --> 
 				<input type="button" onclick="closeForm()" value="取消">
 			</form>
 		</div>
@@ -203,6 +215,7 @@
 		var handle = 0;
 		if($('#notifcation').val()=='选择通知状态'){
 			handle =0;
+			$('#notifcation').focus();
 		}else if($('#notifcation').val()=='已通知医生'){
 			handle =1;
 		}else{

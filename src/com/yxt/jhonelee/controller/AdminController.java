@@ -35,6 +35,7 @@ public class AdminController {
 		ITVRecord itvRecord = adminService.SelectAllRecord(id);
 		request.setAttribute("itvRecord", itvRecord);
 
+		
 		return null;
 	}
 
@@ -43,7 +44,7 @@ public class AdminController {
 		try {
 			request.setCharacterEncoding("utf-8");
 			String shandle = request.getParameter("handle");
-			String sadminid =request.getParameter("adminId");
+			String sadminid =request.getParameter("adminid");
 			String sregistid = request.getParameter("registid");
 			String sreason = request.getParameter("reason");
 			
