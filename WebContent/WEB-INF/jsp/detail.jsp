@@ -1,8 +1,8 @@
-<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="date" uri="/WEB-INF/datetag.tld" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -37,7 +37,7 @@
 								<th>扫码次数</th>
 								<th>联系状态</th>
 								<th>最后更新时间</th>
-								<th>通知状态</th>
+								<th>协同服务</th>
 							</tr>
 						</thead>
 						<tbody id="tbody">
@@ -53,11 +53,7 @@
 										<td>
 										<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 										<c:set var="interval" value="${now.time - user.mRegTime.time}"/>
-									     <c:set var="time" value="${interval/1000/60}" />
-									     <c:if test="${time>30 }">
-									     等待已经超时了, 请管理员联系医生或用户
-									     </c:if>
-									     
+									    <date:date parttern="dd天 hh小時mm分" value="${interval }"></date:date>
 									     
 										</td>
 										<td>${user.mItvToken }</td>
@@ -91,7 +87,7 @@
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
 												<td style="color: red;">
-												成功预约
+												<button>已处理</button>
 												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==1 }">
@@ -103,7 +99,7 @@
 											<c:otherwise>
 												<td>
 													<button
-														onclick="showForm('${user.mUserName }','${docName }',${user.mId })">添加通知状态</button>
+														onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
 												</td>
 											</c:otherwise>
 										</c:choose>
