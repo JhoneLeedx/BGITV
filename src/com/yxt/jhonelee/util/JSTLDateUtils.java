@@ -1,8 +1,11 @@
 package com.yxt.jhonelee.util;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -42,13 +45,27 @@ public class JSTLDateUtils extends TagSupport {
         }  
         return super.doStartTag();
     }
-   /* public static void main(String[] args) {
-         long a =1332744845078l;
+    public static void main(String[] args) {
+    	
+    	Date now = new Date();
+    	SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+    	
+    	Date userdate;
+		try {
+			userdate = formatter.parse("2016-08-11 15:48:30");
+		
+    	long a = now.getTime()-userdate.getTime();
+    	
          long time = Long.valueOf(a);  
-            Calendar c = Calendar.getInstance();  
+            Calendar c = Calendar.getInstance();
+            c.setTimeZone(TimeZone.getTimeZone("GMT+0"));
             c.setTimeInMillis(time);  
-            SimpleDateFormat dateformat =new SimpleDateFormat("MM-dd HH:mm");  
+            SimpleDateFormat dateformat =new SimpleDateFormat("dd HH:mm");  
             String s = dateformat.format(c.getTime());  
         System.out.println(s);
-    }*/
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }

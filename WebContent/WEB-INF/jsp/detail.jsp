@@ -49,8 +49,8 @@
 										</td>
 										<td><jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 											<c:set var="interval"
-												value="${now.time - user.mRegTime.time}" /> <date:date
-												parttern="dd天 hh小時mm分" value="${interval }"></date:date></td>
+												value="${now.getTime() - user.mRegTime.getTime()}" /> <date:date
+												parttern="d天 HH小時mm分" value="${interval }"></date:date></td>
 										<td>${user.mItvToken }</td>
 										<td><c:choose>
 												<c:when test="${user.mIsSign==1 }">
