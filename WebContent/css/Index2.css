@@ -12,6 +12,8 @@ table {
 	background: #44a9db;
 	color: #f1f1f1;
 	font-size: 18px;
+	border-collapse: collapse;
+	border: 1px solid #ddd;
 }
 
 td {

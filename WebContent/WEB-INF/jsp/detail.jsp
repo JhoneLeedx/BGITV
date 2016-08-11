@@ -50,7 +50,7 @@
 										<td><jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 											<c:set var="interval"
 												value="${now.getTime() - user.mRegTime.getTime()}" /> <date:date
-												parttern="d天 HH小時mm分" value="${interval }"></date:date></td>
+												parttern="d天 HH小時mm分" value="${interval }" /></td>
 										<td>${user.mItvToken }</td>
 										<td><c:choose>
 												<c:when test="${user.mIsSign==1 }">
@@ -88,12 +88,6 @@
 											<c:when test="${user.mItvRecord.mHandle==1 }">
 												<td style="color: green;">
 													<%-- 医生:${user.mItvRecord.mReason } --%>
-													<button style="color: green;">已处理</button>
-												</td>
-											</c:when>
-											<c:when test="${user.mItvRecord.mHandle==2 }">
-												<td>
-													<%-- 用户:${user.mItvRecord.mReason } --%>
 													<button style="color: green;">已处理</button>
 												</td>
 											</c:when>
@@ -233,14 +227,13 @@
 		var reason = $('#neirong').val();
 		var handle = 0;
 		if($('#notifcation').val()=='选择通知状态'){
-			handle =0;
+			handle =1;
 			$('#notifcation').focus();
 		}else if($('#notifcation').val()=='已通知医生'){
 			handle =1;
 		}else{
-			handle =2;
+			handle =0;
 		}
-		
 		
 		if($('#neirong').val() == '原因：'||$('#neirong').val() == ''){
 			$('#neirong').focus();
