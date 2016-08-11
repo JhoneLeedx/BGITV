@@ -13,7 +13,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="bootstrap2.3.2/css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/Index2.css" rel="stylesheet" />
 <title></title>
 </head>
@@ -83,7 +82,7 @@
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
 												<td>
-													<button style="color: green;">已处理</button>
+													<button style="color: green;" onclick="showReason()">已处理</button>
 												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==1 }">
@@ -93,7 +92,7 @@
 												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==2 }">
-												<td >
+												<td>
 													<%-- 用户:${user.mItvRecord.mReason } --%>
 													<button style="color: green;">已处理</button>
 												</td>
@@ -167,6 +166,8 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 未处理的弹窗 -->
 	<div id="callfaile"
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
@@ -195,6 +196,25 @@
 			</form>
 		</div>
 	</div>
+	<!--未处理弹窗end！  -->
+
+
+	<!-- 处理了的结果的弹窗 -->
+
+	<div id="handled" style="display: none;">
+
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div></div>
+
+
+	</div>
+	<!--处理弹窗end！  -->
+
 	<script type="text/javascript">
 	function showForm(mUserName,docName,mId){
 		document.getElementById("callfaile").style.display = "block";
@@ -245,10 +265,15 @@
 		}
 	}
 	
+	function showReason() {
+		alert("医生与用户成功沟通过的");
+		var diag = new Dialog();
+	}
+	
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="layer-v2.3/layer/layer.js"></script>
-	<script src="laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" src="js/zDrag.js"></script>
+	<script type="text/javascript" src="js/zDialog.js"></script>
 </body>
 </html>

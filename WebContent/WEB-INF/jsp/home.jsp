@@ -12,7 +12,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="bootstrap2.3.2/css/bootstrap.min.css" rel="stylesheet" />
 <title></title>
 <link href="css/Index2.css" rel="stylesheet" />
 </head>
@@ -139,7 +138,5 @@
 
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="layer-v2.3/layer/layer.js"></script>
-	<script src="laypage-v1.3/laypage/laypage.js"></script>
 </body>
 </html>

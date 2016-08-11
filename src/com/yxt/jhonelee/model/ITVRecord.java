@@ -11,7 +11,8 @@ public class ITVRecord {
 	private int mAdminId;
 	private int mId;
 	private int mRegistId;
-	private String mReason;
+	private String mDocReason;
+	private String mUserReason;
 	private int mHandle;
 
 	public int getmAdminId() {
@@ -37,21 +38,28 @@ public class ITVRecord {
 	public void setmRegistId(int mRegistId) {
 		this.mRegistId = mRegistId;
 	}
-
-	public String getmReason() {
-		return mReason;
-	}
-
-	public void setmReason(String mReason) {
-		this.mReason = mReason;
-	}
-
 	public int getmHandle() {
 		return mHandle;
 	}
 
 	public void setmHandle(int mHandle) {
 		this.mHandle = mHandle;
+	}
+
+	public String getmDocReason() {
+		return mDocReason;
+	}
+
+	public void setmDocReason(String mDocReason) {
+		this.mDocReason = mDocReason;
+	}
+
+	public String getmUserReason() {
+		return mUserReason;
+	}
+
+	public void setmUserReason(String mUserReason) {
+		this.mUserReason = mUserReason;
 	}
 
 }

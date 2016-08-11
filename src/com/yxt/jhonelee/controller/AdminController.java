@@ -39,6 +39,8 @@ public class AdminController {
 		return null;
 	}
 
+	//插入数据到数据库当中
+	
 	@RequestMapping("/insertReason")
 	public void insertReason(HttpServletRequest request, PrintWriter out) {
 		try {
@@ -46,8 +48,7 @@ public class AdminController {
 			String shandle = request.getParameter("handle");
 			String sadminid =request.getParameter("adminid");
 			String sregistid = request.getParameter("registid");
-			String sreason = request.getParameter("reason");
-			
+			//String sreason = request.getParameter("reason");
 			ITVRecord itvRecord = new ITVRecord();
 			if(sadminid!=null){
 				itvRecord.setmAdminId(Integer.parseInt(sadminid));
@@ -58,7 +59,6 @@ public class AdminController {
 			if(sregistid!=null){
 				itvRecord.setmRegistId(Integer.parseInt(sregistid));
 			}
-			itvRecord.setmReason(sreason);
 			
 			if (adminService.InsertRecord(itvRecord)!=null) {
 				out.write("添加成功");

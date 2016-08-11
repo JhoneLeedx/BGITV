@@ -5,7 +5,8 @@
 	<resultMap type="ITVRecord" id="ITVRECORDMAP">
 		<result property="mAdminId" column="admin_id" />
 		<result property="mRegistId" column="regist_id" />
-		<result property="mReason" column="reason" />
+		<result property="mDocReason" column="doc_reason" />
+		<result property="mUserReason" column="user_reason" />
 		<result property="mHandle" column="handle"/>
 	</resultMap>
 
@@ -14,8 +15,8 @@
 	</select>
 
 	<insert id="InsertRecord" parameterType="ITVRecord">
-		insert into ITV_RECORD (admin_id,REGIST_ID,reason,handle)
-		values(#{mAdminId}, #{mRegistId}, #{mReason},#{mHandle})
+		insert into ITV_RECORD (admin_id,REGIST_ID,doc_reason,user_reason,handle)
+		values(#{mAdminId}, #{mRegistId}, #{mDocReason},#{mUserReason},#{mHandle})
 	</insert>
 
 </mapper>
