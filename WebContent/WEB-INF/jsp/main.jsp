@@ -13,26 +13,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <title>家庭医生预约协同服务中心首页</title>
-<link href="styles/Common.css" rel="stylesheet" />
-<link href="styles/Index.css" rel="stylesheet" />
+<link href="css/Common.css" rel="stylesheet" />
+<link href="css/Index.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="header">
-
 		<img class="logo" src="images/u4.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
-		<ul class="inline">
-			<li><img src="images/32/client.png">&nbsp;&nbsp;欢迎您,${user.username }
-			</li>
-			<!-- 			<li class="dropdown"><a class="dropdown-toggle mymsg"
-				data-toggle="dropdown" href="#"><img src="images/32/166.png" />&nbsp;&nbsp;修改个人信息<b
-					class="caret"></b></a>
-				<ul class="dropdown-menu">
-					<li><a href="#">修改密码</a></li>
-				</ul></li> -->
-			<li><img src="images/32/200.png" />&nbsp;&nbsp;<a
-				class="loginout" href="<%=request.getContextPath()%>/logout">退出</a></li>
-		</ul>
-
+		<a class="btn btn-default">退出登录</a>
+		<div class="admin">
+			当前管理员：<span>Ultrame</span>
+		</div>
 	</div>
 
 	<div class="nav">
@@ -61,7 +51,7 @@
 							</a>
 						</div>
 						<!--显示医生列表  -->
-						<ul id="collapseOne" class="accordion-body collapse in">
+						<ul id="collapseOne" class="collapse in">
 							<c:if test="${!empty listdoc }">
 								<c:forEach items="${listdoc }" var="doctor">
 
@@ -74,15 +64,7 @@
 												</span> <span class="left-body" style="display: none">
 													电话号码：${doctor.mDocPhone } </span>
 											</div>
-									</a> <%-- <ul id="${doctor.mId}" class="collapse">
-											<li><a class="acss"
-												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=1"
-												target="right"><span>成功预约的用户</span></a>
-												</li>
-											<li><a class="acss"
-												href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }&status=2"
-												target="right"><span>其他状态的用户</span></a></li>
-										</ul> --%></li>
+									</a></li>
 								</c:forEach>
 							</c:if>
 						</ul>
@@ -95,8 +77,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="clearfix"></div>
-	<div class="foot"></div>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/Index.js"></script>

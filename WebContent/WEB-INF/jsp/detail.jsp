@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="date" uri="/WEB-INF/datetag.tld" %>
+<%@ taglib prefix="date" uri="/WEB-INF/datetag.tld"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -14,19 +14,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap2.3.2/css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/Index2.css" rel="stylesheet" />
 <title></title>
-<link href="styles/Common.css" rel="stylesheet" />
-<link href="styles/Index2.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<!--        <div class="add"><a class="btn btn-success" onclick="openadd();">新增</a></div> -->
 			<div class="w">
 				<div class="span12">
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
-							<tr>
+							<tr class="tableHead">
 								<th>用户ID</th>
 								<th>用户姓名</th>
 								<th>用户电话</th>
@@ -43,19 +41,17 @@
 						<tbody id="tbody">
 							<c:if test="${!empty listUser }">
 								<c:forEach items="${listUser}" var="user">
-									<tr>
+									<tr class="patient">
 										<td>${user.mUserId }</td>
 										<td>${user.mUserName }</td>
 										<td>${user.mUserPhone }</td>
 										<td><fmt:formatDate value="${user.mRegTime }"
 												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
 										</td>
-										<td>
-										<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-										<c:set var="interval" value="${now.time - user.mRegTime.time}"/>
-									    <date:date parttern="dd天 hh小時mm分" value="${interval }"></date:date>
-									     
-										</td>
+										<td><jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+											<c:set var="interval"
+												value="${now.time - user.mRegTime.time}" /> <date:date
+												parttern="dd天 hh小時mm分" value="${interval }"></date:date></td>
 										<td>${user.mItvToken }</td>
 										<td><c:choose>
 												<c:when test="${user.mIsSign==1 }">
@@ -86,19 +82,25 @@
 										</td>
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
-												<td style="color: red;">
-												<button>已处理</button>
+												<td>
+													<button style="color: green;">已处理</button>
 												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==1 }">
-												<td style="color: green;">医生:${user.mItvRecord.mReason }</td>
+												<td style="color: green;">
+													<%-- 医生:${user.mItvRecord.mReason } --%>
+													<button style="color: green;">已处理</button>
+												</td>
 											</c:when>
 											<c:when test="${user.mItvRecord.mHandle==2 }">
-												<td style="color: green;">用户:${user.mItvRecord.mReason }</td>
+												<td >
+													<%-- 用户:${user.mItvRecord.mReason } --%>
+													<button style="color: green;">已处理</button>
+												</td>
 											</c:when>
 											<c:otherwise>
 												<td>
-													<button
+													<button style="color: red;"
 														onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
 												</td>
 											</c:otherwise>
@@ -169,7 +171,7 @@
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form id="form" <%-- action="<%=request.getContextPath()%>/insertReason" --%> >
+			<form id="form"<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
 
 				<p>
 					用户姓名<input type="text" id="userName" name="userName" />
@@ -177,8 +179,8 @@
 				<p>
 					医生姓名<input type="text" id="docName" name="docName" />
 				</p>
-				<input type="text" id="RegistId" style="display: none;"/>
-				<select id="notifcation" name="notifcat">
+				<input type="text" id="RegistId" style="display: none;" /> <select
+					id="notifcation" name="notifcat">
 					<option>选择通知状态</option>
 					<option>已通知医生</option>
 					<option>已通知用户</option>
@@ -187,7 +189,8 @@
 					style="width: 450px; height: 150px;"
 					onfocus="if(value=='原因：'){value=''}"
 					onblur="if (value ==''){value='原因：'}"></textarea>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" /><!--  --> 
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
+				<!--  -->
 				<input type="button" onclick="closeForm()" value="取消">
 			</form>
 		</div>

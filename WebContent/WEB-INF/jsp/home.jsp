@@ -14,8 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap2.3.2/css/bootstrap.min.css" rel="stylesheet" />
 <title></title>
-<link href="styles/Common.css" rel="stylesheet" />
-<link href="styles/Index2.css" rel="stylesheet" />
+<link href="css/Index2.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="container-fluid">
@@ -24,7 +23,7 @@
 				<div class="span12">
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
-							<tr>
+							<tr class="tableHead">
 								<th>用户ID</th>
 								<th>用户姓名</th>
 								<th>用户电话</th>
@@ -39,7 +38,7 @@
 						<tbody id="tbody">
 							<c:if test="${!empty listUser }">
 								<c:forEach items="${listUser}" var="user">
-									<tr>
+									<tr class="patient">
 										<td>${user.mUserId }</td>
 										<td>${user.mUserName }</td>
 										<td>${user.mUserPhone }</td>

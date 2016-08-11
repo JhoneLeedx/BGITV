@@ -8,7 +8,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
- * 用于页面jstl时间格式化
+ * 用于页面jstl时间格式化 //自定义jstl时间格式化标签
  * @author JhoneLee
  *
  */
@@ -42,7 +42,7 @@ public class JSTLDateUtils extends TagSupport {
         }  
         return super.doStartTag();
     }
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
          long a =1332744845078l;
          long time = Long.valueOf(a);  
             Calendar c = Calendar.getInstance();  
@@ -50,5 +50,5 @@ public class JSTLDateUtils extends TagSupport {
             SimpleDateFormat dateformat =new SimpleDateFormat("MM-dd HH:mm");  
             String s = dateformat.format(c.getTime());  
         System.out.println(s);
-    }
+    }*/
 }
