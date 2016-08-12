@@ -269,6 +269,7 @@
 				});
 		}
 	}
+	//显示处理的具体内容
 	function showReason(mid) {
 		
 		$.ajax({

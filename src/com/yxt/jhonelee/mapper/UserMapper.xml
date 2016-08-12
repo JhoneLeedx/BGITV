@@ -50,7 +50,10 @@
 		resultType="User">
 		SELECT * FROM (select * from ITV_REGIST where doctor_id in
 		(select id from
-		doctor) ORDER BY REG_TIME DESC) st GROUP BY
+		doctor) ORDER BY REG_TIME DESC) st 
+		LEFT JOIN ITV_RECORD 
+		on(ITV_RECORD.REGIST_ID = st.ID) 
+		GROUP BY
 		st.doctor_id limit #{startPos},#{pageSize}
 	</select>
 	<!--首页显示总数 -->
