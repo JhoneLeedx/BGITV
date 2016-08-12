@@ -242,31 +242,33 @@
 	function btnSubmit(){
 		 
 		var adminId=${admin.mId};
-		var registid =$("#RegistId").val();
-		var userreason = $('#userneirong').val();
-		var docreason= $('#docneirong').val();
-		if($('#userneirong').val() == '用户原因：'||$('#userneirong').val() == ''||$('#docneirong').val() == '医生原因：'||$('#docneirong').val() == ''){
-			$('#userneirong').focus();
-			$('#docneirong').focus();
-		}else{
-		var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
-			$.ajax({
-				cache: false,
-				url: "<%=request.getContextPath()%>/insertReason", 
-				data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
-				dataType : 'text',
-				contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-				async: true,
-				error: function(data) {
-				alert("发送请求失败！");
-				},
-				success: function(data) {
-					 alert(data); //将返回的结果显示到ajaxDiv中
-					closeForm(); 
-					location.href="<%=request.getContextPath()%>/detail?id=${id}";
-				}
-				 
-				});
+		if(adminId!=""){
+			var registid =$("#RegistId").val();
+			var userreason = $('#userneirong').val();
+			var docreason= $('#docneirong').val();
+			if($('#userneirong').val() == '用户原因：'||$('#userneirong').val() == ''||$('#docneirong').val() == '医生原因：'||$('#docneirong').val() == ''){
+				$('#userneirong').focus();
+				$('#docneirong').focus();
+			}else{
+			var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
+				$.ajax({
+					cache: false,
+					url: "<%=request.getContextPath()%>/insertReason", 
+					data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
+					dataType : 'text',
+					contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+					async: true,
+					error: function(data) {
+					alert("发送请求失败！");
+					},
+					success: function(data) {
+						 alert(data); //将返回的结果显示到ajaxDiv中
+						closeForm(); 
+						location.href="<%=request.getContextPath()%>/detail?id=${id}";
+					}
+					 
+					});
+			}	
 		}
 	}
 	//显示处理的具体内容

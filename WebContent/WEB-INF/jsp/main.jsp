@@ -17,9 +17,11 @@
 <link href="css/Index.css" rel="stylesheet" />
 </head>
 <body>
+<div>
+<c:if test="${!empty admin}">
 	<div class="header">
 		<img class="logo" src="images/u4.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
-		<a class="btn btn-default" href="logout">退出登录</a>
+		<a class="btn btn-default" href="<%=request.getContextPath()%>/logout">退出登录</a>
 		<div class="admin">
 			当前管理员：<span>${admin.mAdminName }</span>
 		</div>
@@ -83,5 +85,7 @@
 
 
 	<div style="text-align: center;"></div>
+	</c:if>
+	</div>
 </body>
 </html>

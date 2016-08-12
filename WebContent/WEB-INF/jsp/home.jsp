@@ -86,13 +86,13 @@
 														<td style="color: green;">
 															<%-- 医生:${user.mItvRecord.mReason } --%>
 															<button style="color: green;"
-																onclick="showReason(${user.mId})">已处理</button>
+																onclick="showHomeReason(${user.mId})">已处理</button>
 														</td>
 													</c:when>
 													<c:otherwise>
 														<td>
 															<button style="color: red;"
-																onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
+																onclick="showHomeForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
 														</td>
 													</c:otherwise>
 												</c:choose>
@@ -165,7 +165,7 @@
 	</div>
 
 	<!-- 未处理的弹窗 -->
-	<div id="callfaile"
+	<div id="home_callfaile"
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
@@ -175,11 +175,11 @@
 				</p>
 				<span>填写您联系后的（医生或用户的原因，如果没有就写"无"）</span>
 				<p>
-					医生:<input type="text" id="docName" style="border-style: none"
+					医生:<input type="text" id="home_docName" style="border-style: none"
 						readonly="readonly" /> 用户:<input type="text" id="userName"
 						readonly="readonly" style="border-style: none" />
 				</p>
-				<textarea id="userneirong" name="neirong"
+				<textarea id="home_userneirong" 
 					style="width: 400px; height: 50px;"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
@@ -187,16 +187,16 @@
 					医生:<input type="text" id="docName" name="docName" style="border-style: none"
 						readonly="readonly" />
 				</p> -->
-				<input type="text" id="RegistId" style="display: none;" />
+				<input type="text" id="home_RegistId" style="display: none;" />
 				<p>
-					<textarea id="docneirong" name="neirong"
+					<textarea id="home_docneirong" 
 						style="width: 400px; height: 50px;"
 						onfocus="if(value=='医生原因：'){value=''}"
 						onblur="if (value ==''){value='医生原因：'}"></textarea>
 				</p>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
+				<input type="button"  value="提交" onclick="btnSubmit()" />
 				<!--  -->
-				<input type="button" onclick="closeForm()" value="取消">
+				<input type="button" onclick="closeHomeForm()" value="取消">
 			</form>
 		</div>
 	</div>
@@ -205,7 +205,7 @@
 
 	<!-- 处理了的结果的弹窗 -->
 
-	<div id="handled"
+	<div id="home_handled"
 		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
@@ -214,63 +214,66 @@
 					<span style="margin: 10px;">协同服务</span>
 				</p>
 				<p>用户原因：
-				<input type="text" id="userReason"
+				<input type="text" id="home_userReason"
 					style="width: 300px; margin-top: 40px ;border-style: none"
 					readonly="readonly"/></p>
 					<p>
 				医生原因：
-					<input type="text" id="docReason" style="width: 300px; margin-top: 40px;border-style: none"
+					<input type="text" id="home_docReason" style="width: 300px; margin-top: 40px;border-style: none"
 						readonly="readonly"/>
 				<p>
-				<input type="button" onclick="closehandled()" value="关闭" style="margin-top: 20px">
+				<input type="button" onclick="closeHomehandled()" value="关闭" style="margin-top: 20px">
 			</form>
 		</div>
 	</div>
 	<!--处理弹窗end！  -->
 
 	<script type="text/javascript">
-	function showForm(mUserName,docName,mId){
-		document.getElementById("callfaile").style.display = "block";
-		$("#userName").val(mUserName);
-		$("#docName").val(docName);
-		$("#RegistId").val(mId);
+	function showHomeForm(mUserName,docName,mId){
+		document.getElementById("home_callfaile").style.display = "block";
+		$("#home_userName").val(mUserName);
+		$("#home_docName").val(docName);
+		$("#home_RegistId").val(mId);
 	}
-	function closeForm(){
-		document.getElementById("callfaile").style.display = "none";
-		$("#userneirong").val("");
+	function closeHomeForm(){
+		document.getElementById("home_callfaile").style.display = "none";
+		$("#home_userneirong").val("");
 	}
 	function btnSubmit(){
 		 
 		var adminId=${admin.mId};
-		var registid =$("#RegistId").val();
-		var userreason = $('#userneirong').val();
-		var docreason= $('#docneirong').val();
-		if($('#userneirong').val() == '用户原因：'||$('#userneirong').val() == ''||$('#docneirong').val() == '医生原因：'||$('#docneirong').val() == ''){
-			$('#userneirong').focus();
-			$('#docneirong').focus();
-		}else{
-		var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
-			$.ajax({
-				cache: false,
-				url: "<%=request.getContextPath()%>/insertReason", 
-				data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
-				dataType : 'text',
-				contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-				async: true,
-				error: function(data) {
-				alert("发送请求失败！");
-				},
-				success: function(data) {
-					 alert(data); //将返回的结果显示到ajaxDiv中
-					closeForm(); 
-					location.href="<%=request.getContextPath()%>/home?id=${id}";
-				}
-				 
-				});
+		if(adminId!=""){
+			var registid =$("#home_RegistId").val();
+			var userreason = $('home_#userneirong').val();
+			var docreason= $('#home_docneirong').val();
+			if($('#home_userneirong').val() == '用户原因：'||$('#home_userneirong').val() == ''||$('#home_docneirong').val() == '医生原因：'||$('#home_docneirong').val() == ''){
+				$('#home_userneirong').focus();
+				$('#home_docneirong').focus();
+			}else{
+			var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
+				$.ajax({
+					cache: false,
+					url: "<%=request.getContextPath()%>/insertReason", 
+					data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
+					dataType : 'text',
+					contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+					async: true,
+					error: function(data) {
+					alert("发送请求失败！");
+					},
+					success: function(data) {
+						 alert(data); //将返回的结果显示到ajaxDiv中
+						 closeHomeForm(); 
+						location.href="<%=request.getContextPath()%>/home?id=${id}";
+					}
+					 
+					});
+			}
+			
 		}
 	}
 	//显示处理的具体内容
-	function showReason(mid) {
+	function showHomeReason(mid) {
 		
 		$.ajax({
 			cache: false,
@@ -286,14 +289,14 @@
 				var json = JSON.stringify(data);
 				//var obj = eval("("+json+")");  
 				var obj =  jQuery.parseJSON(json);
-				document.getElementById("handled").style.display = "block";
-				 $('#userReason').val(obj.mUserReason);
-				 $('#docReason').val(obj.mDocReason);
+				document.getElementById("home_handled").style.display = "block";
+				 $('#home_userReason').val(obj.mUserReason);
+				 $('#home_docReason').val(obj.mDocReason);
 			}
 			});
 	}
-	function closehandled(){
-		document.getElementById("handled").style.display = "none";
+	function closeHomehandled(){
+		document.getElementById("home_handled").style.display = "none";
 	}
 	
 	</script>
