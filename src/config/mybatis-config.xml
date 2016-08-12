@@ -6,11 +6,13 @@
 		<typeAlias type="com.yxt.jhonelee.model.Doctor" alias="Doctor"/>
 		<typeAlias type="com.yxt.jhonelee.model.User" alias="User"/>
 		<typeAlias type="com.yxt.jhonelee.model.ITVRecord" alias="ITVRecord"/>
+		<typeAlias type="com.yxt.jhonelee.model.Admin" alias="Admin"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/yxt/jhonelee/mapper/DoctorMapper.xml" />
 		<mapper resource="com/yxt/jhonelee/mapper/UserMapper.xml"/>
 		<mapper resource="com/yxt/jhonelee/mapper/ItvRecordMapper.xml"/>
+		<mapper resource="com/yxt/jhonelee/mapper/AdminMapper.xml"/>
 	</mappers>
 </configuration>
 

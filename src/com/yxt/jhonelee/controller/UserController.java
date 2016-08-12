@@ -90,12 +90,4 @@ public class UserController {
 		request.setAttribute("page", page);
 		return "/detail";
 	}
-
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.invalidate();
-		return "/logins";
-	}
-
 }

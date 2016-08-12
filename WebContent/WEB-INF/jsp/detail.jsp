@@ -175,16 +175,18 @@
 				</p>
 				<span>填写您联系后的（医生或用户的原因，如果没有就写"无"）</span>
 				<p>
-					用户姓名:<label id="userName"></label>
+					医生:<input type="text" id="docName" style="border-style: none"
+						readonly="readonly" /> 用户:<input type="text" id="userName"
+						readonly="readonly" style="border-style: none" />
 				</p>
 				<textarea id="userneirong" name="neirong"
 					style="width: 400px; height: 50px;"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
-				<p>
-					医生姓名:<input type="text" id="docName" name="docName"
+				<!-- 			<p>
+					医生:<input type="text" id="docName" name="docName" style="border-style: none"
 						readonly="readonly" />
-				</p>
+				</p> -->
 				<input type="text" id="RegistId" style="display: none;" />
 				<p>
 					<textarea id="docneirong" name="neirong"
@@ -208,16 +210,19 @@
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
-				<p>用户原因：</p>
-				<textarea id="userReason"
-					style="width: 400px; height: 50px; margin-top: 20px"
-					readonly="readonly"></textarea>
-				<p>医生原因：</p>
 				<p>
-					<textarea id="docReason" style="width: 400px; height: 50px;"
-						readonly="readonly"></textarea>
+					<span style="margin: 10px;">协同服务</span>
 				</p>
-				<input type="button" onclick="closehandled()" value="关闭">
+				<p>用户原因：
+				<input type="text" id="userReason"
+					style="width: 300px; margin-top: 40px ;border-style: none"
+					readonly="readonly"/></p>
+					<p>
+				医生原因：
+					<input type="text" id="docReason" style="width: 300px; margin-top: 40px;border-style: none"
+						readonly="readonly"/>
+				<p>
+				<input type="button" onclick="closehandled()" value="关闭" style="margin-top: 20px">
 			</form>
 		</div>
 	</div>
@@ -236,7 +241,7 @@
 	}
 	function btnSubmit(){
 		 
-		var adminId=1;
+		var adminId=${admin.mId};
 		var registid =$("#RegistId").val();
 		var userreason = $('#userneirong').val();
 		var docreason= $('#docneirong').val();
@@ -293,7 +298,5 @@
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/zDrag.js"></script>
-	<script type="text/javascript" src="js/zDialog.js"></script>
 </body>
 </html>

@@ -19,9 +19,9 @@
 <body>
 	<div class="header">
 		<img class="logo" src="images/u4.png" /> <label class="logo-title">家庭医生预约协同服务中心</label>
-		<a class="btn btn-default" href="#">退出登录</a>
+		<a class="btn btn-default" href="logout">退出登录</a>
 		<div class="admin">
-			当前管理员：<span>Ultrame</span>
+			当前管理员：<span>${admin.mAdminName }</span>
 		</div>
 	</div>
 

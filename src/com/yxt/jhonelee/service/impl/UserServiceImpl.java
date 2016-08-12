@@ -17,7 +17,7 @@ import com.yxt.jhonelee.service.UserService;
 public class UserServiceImpl implements UserService{
 	
 	@Resource
-	public UserMapper userMapper;
+	private UserMapper userMapper;
 	@Override
 	public List<User> findAllUser(int docid) {
 		// TODO Auto-generated method stub

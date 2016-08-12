@@ -3,7 +3,7 @@ package com.yxt.jhonelee.model;
 /**
  * 
  * @author JhoneLee
- * @category 管理员类
+ * @category reason类
  *
  */
 public class ITVRecord {

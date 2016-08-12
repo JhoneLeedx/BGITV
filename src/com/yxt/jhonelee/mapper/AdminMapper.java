@@ -1,10 +1,11 @@
 package com.yxt.jhonelee.mapper;
 
-import com.yxt.jhonelee.model.ITVRecord;
+import java.util.List;
+
+import com.yxt.jhonelee.model.Admin;
 
 public interface AdminMapper {
 
-	public ITVRecord SelectAllRecord(int id);
+	public List<Admin> SelectAllAdmin(String adminName);
 	
-	public Integer InsertRecord(ITVRecord itvRecord);
 }

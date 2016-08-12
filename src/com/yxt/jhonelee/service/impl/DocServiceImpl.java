@@ -16,7 +16,7 @@ import com.yxt.jhonelee.service.DoctorService;
 public class DocServiceImpl implements DoctorService {
 
 	@Resource
-	DoctorMapper mapper ;
+	private DoctorMapper mapper ;
 	@Override
 	public List<Doctor> findAllDoc() {
 		// TODO Auto-generated method stub
