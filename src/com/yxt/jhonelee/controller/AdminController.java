@@ -9,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
 import com.yxt.jhonelee.model.ITVRecord;
 import com.yxt.jhonelee.service.AdminService;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JSONString;
 
 /**
  * 
@@ -20,52 +24,59 @@ import com.yxt.jhonelee.service.AdminService;
  */
 @Controller
 public class AdminController {
-	
+
 	@Autowired
 	private AdminService adminService;
 
 	@RequestMapping("/showRecord")
-	public String SelectAllRecord(HttpServletRequest request) {
+	public void SelectAllRecord(HttpServletRequest request, PrintWriter out) {
 		String sid = request.getParameter("id");
 		int id = 0;
+		Gson gson = new Gson();
 		if (sid != null) {
 			id = Integer.parseInt(sid);
+			ITVRecord itvRecord = adminService.SelectAllRecord(id);
+			if (itvRecord != null) {
+				String json = gson.toJson(itvRecord);
+				out.write(json);
+			}
 		}
-
-		ITVRecord itvRecord = adminService.SelectAllRecord(id);
-		request.setAttribute("itvRecord", itvRecord);
-
-		
-		return null;
 	}
 
-	//插入数据到数据库当中
-	
+	// 插入数据到数据库当中
+
 	@RequestMapping("/insertReason")
 	public void insertReason(HttpServletRequest request, PrintWriter out) {
 		try {
 			request.setCharacterEncoding("utf-8");
 			String shandle = request.getParameter("handle");
-			String sadminid =request.getParameter("adminid");
+			String sadminid = request.getParameter("adminid");
 			String sregistid = request.getParameter("registid");
-			//String sreason = request.getParameter("reason");
+			String suserreason = request.getParameter("userreason");
+			String sdocreason = request.getParameter("docreason");
 			ITVRecord itvRecord = new ITVRecord();
-			if(sadminid!=null){
+			if (sadminid != null) {
 				itvRecord.setmAdminId(Integer.parseInt(sadminid));
-			}
-			if(shandle!=null){
-				itvRecord.setmHandle(Integer.parseInt(shandle));
-			}
-			if(sregistid!=null){
-				itvRecord.setmRegistId(Integer.parseInt(sregistid));
-			}
-			
-			if (adminService.InsertRecord(itvRecord)!=null) {
-				out.write("添加成功");
-			}else{
+				if (sregistid != null) {
+					itvRecord.setmRegistId(Integer.parseInt(sregistid));
+					if (shandle != null) {
+						itvRecord.setmHandle(Integer.parseInt(shandle));
+						itvRecord.setmDocReason(sdocreason);
+						itvRecord.setmUserReason(suserreason);
+						if (adminService.InsertRecord(itvRecord) != null) {
+							out.write("添加成功");
+						} else {
+							out.write("添加失败");
+						}
+					} else {
+						out.write("添加失败");
+					}
+				} else {
+					out.write("添加失败");
+				}
+			} else {
 				out.write("添加失败");
 			}
-
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

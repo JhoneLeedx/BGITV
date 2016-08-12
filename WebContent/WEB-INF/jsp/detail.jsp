@@ -66,7 +66,7 @@
 										预约成功  
 										</c:when>
 												<c:when test="${user.mRegState==2 }">
-										通话完成
+										服务完成
 										</c:when>
 												<c:when test="${user.mRegState==3 }">
 										用户取消
@@ -81,21 +81,24 @@
 										</td>
 										<c:choose>
 											<c:when test="${user.mRegState==1 }">
-												<td>
-													<button style="color: green;" onclick="showReason()">已处理</button>
-												</td>
-											</c:when>
-											<c:when test="${user.mItvRecord.mHandle==1 }">
-												<td style="color: green;">
-													<%-- 医生:${user.mItvRecord.mReason } --%>
-													<button style="color: green;">已处理</button>
-												</td>
+												<c:choose>
+													<c:when test="${user.mItvRecord.mHandle==1 }">
+														<td style="color: green;">
+															<%-- 医生:${user.mItvRecord.mReason } --%>
+															<button style="color: green;"
+																onclick="showReason(${user.mId})">已处理</button>
+														</td>
+													</c:when>
+													<c:otherwise>
+														<td>
+															<button style="color: red;"
+																onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
+														</td>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
 											<c:otherwise>
-												<td>
-													<button style="color: red;"
-														onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
-												</td>
+												<td></td>
 											</c:otherwise>
 										</c:choose>
 									</tr>
@@ -167,23 +170,28 @@
 		<div
 			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
 			<form id="form"<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
-
 				<p>
-					用户姓名<input type="text" id="userName" name="userName" />
+					<span style="margin: 10px;">协同服务</span>
 				</p>
+				<span>填写您联系后的（医生或用户的原因，如果没有就写"无"）</span>
 				<p>
-					医生姓名<input type="text" id="docName" name="docName" />
+					用户姓名:<label id="userName"></label>
 				</p>
-				<input type="text" id="RegistId" style="display: none;" /> <select
-					id="notifcation" name="notifcat">
-					<option>选择通知状态</option>
-					<option>已通知医生</option>
-					<option>已通知用户</option>
-				</select>
-				<textarea id="neirong" name="neirong"
-					style="width: 450px; height: 150px;"
-					onfocus="if(value=='原因：'){value=''}"
-					onblur="if (value ==''){value='原因：'}"></textarea>
+				<textarea id="userneirong" name="neirong"
+					style="width: 400px; height: 50px;"
+					onfocus="if(value=='用户原因：'){value=''}"
+					onblur="if (value ==''){value='用户原因：'}"></textarea>
+				<p>
+					医生姓名:<input type="text" id="docName" name="docName"
+						readonly="readonly" />
+				</p>
+				<input type="text" id="RegistId" style="display: none;" />
+				<p>
+					<textarea id="docneirong" name="neirong"
+						style="width: 400px; height: 50px;"
+						onfocus="if(value=='医生原因：'){value=''}"
+						onblur="if (value ==''){value='医生原因：'}"></textarea>
+				</p>
 				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
 				<!--  -->
 				<input type="button" onclick="closeForm()" value="取消">
@@ -195,17 +203,23 @@
 
 	<!-- 处理了的结果的弹窗 -->
 
-	<div id="handled" style="display: none;">
-
-		<ul>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
-		<div></div>
-
-
+	<div id="handled"
+		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
+		<div
+			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
+			<form<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
+				<p>用户原因：</p>
+				<textarea id="userReason"
+					style="width: 400px; height: 50px; margin-top: 20px"
+					readonly="readonly"></textarea>
+				<p>医生原因：</p>
+				<p>
+					<textarea id="docReason" style="width: 400px; height: 50px;"
+						readonly="readonly"></textarea>
+				</p>
+				<input type="button" onclick="closehandled()" value="关闭">
+			</form>
+		</div>
 	</div>
 	<!--处理弹窗end！  -->
 
@@ -218,30 +232,23 @@
 	}
 	function closeForm(){
 		document.getElementById("callfaile").style.display = "none";
-		$("#neirong").val("");
+		$("#userneirong").val("");
 	}
 	function btnSubmit(){
 		 
 		var adminId=1;
 		var registid =$("#RegistId").val();
-		var reason = $('#neirong').val();
-		var handle = 0;
-		if($('#notifcation').val()=='选择通知状态'){
-			handle =1;
-			$('#notifcation').focus();
-		}else if($('#notifcation').val()=='已通知医生'){
-			handle =1;
+		var userreason = $('#userneirong').val();
+		var docreason= $('#docneirong').val();
+		if($('#userneirong').val() == '用户原因：'||$('#userneirong').val() == ''||$('#docneirong').val() == '医生原因：'||$('#docneirong').val() == ''){
+			$('#userneirong').focus();
+			$('#docneirong').focus();
 		}else{
-			handle =0;
-		}
-		
-		if($('#neirong').val() == '原因：'||$('#neirong').val() == ''){
-			$('#neirong').focus();
-		}else{
+		var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
 			$.ajax({
 				cache: false,
 				url: "<%=request.getContextPath()%>/insertReason", 
-				data:{'adminid':adminId,'registid':registid,'reason':reason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
+				data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
 				dataType : 'text',
 				contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 				async: true,
@@ -257,10 +264,30 @@
 				});
 		}
 	}
-	
-	function showReason() {
-		alert("医生与用户成功沟通过的");
-		var diag = new Dialog();
+	function showReason(mid) {
+		
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/showRecord", 
+			data:{"id":mid},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				document.getElementById("handled").style.display = "block";
+				 $('#userReason').val(obj.mUserReason);
+				 $('#docReason').val(obj.mDocReason);
+			}
+			});
+	}
+	function closehandled(){
+		document.getElementById("handled").style.display = "none";
 	}
 	
 	</script>
