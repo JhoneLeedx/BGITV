@@ -1,5 +1,6 @@
 package com.yxt.jhonelee.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,25 +69,36 @@ public class UserController {
 	// 分页显示医生id的签约用户信息
 	@RequestMapping("/detail")
 	public String selectUserByPage(HttpServletRequest request) {
+		String stimeInt = request.getParameter("timeInt");
 		String docName = request.getParameter("docName");
 		String id = request.getParameter("id");
 		int docId = Integer.parseInt(id);
+		int timeInt =3;
+		if(stimeInt!=null){
+			timeInt=Integer.parseInt(stimeInt);
+		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
 		int totalcount = 0;
 		List<User> listUser = null;
-		totalcount = userService.getUserCount(docId);
+		totalcount = userService.getUserCount(docId,timeInt);
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
 		} else {
 			page = new Page(totalcount, 1);
 		}
-		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize());
+		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(),timeInt);
+		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("docName", docName);
 		request.setAttribute("id", docId);
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("page", page);
 		return "/detail";
+	}
+	@RequestMapping("/timeDetail")
+	public void selectPage(HttpServletRequest request,PrintWriter out) {
+		String stimeInt = request.getParameter("timeInt");
+		out.write(stimeInt);
 	}
 }

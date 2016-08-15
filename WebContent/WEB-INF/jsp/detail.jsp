@@ -18,6 +18,35 @@
 </head>
 <body>
 	<div class="container-fluid">
+		<select id="time_select" style="float: right; right:"
+			onchange="FindtimeUser()">
+			<c:choose>
+				<c:when test="${timeInt==0 }">
+					<option>选择时间</option>
+					<option value="0" selected="selected">当天</option>
+					<option value="1">前一天</option>
+					<option value="2">前两天</option>
+				</c:when>
+				<c:when test="${timeInt==1 }">
+					<option>选择时间</option>
+					<option value="0">当天</option>
+					<option value="1" selected="selected">前一天</option>
+					<option value="2">前两天</option>
+				</c:when>
+				<c:when test="${timeInt==2 }">
+					<option>选择时间</option>
+					<option value="0">当天</option>
+					<option value="1">前一天</option>
+					<option value="2" selected="selected">前两天</option>
+				</c:when>
+				<c:otherwise>
+					<option selected="selected">选择时间</option>
+					<option value="0">当天</option>
+					<option value="1">前一天</option>
+					<option value="2">前两天</option>
+				</c:otherwise>
+			</c:choose>
+		</select>
 		<div class="row-fluid">
 			<div class="w">
 				<div class="span12">
@@ -86,13 +115,13 @@
 														<td style="color: green;">
 															<%-- 医生:${user.mItvRecord.mReason } --%>
 															<button style="color: green;"
-																onclick="showHomeReason(${user.mId})">已处理</button>
+																onclick="showReason(${user.mId})">已处理</button>
 														</td>
 													</c:when>
 													<c:otherwise>
 														<td>
 															<button style="color: red;"
-																onclick="showHomeForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
+																onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
 														</td>
 													</c:otherwise>
 												</c:choose>
@@ -117,39 +146,39 @@
 								<div>
 									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
 										${page.pageNow} 页</font> <a
-										href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">首页</a>
+										href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=1">首页</a>
 									<c:choose>
 										<c:when test="${page.pageNow - 1 > 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow - 1}">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow - 1}">上一页</a>
 										</c:when>
 										<c:when test="${page.pageNow - 1 <= 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=1">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=1">上一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}}&pageNow=${page.pageNow}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}}&timeInt=${timeInt }&pageNow=${page.pageNow}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow + 1}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow + 1}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.totalPageCount}">下一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.pageNow}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow}">尾页</a>
 										</c:when>
 										<c:otherwise>
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&pageNow=${page.totalPageCount}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.totalPageCount}">尾页</a>
 										</c:otherwise>
 									</c:choose>
 
@@ -213,33 +242,35 @@
 				<p>
 					<span style="margin: 10px;">协同服务</span>
 				</p>
-				<p>用户原因：
-				<input type="text" id="userReason"
-					style="width: 300px; margin-top: 40px ;border-style: none"
-					readonly="readonly"/></p>
-					<p>
-				医生原因：
-					<input type="text" id="docReason" style="width: 300px; margin-top: 40px;border-style: none"
-						readonly="readonly"/>
 				<p>
-				<input type="button" onclick="closehandled()" value="关闭" style="margin-top: 20px">
+					用户原因： <input type="text" id="userReason"
+						style="width: 300px; margin-top: 40px; border-style: none"
+						readonly="readonly" />
+				</p>
+				<p>
+					医生原因： <input type="text" id="docReason"
+						style="width: 300px; margin-top: 40px; border-style: none"
+						readonly="readonly" />
+				<p>
+					<input type="button" onclick="closehandled()" value="关闭"
+						style="margin-top: 20px">
 			</form>
 		</div>
 	</div>
 	<!--处理弹窗end！  -->
 
 	<script type="text/javascript">
-	function showForm(mUserName,docName,mId){
+	function showForm(mUserName,docName,mId){//显示弹窗，极其内容
 		document.getElementById("callfaile").style.display = "block";
 		$("#userName").val(mUserName);
 		$("#docName").val(docName);
 		$("#RegistId").val(mId);
 	}
-	function closeForm(){
+	function closeForm(){//关闭弹窗
 		document.getElementById("callfaile").style.display = "none";
 		$("#userneirong").val("");
 	}
-	function btnSubmit(){
+	function btnSubmit(){//提交数据到数据库
 		 
 		var adminId=${admin.mId};
 		if(adminId!=""){
@@ -296,6 +327,38 @@
 	}
 	function closehandled(){
 		document.getElementById("handled").style.display = "none";
+	}
+	function FindtimeUser() {
+		var timeSelect = $("#time_select").val();
+		var id = ${id};
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/timeDetail", 
+			data:{"timeInt":timeSelect},
+			dataType : 'text',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+		      switch (Number(data)) {
+			case 0:
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=0";
+				break;
+			case 1:
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=1";
+				break;
+			case 2:
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=2";
+				break;
+			default:
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=3";
+				break;
+			}
+				
+			}
+			});
 	}
 	
 	</script>

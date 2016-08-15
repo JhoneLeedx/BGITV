@@ -26,7 +26,6 @@
 			当前管理员：<span>${admin.mAdminName }</span>
 		</div>
 	</div>
-
 	<div class="nav">
 
 		<ul class="breadcrumb">
