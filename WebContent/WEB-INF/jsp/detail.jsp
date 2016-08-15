@@ -86,13 +86,13 @@
 														<td style="color: green;">
 															<%-- 医生:${user.mItvRecord.mReason } --%>
 															<button style="color: green;"
-																onclick="showReason(${user.mId})">已处理</button>
+																onclick="showHomeReason(${user.mId})">已处理</button>
 														</td>
 													</c:when>
 													<c:otherwise>
 														<td>
 															<button style="color: red;"
-																onclick="showForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
+																onclick="showHomeForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
 														</td>
 													</c:otherwise>
 												</c:choose>

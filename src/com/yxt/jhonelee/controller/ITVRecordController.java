@@ -13,8 +13,6 @@ import com.google.gson.Gson;
 import com.yxt.jhonelee.model.ITVRecord;
 import com.yxt.jhonelee.service.ITVRecordService;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JSONString;
 
 /**
  * 
