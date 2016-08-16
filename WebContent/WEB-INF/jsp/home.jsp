@@ -18,6 +18,35 @@
 </head>
 <body>
 	<div class="container-fluid">
+			<select id="timeHomeselect" style="float: right; right:"
+			onchange="FindHometimeUser()">
+			<c:choose>
+				<c:when test="${timeInt==0 }">
+					<option>所有时间</option>
+					<option value="0" selected="selected">今天</option>
+					<option value="1">昨天</option>
+					<option value="2">前天</option>
+				</c:when>
+				<c:when test="${timeInt==1 }">
+					<option>所有时间</option>
+					<option value="0">今天</option>
+					<option value="1" selected="selected">昨天</option>
+					<option value="2">前天</option>
+				</c:when>
+				<c:when test="${timeInt==2 }">
+					<option>所有时间</option>
+					<option value="0">今天</option>
+					<option value="1">昨天</option>
+					<option value="2" selected="selected">前天</option>
+				</c:when>
+				<c:otherwise>
+					<option selected="selected">所有时间</option>
+					<option value="0">今天</option>
+					<option value="1">昨天</option>
+					<option value="2">前天</option>
+				</c:otherwise>
+			</c:choose>
+		</select>
 		<div class="row-fluid">
 			<div class="w">
 				<div class="span12">
@@ -117,39 +146,39 @@
 								<div>
 									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
 										${page.pageNow} 页</font> <a
-										href="<%=request.getContextPath()%>/home?id=${id}&pageNow=1">首页</a>
+										href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=1">首页</a>
 									<c:choose>
 										<c:when test="${page.pageNow - 1 > 0}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=${page.pageNow - 1}">上一页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.pageNow - 1}">上一页</a>
 										</c:when>
 										<c:when test="${page.pageNow - 1 <= 0}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=1">上一页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=1">上一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}}&pageNow=${page.pageNow}">下一页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.pageNow}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=${page.pageNow + 1}">下一页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.pageNow + 1}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=${page.totalPageCount}">下一页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.totalPageCount}">下一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=${page.pageNow}">尾页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.pageNow}">尾页</a>
 										</c:when>
 										<c:otherwise>
 											<a
-												href="<%=request.getContextPath()%>/home?id=${id}&pageNow=${page.totalPageCount}">尾页</a>
+												href="<%=request.getContextPath()%>/home?&timeInt=${timeInt }&pageNow=${page.totalPageCount}">尾页</a>
 										</c:otherwise>
 									</c:choose>
 
@@ -298,7 +327,36 @@
 	function closeHomehandled(){
 		document.getElementById("home_handled").style.display = "none";
 	}
-	
+	function FindHometimeUser() {
+		var timeSelect = $("#timeHomeselect").val();
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/timeDetail", 
+			data:{"timeInt":timeSelect},
+			dataType : 'text',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+		      switch (Number(data)) {
+			case 0:
+				location.href="<%=request.getContextPath()%>/home?timeInt=0";
+				break;
+			case 1:
+				location.href="<%=request.getContextPath()%>/home?timeInt=1";
+				break;
+			case 2:
+				location.href="<%=request.getContextPath()%>/home?timeInt=2";
+				break;
+			default:
+				location.href="<%=request.getContextPath()%>/home?timeInt=3";
+				break;
+			}
+			}
+			});
+	}
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>

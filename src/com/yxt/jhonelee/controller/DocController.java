@@ -29,6 +29,20 @@ public class DocController {
 		HttpSession session = request.getSession();
 		@SuppressWarnings("unused")
 		Admin admin = (Admin)session.getAttribute("admin");
+/*		switch (admin.getmLevel()) {
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+
+		default:
+			break;
+		}*/
 		
 		List<Doctor> listDoc = doctorService.findAllDoc();
 		request.setAttribute("listdoc", listDoc);

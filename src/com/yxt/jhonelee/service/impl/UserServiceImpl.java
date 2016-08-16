@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +41,14 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getUserCount(docid,timeInt);
 	}
 	@Override
-	public List<User> selectUserHomeBypage(int startPos, int pageSize) {
+	public List<User> selectUserHomeBypage(int startPos, int pageSize,int timeInt) {
 		// TODO Auto-generated method stub
-		return userMapper.selectUserHomeBypage(startPos, pageSize);
+		return userMapper.selectUserHomeBypage(startPos, pageSize,timeInt);
 	}
 	@Override
-	public int getHomeCount() {
+	public int getHomeCount(int timeInt) {
 		// TODO Auto-generated method stub
-		return userMapper.getHomeCount();
+		return userMapper.getHomeCount(timeInt);
 	}
 
 }

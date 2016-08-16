@@ -36,10 +36,14 @@ public class UserController {
 	// 显示每个医生最近的预约的用户信息
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
-
+		String stimeInt = request.getParameter("timeInt");
+		int timeInt =3;
+		if(stimeInt!=null){
+			timeInt=Integer.parseInt(stimeInt);
+		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount = userService.getHomeCount();
+		int totalcount = userService.getHomeCount(timeInt);
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
@@ -47,8 +51,9 @@ public class UserController {
 			page = new Page(totalcount, 1);
 
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize());
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(),timeInt);
 		request.setAttribute("listUser", listUser);
+		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("page", page);
 		return "/home";
 	}

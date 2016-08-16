@@ -23,7 +23,7 @@
 			<result property="mAdminId" column="admin_id" />
 			<result property="mRegistId" column="regist_id" />
 			<result property="mReason" column="reason" />
-			<result property="mHandle" column="handle"/>
+			<result property="mHandle" column="handle" />
 		</association>
 
 
@@ -49,13 +49,29 @@
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
 		SELECT * FROM (select * from ITV_REGIST where doctor_id in
-		(select id from
-		doctor) ORDER BY REG_TIME DESC) st 
-		LEFT JOIN ITV_RECORD 
-		on(ITV_RECORD.REGIST_ID = st.ID) 
+		(select id
+		from
+		doctor) ORDER BY REG_TIME DESC) users
+		LEFT JOIN ITV_RECORD
+		on(ITV_RECORD.REGIST_ID = users.ID)
+		<where>
+			<choose>
+				<when test="timeInt==0">
+					and TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
+				</when>
+				<when test="timeInt==1">
+					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
+				</when>
+				<when test="timeInt==2">
+					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
+				</when>
+			</choose>
+		</where>
 		GROUP BY
-		st.doctor_id limit #{startPos},#{pageSize}
+		users.doctor_id limit #{startPos},#{pageSize}
 	</select>
+
+
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
 		SELECT COUNT(*) FROM
@@ -63,63 +79,81 @@
 		doctor_id in (select id
 		from
 		doctor) ORDER BY REG_TIME DESC) users
+		<where>
+			<choose>
+				<when test="timeInt==0">
+					and TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
+				</when>
+				<when test="timeInt==1">
+					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
+				</when>
+				<when test="timeInt==2">
+					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
+				</when>
+			</choose>
+		</where>
 		GROUP BY users.doctor_id)
 		doc_user
 	</select>
 	<!-- SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record 
 		on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) order 
 		by TO_DAYS(itv_regist.REG_TIME) DESC, REG_TIME-TO_DAYS(itv_regist.REG_TIME) -->
+
+
+
+
 	<!-- 实现分页的sql在docid下的 -->
 	<select id="selectUserByPage" resultMap="userResultMap"
 		resultType="User">
-		
-		SELECT ITV_REGIST.*,ITV_RECORD.* FROM ITV_REGIST LEFT JOIN ITV_RECORD 
-		on(ITV_RECORD.REGIST_ID = ITV_REGIST.ID) 
+
+		SELECT ITV_REGIST.*,ITV_RECORD.* FROM ITV_REGIST LEFT JOIN ITV_RECORD
+		on(ITV_RECORD.REGIST_ID = ITV_REGIST.ID)
 		<where>
-		ITV_REGIST.DOCTOR_ID=#{id} 
-		<choose>
-		<when test="timeInt==0">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW())
-		</when>
-		<when test="timeInt==1">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = (TO_DAYS(NOW())-1)
-		</when>
-		<when test="timeInt==2">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = (TO_DAYS(NOW())-2)
-		</when>
-		</choose>
-		<!-- and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW()) -->
+			ITV_REGIST.DOCTOR_ID=#{id}
+			<choose>
+				<when test="timeInt==0">
+					and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW())
+				</when>
+				<when test="timeInt==1">
+					and TO_DAYS(ITV_REGIST.REG_TIME) =
+					(TO_DAYS(NOW())-1)
+				</when>
+				<when test="timeInt==2">
+					and TO_DAYS(ITV_REGIST.REG_TIME) =
+					(TO_DAYS(NOW())-2)
+				</when>
+			</choose>
+			<!-- and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW()) -->
 		</where>
-		order 
-		by TO_DAYS(ITV_REGIST.REG_TIME) DESC, REG_TIME-TO_DAYS(ITV_REGIST.REG_TIME)
+		order
+		by TO_DAYS(ITV_REGIST.REG_TIME) DESC,
+		REG_TIME-TO_DAYS(ITV_REGIST.REG_TIME)
 		limit #{startPos},#{pageSize}
-		<!-- select * from ITV_REGIST
-		<where>
-			doctor_id = #{id} and TO_DAYS(REG_TIME) = TO_DAYS(NOW())
-		</where>
-		order by
-		TO_DAYS(REG_TIME)
-		DESC, REG_TIME-TO_DAYS(REG_TIME) limit
-		#{startPos},#{pageSize} -->
+		<!-- select * from ITV_REGIST <where> doctor_id = #{id} and TO_DAYS(REG_TIME) 
+			= TO_DAYS(NOW()) </where> order by TO_DAYS(REG_TIME) DESC, REG_TIME-TO_DAYS(REG_TIME) 
+			limit #{startPos},#{pageSize} -->
 	</select>
+
+
 	<!-- 取得要实现分页数据库docid下user的总数 -->
 	<select id="getUserCount" resultType="int">
 		select count(*) from
 		ITV_REGIST
 		<where>
 			doctor_id = #{id} <!-- and TO_DAYS(REG_TIME) = TO_DAYS(NOW()) -->
-					<choose>
-		<when test="timeInt==0">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW())
-		</when>
-		<when test="timeInt==1">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = (TO_DAYS(NOW())-1)
-		</when>
-		<when test="timeInt==2">
-		and TO_DAYS(ITV_REGIST.REG_TIME) = (TO_DAYS(NOW())-2)
-		</when>
-		</choose>
-			
+			<choose>
+				<when test="timeInt==0">
+					and TO_DAYS(ITV_REGIST.REG_TIME) = TO_DAYS(NOW())
+				</when>
+				<when test="timeInt==1">
+					and TO_DAYS(ITV_REGIST.REG_TIME) =
+					(TO_DAYS(NOW())-1)
+				</when>
+				<when test="timeInt==2">
+					and TO_DAYS(ITV_REGIST.REG_TIME) =
+					(TO_DAYS(NOW())-2)
+				</when>
+			</choose>
 		</where>
 	</select>
 </mapper>
