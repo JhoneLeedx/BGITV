@@ -7,6 +7,7 @@
 		<result property="mAdminName" column="name" />
 		<result property="mAdminPass" column="pass" />
 		<result property="mLevel" column="level" />
+		<result property="mPid" column="pid"/>
 	</resultMap>
 
 	<select id="SelectAllAdmin" resultMap="AdminMap" resultType="Admin">

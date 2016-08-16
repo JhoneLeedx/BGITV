@@ -10,6 +10,9 @@ public class Admin {
 	private String mAdminName;
 	private String mAdminPass;
 	private int mLevel;
+	private String mPid;
+	
+	
 	public int getmId() {
 		return mId;
 	}
@@ -33,6 +36,12 @@ public class Admin {
 	}
 	public void setmLevel(int mLevel) {
 		this.mLevel = mLevel;
+	}
+	public String getmPid() {
+		return mPid;
+	}
+	public void setmPid(String mPid) {
+		this.mPid = mPid;
 	}
 
 

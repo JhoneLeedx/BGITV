@@ -70,7 +70,17 @@
 									</div>
 									<!--显示医生列表  -->
 									<ul id="collapseOne" class="collapse in">
-										<c:if test="${!empty listdoc }">
+									
+									<c:if test="${!empty listAddress }">
+									<c:forEach items="${listAddress }" var="address">
+									<li>
+									<a onclick="findNext(this,'${address.mCodevalue}')">${address.mName }</a>
+									<ul id="${address.mId }" ></ul>
+									</li>
+									</c:forEach>
+									</c:if>
+									
+										<%-- <c:if test="${!empty listdoc }">
 											<c:forEach items="${listdoc }" var="doctor">
 
 												<li><a
@@ -85,7 +95,7 @@
 														</div>
 												</a></li>
 											</c:forEach>
-										</c:if>
+										</c:if> --%>
 									</ul>
 								</div>
 							</div>
@@ -112,6 +122,47 @@
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/Index.js"></script>
+	<script type="text/javascript">
+	
+	function findNext(obj,mCodevalue) {
+		console.log(obj);
+		var th=$(obj).next();
+		console.log(th.attr('id'));
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/findNext", 
+			data:{"pid":mCodevalue},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				
+				console.log(obj);
+				var l = obj.length;
+				var htm = "";
+				for (var j=0;j<l;j++) {
+					var address=obj[j];
+					for (var i in address) {
+						if(i=="mName"){
+							htm += "<li>" + address[i] + "</li>";
+							}
+						}	
+					}
+					console.log(htm);
+					th.html(htm);
+
+			}
+		});
+		
+	}
+	
+	</script>
 
 </body>
 </html>

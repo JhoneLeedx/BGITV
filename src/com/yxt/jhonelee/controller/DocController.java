@@ -24,7 +24,7 @@ public class DocController {
 	@Autowired
 	private DoctorService doctorService;
     //首页展示医生列表
-	@RequestMapping("/main")
+	@RequestMapping("/mains")
 	public String findAllUser(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		@SuppressWarnings("unused")
@@ -46,7 +46,7 @@ public class DocController {
 		
 		List<Doctor> listDoc = doctorService.findAllDoc();
 		request.setAttribute("listdoc", listDoc);
-		return "/main";
+		return "/mains";
 	}
 
 }
