@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yxt.jhonelee.mapper.DoctorMapper;
-import com.yxt.jhonelee.model.Doctor;
+import com.yxt.jhonelee.model.DocDetail;
 import com.yxt.jhonelee.service.DoctorService;
 
 @Service
@@ -18,9 +18,9 @@ public class DocServiceImpl implements DoctorService {
 	@Resource
 	private DoctorMapper mapper ;
 	@Override
-	public List<Doctor> findAllDoc() {
+	public List<DocDetail> findAllDoc(int hospitalId) {
 		// TODO Auto-generated method stub
-		return mapper.findAllDoc();
+		return mapper.findAllDoc(hospitalId);
 	}
 
 }

@@ -2,9 +2,9 @@ package com.yxt.jhonelee.service;
 
 import java.util.List;
 
-import com.yxt.jhonelee.model.Doctor;
+import com.yxt.jhonelee.model.DocDetail;
 
 public interface DoctorService {
 
-	List<Doctor> findAllDoc();
+	List<DocDetail> findAllDoc(int hospitalId);
 }

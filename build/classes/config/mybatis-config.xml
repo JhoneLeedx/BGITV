@@ -3,11 +3,13 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.yxt.jhonelee.model.DocDetail" alias="DocDetail"/>
 		<typeAlias type="com.yxt.jhonelee.model.Doctor" alias="Doctor"/>
 		<typeAlias type="com.yxt.jhonelee.model.User" alias="User"/>
 		<typeAlias type="com.yxt.jhonelee.model.ITVRecord" alias="ITVRecord"/>
 		<typeAlias type="com.yxt.jhonelee.model.Admin" alias="Admin"/>
 		<typeAlias type="com.yxt.jhonelee.model.Address" alias="Address"/>
+		<typeAlias type="com.yxt.jhonelee.model.Hospital" alias="Hospital"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/yxt/jhonelee/mapper/DoctorMapper.xml" />
@@ -15,6 +17,7 @@
 		<mapper resource="com/yxt/jhonelee/mapper/ItvRecordMapper.xml"/>
 		<mapper resource="com/yxt/jhonelee/mapper/AdminMapper.xml"/>
 		<mapper resource="com/yxt/jhonelee/mapper/AddressMapper.xml"/>
+		<mapper resource="com/yxt/jhonelee/mapper/HospitalMapper.xml"/>
 	</mappers>
 </configuration>
 

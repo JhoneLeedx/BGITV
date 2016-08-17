@@ -17,28 +17,18 @@
       select * from user where userphone = #{username,jdbcType=VARCHAR}
     </select> -->
     
-    <resultMap type="Doctor" id="DocResultMap">
-       <id property="mId" column="id"/>
-       <result property="mRegSourceId" column="register_source_id"/>
-       <result property="mDocTypeId" column="doctor_type_id"/>
-       <result property="mDocLevelId" column="doctor_level_id"/>
-       <result property="mZwName" column="zw_name"/>
-       <result property="mTitleId" column="title_id"/>
-       <result property="mDocName" column="name"/>
-       <result property="mDocPhone" column="phone"/>
-       <result property="mDocPass" column="password"/>
-       <result property="mWechatId" column="wechat_id"/>
-       <result property="mUnionId" column="union_id"/>
-       <result property="mIsvalid" column="is_valid"/>
-       <result property="mIdCard" column="ID_Card"/>
-       <result property="mState" column="state"/>
-       <result property="mRegDate" column="register_date"/>
-       <result property="mRemark" column="remark"/>
-       <result property="mItvNum" column="itv_number"/>
-       <result property="mZxzNum" column="zxz_number"/>
+    <resultMap type="DocDetail" id="DocDetailResultMap">
+       <id property="mDocId" column="doctor_id"/>
+       <result property="mHospitalId" column="zp_hospital_id"/>
+       <result property="mName" column="name"/>
+       		<association property="mDoctor" javaType="Doctor">
+			<id property="mId" column="id" />
+			<result property="mDocPhone" column="phone" />
+			<result property="mIdCard" column="ID_Card" />
+		</association>
     </resultMap>
-  <select id="findAllDoc" resultType="Doctor" resultMap="DocResultMap">
-	select * from doctor order by convert(name using gbk) asc 
+  <select id="findAllDoc" resultType="DocDetail" resultMap="DocDetailResultMap">
+	select d.*,dd.* from doctor_detail dd,doctor d where  dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by convert(dd.name using gbk) asc 
   </select>
 </mapper>
 

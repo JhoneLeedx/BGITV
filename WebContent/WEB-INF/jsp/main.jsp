@@ -74,8 +74,8 @@
 									<c:if test="${!empty listAddress }">
 									<c:forEach items="${listAddress }" var="address">
 									<li>
-									<a onclick="findNext(this,'${address.mCodevalue}')">${address.mName }</a>
-									<ul id="${address.mId }" ></ul>
+									<a onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }</a>
+									<ul id="${address.mId }" style="display:none" ></ul>
 									</li>
 									</c:forEach>
 									</c:if>
@@ -124,10 +124,11 @@
 	<script src="js/Index.js"></script>
 	<script type="text/javascript">
 	
-	function findNext(obj,mCodevalue) {
-		console.log(obj);
+	function findNext(obj,mCodevalue,mId) {
 		var th=$(obj).next();
-		console.log(th.attr('id'));
+		th.toggle();
+		var htm = "";
+		if(th.html()==""){
 		$.ajax({
 			cache: false,
 			url: "<%=request.getContextPath()%>/findNext", 
@@ -145,20 +146,133 @@
 				
 				console.log(obj);
 				var l = obj.length;
-				var htm = "";
 				for (var j=0;j<l;j++) {
 					var address=obj[j];
-					for (var i in address) {
-						if(i=="mName"){
-							htm += "<li>" + address[i] + "</li>";
-							}
-						}	
+							htm += "<li><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
 					}
 					console.log(htm);
 					th.html(htm);
 
 			}
 		});
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/findHospital", 
+			data:{"addressId":mId},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				console.log(obj);
+				var l = obj.length;
+				for (var j=0;j<l;j++) {
+					var hospital=obj[j];
+							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul></ul></li>";	
+					}
+				console.log(htm);
+				th.html(htm);
+			}
+		});
+		}
+		
+	}
+	
+	function findDoc(obj,mId){
+		var th=$(obj).next();
+		th.toggle();
+		var htm = "";
+		if(th.html()==""){
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/findDoc", 
+			data:{"hospitalId":mId},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				
+				console.log(obj);
+				var l = obj.length;
+				for (var j=0;j<l;j++) {
+					var doctor=obj[j];
+							htm += "<li><a href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"' target='right'>" + doctor.mName + "</a></li>";	
+					}
+				console.log(htm);
+				th.html(htm);
+			}
+		});
+
+		}
+		
+	}
+	
+	function findSecond(obj,mCodevalue,mId) {
+		var th=$(obj).next();
+		th.toggle();
+		var htm = "";
+		if(th.html()==""){
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/findNext", 
+			data:{"pid":mCodevalue},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				
+				console.log(obj);
+				var l = obj.length;
+				for (var j=0;j<l;j++) {
+					var address=obj[j];
+							htm += "<li><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul></ul></li>";	
+					}
+				console.log(htm);
+				th.html(htm);
+			}
+		});
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/findHospital", 
+			data:{"addressId":mId},
+			dataType : 'json',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			alert("发送请求失败！");
+			},
+			success: function(data) {
+				var json = JSON.stringify(data);
+				//var obj = eval("("+json+")");  
+				var obj =  jQuery.parseJSON(json);
+				console.log(obj);
+				var l = obj.length;
+				for (var j=0;j<l;j++) {
+					var hospital=obj[j];
+							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul></ul></li>";	
+					}
+				console.log(htm);
+				th.html(htm);
+			}
+		});
+		}
 		
 	}
 	
