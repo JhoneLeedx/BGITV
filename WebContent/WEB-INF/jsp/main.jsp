@@ -12,6 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/a.css" rel="stylesheet" />
 <script type="text/javascript">
 		var secs = 3; //倒计时的秒数
 		var URL;
@@ -73,8 +74,8 @@
 									
 									<c:if test="${!empty listAddress }">
 									<c:forEach items="${listAddress }" var="address">
-									<li>
-									<a onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }</a>
+									<li style="cursor:pointer">
+									<a  onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }</a>
 									<ul id="${address.mId }" style="display:none" ></ul>
 									</li>
 									</c:forEach>
@@ -148,7 +149,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var address=obj[j];
-							htm += "<li><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
+							htm += "<li><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
 					}
 					console.log(htm);
 					th.html(htm);
@@ -173,7 +174,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var hospital=obj[j];
-							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul></ul></li>";	
+							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul style='display:none'></ul></li>";	
 					}
 				console.log(htm);
 				th.html(htm);
@@ -218,7 +219,7 @@
 		
 	}
 	
-	function findSecond(obj,mCodevalue,mId) {
+	<%-- function findSecond(obj,mCodevalue,mId) {
 		var th=$(obj).next();
 		th.toggle();
 		var htm = "";
@@ -242,7 +243,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var address=obj[j];
-							htm += "<li><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul></ul></li>";	
+							htm += "<li style='cursor:pointer'><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul style='display:none'></ul></li>";	
 					}
 				console.log(htm);
 				th.html(htm);
@@ -266,7 +267,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var hospital=obj[j];
-							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul></ul></li>";	
+							htm += "<li style='cursor:pointer'><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul style='display:none'></ul></li>";	
 					}
 				console.log(htm);
 				th.html(htm);
@@ -275,7 +276,7 @@
 		}
 		
 	}
-	
+	 --%>
 	</script>
 
 </body>
