@@ -71,16 +71,27 @@
 									</div>
 									<!--显示医生列表  -->
 									<ul id="collapseOne" class="collapse in">
-									
-									<c:if test="${!empty listAddress }">
-									<c:forEach items="${listAddress }" var="address">
-									<li style="cursor:pointer">
-									<a  onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }</a>
-									<ul id="${address.mId }" style="display:none" ></ul>
-									</li>
-									</c:forEach>
-									</c:if>
-									
+
+										<c:if test="${!empty listAddress }">
+											<c:forEach items="${listAddress }" var="address">
+												<li style="cursor: pointer"><a
+													onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }<c:choose>
+													<c:when test="${address.mLevel==3 }">
+													
+													</c:when>
+													</c:choose></a>
+													<ul id="${address.mId }" style="display: none"></ul></li>
+											</c:forEach>
+										</c:if>
+										<c:if test="${!empty listHospitals }">
+											<c:forEach items="${listHospitals }" var="hospital">
+												<li style="cursor: pointer"><a
+													onclick="findDoc(this,'${hospital.mId}')">${hospital.mName}</a>
+												<ul style='display: none'></ul></li>
+
+											</c:forEach>
+										</c:if>
+
 										<%-- <c:if test="${!empty listdoc }">
 											<c:forEach items="${listdoc }" var="doctor">
 
@@ -112,9 +123,9 @@
 				<div style="text-align: center;"></div>
 			</c:when>
 			<c:otherwise>
-			<div style="margin:20px;">
-				<a href="<%=request.getContextPath()%>/logout">自动跳转未成功？请手动点击跳转</a>
-			</div>
+				<div style="margin: 20px;">
+					<a href="<%=request.getContextPath()%>/logout">自动跳转未成功？请手动点击跳转</a>
+				</div>
 				<script type="text/javascript">Load("<%=request.getContextPath()%>/logout");
 				</script>
 			</c:otherwise>
@@ -122,9 +133,7 @@
 	</div>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/Index.js"></script>
 	<script type="text/javascript">
-	
 	function findNext(obj,mCodevalue,mId) {
 		var th=$(obj).next();
 		th.toggle();
@@ -138,7 +147,7 @@
 			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 			async: true,
 			error: function(data) {
-			alert("发送请求失败！");
+				console.log("发送请求失败！");
 			},
 			success: function(data) {
 				var json = JSON.stringify(data);
@@ -164,7 +173,7 @@
 			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 			async: true,
 			error: function(data) {
-			alert("发送请求失败！");
+				console.log("发送请求失败！");
 			},
 			success: function(data) {
 				var json = JSON.stringify(data);
@@ -174,7 +183,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var hospital=obj[j];
-							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul style='display:none'></ul></li>";	
+							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>"+hospital.mName+"</a><ul style='display:none'></ul></li>";	
 					}
 				console.log(htm);
 				th.html(htm);
@@ -197,27 +206,50 @@
 			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 			async: true,
 			error: function(data) {
-			alert("发送请求失败！");
+			console.log("发送请求失败！");
 			},
 			success: function(data) {
 				var json = JSON.stringify(data);
 				//var obj = eval("("+json+")");  
 				var obj =  jQuery.parseJSON(json);
-				
-				console.log(obj);
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var doctor=obj[j];
-							htm += "<li><a href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"' target='right'>" + doctor.mName + "</a></li>";	
+							htm += "<li><a href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"' target='right'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title='预约用户的详细列表'>"+doctor.mName+"</span><span class='left-body' style='display: none'>"+doctor.mDoctor.mDocPhone+"</span></div></a></li>";	
 					}
-				console.log(htm);
 				th.html(htm);
+				
+				
+				//console.log($(".accordion-inner"));
+				$(".accordion-inner").click(function () {
+					console.log("1");
+					if( $(this).find(".left-body").text()=="首页"){
+						$(".active").html("");
+						$(".newli").html("");
+					}else{
+						console.log(this.getElementsByClassName("left-body"));
+						var newli=document.getElementsByClassName('newli');
+						while(newli.length > 0){
+							newli[0].parentNode.removeChild(newli[0]);
+						}
+						var htm="";
+						var li=this.getElementsByClassName("left-body");
+						var l=li.length;
+						htm+="<li class='newli'>"+li[0].firstChild.nodeValue+"&nbsp&nbsp&nbsp"+li[0].title+"</li>";
+						for(var i=1;i<l;i++){
+							htm+="<li class='newli'>"+"&nbsp&nbsp&nbsp"+li[i].firstChild.nodeValue+"</li>";
+						}
+				    $(".breadcrumb").append(htm);
+				    $(".newli:last").css({'position':'absolute','right':'300px'});
+					}
+				})
 			}
 		});
 
 		}
 		
 	}
+	
 	
 	<%-- function findSecond(obj,mCodevalue,mId) {
 		var th=$(obj).next();
@@ -278,6 +310,6 @@
 	}
 	 --%>
 	</script>
-
+<script src="js/Index.js"></script>
 </body>
 </html>

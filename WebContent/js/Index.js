@@ -2,6 +2,7 @@
     $(".content-left,.content-right").height($(window).height() - 130);
 })
 $(".accordion-inner").click(function () {
+	console.log("1");
 	if( $(this).find(".left-body").text()=="首页"){
 		$(".active").html("");
 		$(".newli").html("");

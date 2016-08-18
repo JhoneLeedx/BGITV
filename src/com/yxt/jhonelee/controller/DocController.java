@@ -35,6 +35,8 @@ public class DocController {
 				Gson gson = new Gson();
 				String json = gson.toJson(doclists);
 				out.write(json);
+			}else{
+				out.write("");
 			}
 		}
 	}

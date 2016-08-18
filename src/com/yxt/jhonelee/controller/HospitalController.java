@@ -29,6 +29,8 @@ public class HospitalController {
 				Gson gson = new Gson();
 				String json = gson.toJson(hospitals);
 				out.write(json);
+			}else{
+				out.write("");
 			}
 		}
 		

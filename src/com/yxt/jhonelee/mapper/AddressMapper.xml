@@ -14,4 +14,7 @@
 	<select id="SelectAddress" resultMap="AddressMap" resultType="Address">
 		select * from address where pid = #{mPid} 
 	</select>
+	<select id="SelectOneAddress" resultType="Address" resultMap="AddressMap">
+	   select * from address where code_value = #{mCodevalue} 
+	</select>
 </mapper>
