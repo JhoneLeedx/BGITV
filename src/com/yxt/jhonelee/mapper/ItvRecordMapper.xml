@@ -2,21 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.ITVRecordMapper">
-	<resultMap type="ITVRecord" id="ITVRECORDMAP" >
+	<resultMap type="ITVRecord" id="ITVRECORDMAP">
 		<result property="mAdminId" column="admin_id" />
 		<result property="mRegistId" column="regist_id" />
 		<result property="mDocReason" column="doc_reason" />
 		<result property="mUserReason" column="user_reason" />
-		<result property="mHandle" column="handle"/>
+		<result property="mHandle" column="handle" />
+
+		<association property="mAdmin" javaType="Admin">
+			<id property="mId" column="id" />
+			<result property="mAdminName" column="name" />
+		</association>
 	</resultMap>
 
-	<select id="SelectAllRecord" resultMap="ITVRECORDMAP" resultType="ITVRecord">
-		select * from ITV_RECORD where regist_id = #{id} LIMIT 0,1 
+	<select id="SelectAllRecord" resultMap="ITVRECORDMAP"
+		resultType="ITVRecord">
+		select * from ITV_RECORD record,ITV_ADMIN admin where record.regist_id = #{id} and record.admin_id= admin.id;
 	</select>
-
 	<insert id="InsertRecord" parameterType="ITVRecord">
-		insert into ITV_RECORD (admin_id,REGIST_ID,doc_reason,user_reason,handle)
-		values(#{mAdminId}, #{mRegistId}, #{mDocReason},#{mUserReason},#{mHandle})
+		insert into ITV_RECORD
+		(admin_id,REGIST_ID,doc_reason,user_reason,handle)
+		values(#{mAdminId},
+		#{mRegistId}, #{mDocReason},#{mUserReason},#{mHandle})
 	</insert>
-
 </mapper>

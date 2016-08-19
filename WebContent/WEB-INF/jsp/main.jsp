@@ -81,7 +81,7 @@
 													<img  src="images/city.png"/>
 													</c:when>
 																<c:when test="${address.mLevel==3 }">
-													<img  src="images/couty.png"/>
+													<img  src="images/county.png"/>
 														</c:when>
 																<c:when test="${address.mLevel==4 }">
 													<img  src="images/community.png"/>

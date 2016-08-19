@@ -14,6 +14,8 @@ public class ITVRecord {
 	private String mDocReason;
 	private String mUserReason;
 	private int mHandle;
+	private Admin mAdmin;
+	
 
 	public int getmAdminId() {
 		return mAdminId;
@@ -60,6 +62,14 @@ public class ITVRecord {
 
 	public void setmUserReason(String mUserReason) {
 		this.mUserReason = mUserReason;
+	}
+
+	public Admin getmAdmin() {
+		return mAdmin;
+	}
+
+	public void setmAdmin(Admin mAdmin) {
+		this.mAdmin = mAdmin;
 	}
 
 }

@@ -242,6 +242,9 @@
 				<p>
 					<span style="margin: 10px;">协同服务</span>
 				</p>
+				<p>管理员为： <input type="text" id="admin"
+						style="width: 300px; margin-top: 40px; border-style: none"
+						readonly="readonly" />
 				<p>
 					用户原因： <input type="text" id="userReason"
 						style="width: 300px; margin-top: 40px; border-style: none"
@@ -322,6 +325,7 @@
 				document.getElementById("handled").style.display = "block";
 				 $('#userReason').val(obj.mUserReason);
 				 $('#docReason').val(obj.mDocReason);
+				 $('admin').val(obj.mAdmin.mName);
 			}
 			});
 	}
