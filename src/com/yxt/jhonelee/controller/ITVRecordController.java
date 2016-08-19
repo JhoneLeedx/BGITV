@@ -25,7 +25,11 @@ public class ITVRecordController {
 
 	@Autowired
 	private ITVRecordService adminService;
-
+/**
+ * 
+ * @param request
+ * @param out 输出显示管理员的统计结果
+ */
 	@RequestMapping("/showRecord")
 	public void SelectAllRecord(HttpServletRequest request, PrintWriter out) {
 		String sid = request.getParameter("id");

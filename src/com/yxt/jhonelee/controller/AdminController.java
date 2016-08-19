@@ -21,6 +21,12 @@ public class AdminController {
 	private AdminService adService;
 
 	// 登录界面
+	/**
+	 * 
+	 * @param request
+	 * @param out 登录验证
+	 * @throws IOException
+	 */
 
 	@RequestMapping("/login")
 	public void login(HttpServletRequest request,PrintWriter out) throws IOException {
@@ -44,6 +50,11 @@ public class AdminController {
 		}
 		out.write(r);
 	}
+	/**
+	 * 
+	 * @param request
+	 * @return 退出管理员登录的状态
+ 	 */
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();

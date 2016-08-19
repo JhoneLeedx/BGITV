@@ -12,13 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.google.gson.Gson;
 import com.yxt.jhonelee.model.Hospital;
 import com.yxt.jhonelee.service.HospitalService;
-
+/**
+ * 
+ * @author JhoneLee
+ *
+ */
 @Controller
 public class HospitalController {
 	@Autowired
 	private HospitalService service;
 	
-	
+	/**
+	 * 
+	 * @param request
+	 * @param out 查询addressId下的医院信息返回（json）
+	 */
 	@RequestMapping("/findHospital")
 	public void SelectHos(HttpServletRequest request,PrintWriter out){
 		String saddressid = request.getParameter("addressId");

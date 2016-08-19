@@ -325,7 +325,7 @@
 				document.getElementById("handled").style.display = "block";
 				 $('#userReason').val(obj.mUserReason);
 				 $('#docReason').val(obj.mDocReason);
-				 $('admin').val(obj.mAdmin.mName);
+				 $('admin').val(obj.mAdmin.mAdminName);
 			}
 			});
 	}

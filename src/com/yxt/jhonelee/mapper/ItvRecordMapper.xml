@@ -11,6 +11,10 @@
 
 		<association property="mAdmin" javaType="Admin">
 			<id property="mId" column="id" />
+		<result property="mAdminName" column="name" />
+		<result property="mAdminPass" column="pass" />
+		<result property="mLevel" column="level" />
+		<result property="mPid" column="pid"/>
 			<result property="mAdminName" column="name" />
 		</association>
 	</resultMap>

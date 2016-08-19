@@ -24,6 +24,11 @@ public class DocController {
 	@Autowired
 	private DoctorService doctorService;
     //首页展示医生列表
+	/**
+	 * 
+	 * @param request
+	 * @param out 通过HospitalID查询旗下的医生信息，返回给界面（json）
+	 */
 	@RequestMapping("/findDoc")
 	public void findAllUser(HttpServletRequest request,PrintWriter out) {
 

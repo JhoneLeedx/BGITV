@@ -17,6 +17,12 @@ import com.yxt.jhonelee.model.Hospital;
 import com.yxt.jhonelee.service.AddressService;
 import com.yxt.jhonelee.service.HospitalService;
 
+/**
+ * 
+ * @author JhoneLee
+ *  管理地址的控制器
+ */
+
 @Controller
 public class AddressController {
 
@@ -26,6 +32,12 @@ public class AddressController {
 	@Autowired
 	private HospitalService Hservice;
 	
+	
+	/**
+	 * 
+	 * @param request
+	 * @return 登录成功返回首页，极其显示的数据（地址或者有医院就显示医院）
+	 */
 	@RequestMapping("/main")
 	public String SelectAddress(HttpServletRequest request){
 		
@@ -45,6 +57,12 @@ public class AddressController {
 		}
 		return "/main";
 	}
+	/**
+	 * 
+	 * @param request
+	 * @param out 查询下一级别的地址返回的数据类型（json）
+	 * 
+	 */
 	@RequestMapping("/findNext")
 	public void findNext(HttpServletRequest request,PrintWriter out){
 
