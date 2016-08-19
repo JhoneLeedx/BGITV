@@ -75,18 +75,29 @@
 										<c:if test="${!empty listAddress }">
 											<c:forEach items="${listAddress }" var="address">
 												<li style="cursor: pointer"><a
-													onclick="findNext(this,'${address.mCodevalue}',${address.mId })">${address.mName }<c:choose>
-													<c:when test="${address.mLevel==3 }">
-													
+													onclick="findNext(this,'${address.mCodevalue}',${address.mId })">
+													<c:choose>
+													<c:when test="${address.mLevel==2 }">
+													<img  src="images/city.png"/>
 													</c:when>
-													</c:choose></a>
+																<c:when test="${address.mLevel==3 }">
+													<img  src="images/couty.png"/>
+														</c:when>
+																<c:when test="${address.mLevel==4 }">
+													<img  src="images/community.png"/>
+													</c:when>
+																<c:when test="${address.mLevel==5 }">
+													<img  src="images/sjw.png"/>
+													</c:when>
+													</c:choose>
+													${address.mName }</a>
 													<ul id="${address.mId }" style="display: none"></ul></li>
 											</c:forEach>
 										</c:if>
 										<c:if test="${!empty listHospitals }">
 											<c:forEach items="${listHospitals }" var="hospital">
 												<li style="cursor: pointer"><a
-													onclick="findDoc(this,'${hospital.mId}')">${hospital.mName}</a>
+													onclick="findDoc(this,'${hospital.mId}')"><img src="images/hospital.png"/>${hospital.mName}</a>
 												<ul style='display: none'></ul></li>
 
 											</c:forEach>
@@ -158,8 +169,16 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var address=obj[j];
-							htm += "<li><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
+					if(address.mLevel==4){
+						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/city.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
+					}else if(address.mLevel==3){
+						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/county.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";	
+					}else if(address.mLevel==2){
+						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/community.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
+					}else{
+						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/sjw.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
 					}
+			}
 					console.log(htm);
 					th.html(htm);
 
@@ -183,7 +202,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var hospital=obj[j];
-							htm += "<li><a onclick='findDoc(this,"+hospital.mId+")'>"+hospital.mName+"</a><ul style='display:none'></ul></li>";	
+							htm += "<li style='list-style:none;'><a onclick='findDoc(this,"+hospital.mId+")'><img src='images/hospital.png'/>"+hospital.mName+"</a><ul style='display:none'></ul></li>";	
 					}
 				console.log(htm);
 				th.html(htm);
