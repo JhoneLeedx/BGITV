@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-			<select id="timeHomeselect" style="float: right; right:"
+		<select id="timeHomeselect" style="float: right; right:"
 			onchange="FindHometimeUser()">
 			<c:choose>
 				<c:when test="${timeInt==0 }">
@@ -208,8 +208,7 @@
 						readonly="readonly" /> 用户:<input type="text" id="userName"
 						readonly="readonly" style="border-style: none" />
 				</p>
-				<textarea id="home_userneirong" 
-					style="width: 400px; height: 50px;"
+				<textarea id="home_userneirong" style="width: 400px; height: 50px;"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
 				<!-- 			<p>
@@ -218,12 +217,11 @@
 				</p> -->
 				<input type="text" id="home_RegistId" style="display: none;" />
 				<p>
-					<textarea id="home_docneirong" 
-						style="width: 400px; height: 50px;"
+					<textarea id="home_docneirong" style="width: 400px; height: 50px;"
 						onfocus="if(value=='医生原因：'){value=''}"
 						onblur="if (value ==''){value='医生原因：'}"></textarea>
 				</p>
-				<input type="button"  value="提交" onclick="btnSubmit()" />
+				<input type="button" value="提交" onclick="btnSubmit()" />
 				<!--  -->
 				<input type="button" onclick="closeHomeForm()" value="取消">
 			</form>
@@ -242,16 +240,22 @@
 				<p>
 					<span style="margin: 10px;">协同服务</span>
 				</p>
-				<p>用户原因：
-				<input type="text" id="home_userReason"
-					style="width: 300px; margin-top: 40px ;border-style: none"
-					readonly="readonly"/></p>
-					<p>
-				医生原因：
-					<input type="text" id="home_docReason" style="width: 300px; margin-top: 40px;border-style: none"
-						readonly="readonly"/>
 				<p>
-				<input type="button" onclick="closeHomehandled()" value="关闭" style="margin-top: 20px">
+					管理员是：<input type="text" id="home_admin"
+						style="width: 300px; margin-top: 20px; border-style: none"
+						readonly="readonly" />
+				<p>
+					用户原因： <input type="text" id="home_userReason"
+						style="width: 300px; margin-top: 40px; border-style: none"
+						readonly="readonly" />
+				</p>
+				<p>
+					医生原因： <input type="text" id="home_docReason"
+						style="width: 300px; margin-top: 40px; border-style: none"
+						readonly="readonly" />
+				<p>
+					<input type="button" onclick="closeHomehandled()" value="关闭"
+						style="margin-top: 20px">
 			</form>
 		</div>
 	</div>
@@ -319,6 +323,7 @@
 				//var obj = eval("("+json+")");  
 				var obj =  jQuery.parseJSON(json);
 				document.getElementById("home_handled").style.display = "block";
+				 $('#home_admin').val(obj.mAdmin.mAdminName);
 				 $('#home_userReason').val(obj.mUserReason);
 				 $('#home_docReason').val(obj.mDocReason);
 			}

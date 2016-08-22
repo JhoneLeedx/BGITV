@@ -169,11 +169,11 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var address=obj[j];
-					if(address.mLevel==4){
+					if(address.mLevel==2){
 						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/city.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
 					}else if(address.mLevel==3){
 						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/county.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";	
-					}else if(address.mLevel==2){
+					}else if(address.mLevel==4){
 						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/community.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";
 					}else{
 						htm += "<li style='list-style:none;'><a onclick='findNext(this,"+address.mCodevalue+","+address.mId+")'><img  src='images/sjw.png'/>" + address.mName + "</a><ul id='"+address.mId+"' style='display:none'></ul></li>";

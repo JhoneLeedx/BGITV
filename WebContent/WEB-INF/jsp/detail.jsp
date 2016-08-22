@@ -241,18 +241,17 @@
 			<form<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
 				<p>
 					<span style="margin: 10px;">协同服务</span>
-				</p>
-				<p>管理员为： <input type="text" id="admin"
-						style="width: 300px; margin-top: 40px; border-style: none"
+				<p>
+					管理员是：<input type="text" id="admin"
+						style="width: 300px; margin-top: 20px; border-style: none"
 						readonly="readonly" />
 				<p>
 					用户原因： <input type="text" id="userReason"
-						style="width: 300px; margin-top: 40px; border-style: none"
+						style="width: 300px; margin-top: 20px; border-style: none"
 						readonly="readonly" />
-				</p>
 				<p>
 					医生原因： <input type="text" id="docReason"
-						style="width: 300px; margin-top: 40px; border-style: none"
+						style="width: 300px; margin-top: 20px; border-style: none"
 						readonly="readonly" />
 				<p>
 					<input type="button" onclick="closehandled()" value="关闭"
@@ -323,9 +322,9 @@
 				//var obj = eval("("+json+")");  
 				var obj =  jQuery.parseJSON(json);
 				document.getElementById("handled").style.display = "block";
+				 $('#admin').val(obj.mAdmin.mAdminName);
 				 $('#userReason').val(obj.mUserReason);
 				 $('#docReason').val(obj.mDocReason);
-				 $('admin').val(obj.mAdmin.mAdminName);
 			}
 			});
 	}
