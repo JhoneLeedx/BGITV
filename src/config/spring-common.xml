@@ -14,42 +14,37 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://company.99kst.com:8106/yxt?useUnicode=true&amp;characterEncoding=utf-8" />
+		<property name="url"
+			value="jdbc:mysql://company.99kst.com:8106/yxt?useUnicode=true&amp;characterEncoding=utf-8" />
 		<property name="username" value="yxt" />
 		<property name="password" value="yxt123" />
+		<!-- 云端数据库连接 -->
+		<!-- <property name="url" value="jdbc:mysql://172.16.0.246:3306/yxt?useUnicode=true&amp;characterEncoding=utf-8" 
+			/> <property name="username" value="yxt" /> <property name="password" value="yxt520119" 
+			/> -->
+
 	</bean>
 
-	<!--
-		2. mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源
-
-		MyBatis定义数据源,同意加载配置
-	-->
+	<!-- 2. mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 MyBatis定义数据源,同意加载配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-		<property name="configLocation" value="classpath:config/mybatis-config.xml" /> 
+		<property name="configLocation" value="classpath:config/mybatis-config.xml" />
 	</bean>
 
-	<!--
-		3. mybatis自动扫描加载Sql映射文件/接口 : MapperScannerConfigurer sqlSessionFactory
-
-		basePackage:指定sql映射文件/接口所在的包（自动扫描）
-	-->
+	<!-- 3. mybatis自动扫描加载Sql映射文件/接口 : MapperScannerConfigurer sqlSessionFactory 
+		basePackage:指定sql映射文件/接口所在的包（自动扫描） -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.yxt.jhonelee.mapper"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 
-	<!--
-		4. 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源
-	-->
+	<!-- 4. 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源 -->
 	<bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<!-- 5. 使用声明式事务
-		 transaction-manager：引用上面定义的事务管理器
-	 -->
+	<!-- 5. 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
 	<tx:annotation-driven transaction-manager="txManager" />
 
 </beans>

@@ -37,9 +37,9 @@ public class UserController {
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
 		String stimeInt = request.getParameter("timeInt");
-		int timeInt =3;
-		if(stimeInt!=null){
-			timeInt=Integer.parseInt(stimeInt);
+		int timeInt = 3;
+		if (stimeInt != null) {
+			timeInt = Integer.parseInt(stimeInt);
 		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
@@ -51,7 +51,7 @@ public class UserController {
 			page = new Page(totalcount, 1);
 
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(),timeInt);
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt);
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("page", page);
@@ -78,22 +78,22 @@ public class UserController {
 		String docName = request.getParameter("docName");
 		String id = request.getParameter("id");
 		int docId = Integer.parseInt(id);
-		int timeInt =3;
-		if(stimeInt!=null){
-			timeInt=Integer.parseInt(stimeInt);
+		int timeInt = 3;
+		if (stimeInt != null) {
+			timeInt = Integer.parseInt(stimeInt);
 		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
 		int totalcount = 0;
 		List<User> listUser = null;
-		totalcount = userService.getUserCount(docId,timeInt);
+		totalcount = userService.getUserCount(docId, timeInt);
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
 		} else {
 			page = new Page(totalcount, 1);
 		}
-		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(),timeInt);
+		listUser = userService.selectUserByPage(docId, page.getStartPos(), page.getPageSize(), timeInt);
 		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("docName", docName);
 		request.setAttribute("id", docId);
@@ -101,8 +101,9 @@ public class UserController {
 		request.setAttribute("page", page);
 		return "/detail";
 	}
+
 	@RequestMapping("/timeDetail")
-	public void selectPage(HttpServletRequest request,PrintWriter out) {
+	public void selectPage(HttpServletRequest request, PrintWriter out) {
 		String stimeInt = request.getParameter("timeInt");
 		out.write(stimeInt);
 	}
