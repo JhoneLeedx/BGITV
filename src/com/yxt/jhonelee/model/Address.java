@@ -1,4 +1,8 @@
 package com.yxt.jhonelee.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author JhoneLee
@@ -12,6 +16,9 @@ public class Address {
 	private String mRemark;
 	private String mPid;
 	private int mLevel;
+	private List<Address> mlist = new ArrayList<Address>();
+	
+	
 	public int getmId() {
 		return mId;
 	}
@@ -47,6 +54,12 @@ public class Address {
 	}
 	public void setmLevel(int mLevel) {
 		this.mLevel = mLevel;
+	}
+	public List<Address> getList() {
+		return mlist;
+	}
+	public void setList(List<Address> list) {
+		this.mlist = list;
 	}
 
 	

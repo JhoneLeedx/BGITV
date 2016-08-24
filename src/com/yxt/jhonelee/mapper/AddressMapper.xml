@@ -3,18 +3,20 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.AddressMapper">
 	<resultMap type="Address" id="AddressMap" >
-		<result property="mId" column="id" />
+		<id property="mId" column="id" />
 		<result property="mName" column="name" />
 		<result property="mCodevalue" column="code_value" />
 		<result property="mLevel" column="level" />
 		<result property="mRemark" column="remark"/>
 		<result property="mPid" column="pid"/>
+		<collection property="mlist" column="mId" ofType="Address"  javaType="ArrayList" select="SelectAddress"/>
+		
 	</resultMap>
 
 	<select id="SelectAddress" resultMap="AddressMap" resultType="Address">
-		select * from address where pid = #{mPid} 
+		select name,code_value,id,pid,level from address where pid = #{mPid} 
 	</select>
 	<select id="SelectOneAddress" resultType="Address" resultMap="AddressMap">
-	   select * from address where code_value = #{mCodevalue} 
+	   select name,code_value,id,pid,level from address where code_value = #{mCodevalue} 
 	</select>
 </mapper>

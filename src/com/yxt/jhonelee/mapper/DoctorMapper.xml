@@ -3,32 +3,39 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.DoctorMapper">
 	<!-- 解决表名与字段不匹配 -->
-<!-- 	<resultMap type="User" id="userResultMap">
-		<id property="id" column="userid"/>
-		<result property="username" column="userphone"/>
-		<result property="age" column="userpass"/>
-	</resultMap>
-	
-	<select id="findAllUser" resultMap="userResultMap" resultType="User">
-		select * from user
-	</select>
+	<!-- <resultMap type="User" id="userResultMap"> <id property="id" column="userid"/> 
+		<result property="username" column="userphone"/> <result property="age" column="userpass"/> 
+		</resultMap> <select id="findAllUser" resultMap="userResultMap" resultType="User"> 
+		select * from user </select> <select id="findUserByName" resultMap="userResultMap" 
+		resultType="User" parameterType="java.lang.String"> select * from user where 
+		userphone = #{username,jdbcType=VARCHAR} </select> -->
 
-    <select id="findUserByName" resultMap="userResultMap" resultType="User" parameterType="java.lang.String">
-      select * from user where userphone = #{username,jdbcType=VARCHAR}
-    </select> -->
-    
-    <resultMap type="DocDetail" id="DocDetailResultMap">
-       <id property="mDocId" column="doctor_id"/>
-       <result property="mHospitalId" column="zp_hospital_id"/>
-       <result property="mName" column="name"/>
-       		<association property="mDoctor" javaType="Doctor">
+	<resultMap type="DocDetail" id="DocDetailResultMap">
+		<id property="mDocId" column="doctor_id" />
+		<result property="mHospitalId" column="zp_hospital_id" />
+		<result property="mName" column="name" />
+		<association property="mDoctor" javaType="Doctor">
 			<id property="mId" column="id" />
 			<result property="mDocPhone" column="phone" />
 			<result property="mIdCard" column="ID_Card" />
 		</association>
-    </resultMap>
-  <select id="findAllDoc" resultType="DocDetail" resultMap="DocDetailResultMap">
-	select d.*,dd.* from doctor_detail dd,doctor d where  dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by convert(dd.name using gbk) asc 
-  </select>
+	</resultMap>
+	<select id="findAllDoc" resultType="DocDetail" resultMap="DocDetailResultMap">
+		select d.*,dd.* from doctor_detail dd,doctor d where
+		dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by
+		convert(dd.name using gbk) asc
+	</select>
+
+	<select id="findAllDoctor" resultType="DocDetail" resultMap="DocDetailResultMap">
+		select d.*,dd.* from doctor_detail dd,doctor d where dd.zp_hospital_id
+		in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and dd.doctor_id = d.id order by convert(dd.name using gbk) asc
+	</select>
+
+
 </mapper>
 

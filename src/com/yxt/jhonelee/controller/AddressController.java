@@ -40,7 +40,6 @@ public class AddressController {
 	 */
 	@RequestMapping("/main")
 	public String SelectAddress(HttpServletRequest request){
-		
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		if(admin!=null){
@@ -72,5 +71,4 @@ public class AddressController {
 		String json = gson.toJson(lists);
 		out.write(json);
 	}
-	
 }

@@ -49,9 +49,11 @@
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
 		SELECT * FROM (select * from ITV_REGIST where doctor_id in
-		(select id
-		from
-		doctor) ORDER BY REG_TIME DESC) users
+
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")"> #{item} </foreach>
+		<!-- (select id from doctor) -->
+		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
 		on(ITV_RECORD.REGIST_ID = users.ID)
 		<where>
@@ -76,9 +78,11 @@
 	<select id="getHomeCount" resultType="int">
 		SELECT COUNT(*) FROM
 		(SELECT * FROM (select * from ITV_REGIST where
-		doctor_id in (select id
-		from
-		doctor) ORDER BY REG_TIME DESC) users
+		doctor_id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")"> #{item} </foreach>
+		<!-- (select id from doctor) -->
+		ORDER BY REG_TIME DESC) users
 		<where>
 			<choose>
 				<when test="timeInt==0">

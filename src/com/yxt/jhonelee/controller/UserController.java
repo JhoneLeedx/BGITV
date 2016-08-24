@@ -1,15 +1,24 @@
 package com.yxt.jhonelee.controller;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yxt.jhonelee.model.Address;
+import com.yxt.jhonelee.model.Admin;
+import com.yxt.jhonelee.model.DocDetail;
+import com.yxt.jhonelee.model.Hospital;
 import com.yxt.jhonelee.model.User;
+import com.yxt.jhonelee.service.AddressService;
+import com.yxt.jhonelee.service.DoctorService;
+import com.yxt.jhonelee.service.HospitalService;
 import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
 
@@ -23,7 +32,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	// 显示详细的用户信息
 	/*
 	 * @RequestMapping("/detail") public String findAllUser(HttpServletRequest
@@ -32,18 +41,30 @@ public class UserController {
 	 * userService.findAllUser(docId); request.setAttribute("listUser",
 	 * listUser); return "/detail"; }
 	 */
-
 	// 显示每个医生最近的预约的用户信息
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				getAddresss(request);
+			}
+		}).start();
+		
+		if(intList.size()>0){
+			
+		
 		String stimeInt = request.getParameter("timeInt");
-		int timeInt = 3;
+		int timeInt = 0;
 		if (stimeInt != null) {
 			timeInt = Integer.parseInt(stimeInt);
 		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount = userService.getHomeCount(timeInt);
+		int totalcount = userService.getHomeCount(timeInt,getDocIdList(getAllHospital(intList)));
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
@@ -51,11 +72,14 @@ public class UserController {
 			page = new Page(totalcount, 1);
 
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt);
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,getDocIdList(getAllHospital(intList)));
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("page", page);
 		return "/home";
+		}else{
+			return "/error";
+		}
 	}
 
 	// 登录界面
@@ -78,7 +102,7 @@ public class UserController {
 		String docName = request.getParameter("docName");
 		String id = request.getParameter("id");
 		int docId = Integer.parseInt(id);
-		int timeInt = 3;
+		int timeInt = 0;
 		if (stimeInt != null) {
 			timeInt = Integer.parseInt(stimeInt);
 		}
@@ -107,4 +131,64 @@ public class UserController {
 		String stimeInt = request.getParameter("timeInt");
 		out.write(stimeInt);
 	}
+	private void getAddresss(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("admin");
+		if(admin!=null){
+			getAddress(admin.getmPid());
+		}
+	}
+	
+	@Autowired
+	private AddressService aservice;
+	@Autowired
+	private HospitalService hservice;
+	@Autowired DoctorService dservice;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return 递归遍历数据库得到所有的addressID
+	 */
+	private Address getAddress(String id){
+		Address address = aservice.SelectOneAddress(id);
+		List<Address> laddress = aservice.SelectAddress(address.getmCodevalue());
+		for(Address a : laddress){
+			Address aa = getAddress(a.getmCodevalue());
+			address.getList().add(aa);
+		}
+		intList.add(address.getmId());
+		return address;
+	}
+	/**
+	 * 
+	 * @param list
+	 * @return所有医院的id集合
+	 */
+	private List<Integer> getAllHospital(List<Integer> list){
+		List<Hospital> hlist = hservice.SelectAllHostpital(list);
+		List<Integer> mlist = new ArrayList<Integer>();
+		if(hlist.size()>0){
+			for(Hospital h : hlist){
+				mlist.add(h.getmId());
+			}
+		}
+		return  mlist;
+	}
+	/**
+	 * 
+	 * @param list
+	 * @return 所有医院下的所有医生Id
+	 */
+	private List<Integer> getDocIdList(List<Integer> list){
+		List<DocDetail> dlist = dservice.findAllDoctor(list);
+		List<Integer> mlist = new ArrayList<Integer>();
+		if(dlist!=null&&dlist.size()>0){
+			for(DocDetail d: dlist){
+				mlist.add(d.getmDoctor().getmId());
+			}
+		}
+		return mlist;
+	}
+	List<Integer> intList = new ArrayList<Integer>();//得到所有的addressId
 }
