@@ -194,69 +194,72 @@
 	</div>
 
 	<!-- 未处理的弹窗 -->
-	<div id="callfaile"
-		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
-		<div
-			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form id="form"<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
-				<p>
-					<span style="margin: 10px;">协同服务</span>
-				</p>
+	<div  id="callfaile" style="display: none;width:100%;height:100%;position:fixed;top:0;left:0;">
+		<div style="width: 500px;height: 360px;overflow: hidden;border-radius: 8px;box-shadow: 0 0 4px 4px #116A9A;background: #f6f6f6;position: fixed;left: 50%;margin: -180px 0 0 -250px;top: 50%;">
+			<div style="height: 36px;line-height:36px;padding-left:15px;
+				background: linear-gradient(#116a9a,skyblue);
+				margin-bottom: 20px;">协同服务</div>
+			<form style="width: 336px;
+				margin: 10px auto 0;">
 				<span>填写您联系后的（医生或用户的原因，如果没有就写"无"）</span>
-				<p>
-					医生:<input type="text" id="docName" style="border-style: none"
-						readonly="readonly" /> 用户:<input type="text" id="userName"
-						readonly="readonly" style="border-style: none" />
-				</p>
-				<textarea id="userneirong" name="neirong"
-					style="width: 400px; height: 50px;"
-					onfocus="if(value=='用户原因：'){value=''}"
-					onblur="if (value ==''){value='用户原因：'}"></textarea>
-				<!-- 			<p>
-					医生:<input type="text" id="docName" name="docName" style="border-style: none"
-						readonly="readonly" />
-				</p> -->
 				<input type="text" id="RegistId" style="display: none;" />
-				<p>
-					<textarea id="docneirong" name="neirong"
-						style="width: 400px; height: 50px;"
-						onfocus="if(value=='医生原因：'){value=''}"
-						onblur="if (value ==''){value='医生原因：'}"></textarea>
-				</p>
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" />
-				<!--  -->
-				<input type="button" onclick="closeForm()" value="取消">
+				<div  style="width: 336px;margin-top:10px;
+				height: 30px;">用户姓名：<input id="userName" style="display: inline-block;color: #cc1616;background:#f6f6f6;border-style: none;
+				font-weight: bold;" readonly="readonly"/></div>
+				<label class="reason" style="line-height: 50px;
+				vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label><textarea id="userneirong" style="width: 230px;
+				height: 30px;
+				padding: 10px;
+				border-radius: 5px;
+				margin-bottom: 15px;
+				border: 1px solid black;"onfocus="if(value=='用户原因：'){value=''}"
+				onblur="if (value ==''){value='用户原因：'}"></textarea><br />
+				<div class="uad" style="width: 336px;
+				height: 30px;">医生姓名：<input id="docName" style="display: inline-block;color: #cc1616;background:#f6f6f6;border-style: none;
+				font-weight: bold;"readonly="readonly"></div>
+				<label class="reason" style="line-height: 50px;
+				vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label><textarea id="docneirong" style="width: 230px;
+				height: 30px;
+				padding: 10px;
+				border-radius: 5px;
+				margin-bottom: 15px;
+				border: 1px solid black;" onfocus="if(value=='医生原因：'){value=''}"
+				onblur="if (value ==''){value='医生原因：'}"></textarea><br />
+				<div class="btns" style="width: 160px;
+				margin: 0 auto;">
+				<input type="button" id="submit" value="提交" onclick="btnSubmit()" style="width: 76px;
+				height: 30px;
+				background: white;
+				border: 1px solid black;
+				border-radius: 8px;"/>
+				<input type="button" style="width: 76px;
+				height: 30px;
+				background: white;
+				border: 1px solid black;
+				border-radius: 8px;" onclick="closeForm()" value="取消">
+				</div>
 			</form>
 		</div>
 	</div>
+
 	<!--未处理弹窗end！  -->
 
 
 	<!-- 处理了的结果的弹窗 -->
-
-	<div id="handled"
-		style="display: none; width: 500px; height: 380px; margin-left: auto; margin-right: auto; background-color: rgba(0, 0, 0, 0.7); position: fixed; top: 10%; left: 25%;">
-		<div
-			style="width: 498px; height: 378px; margin: -189px auto 0; background-color: white; border: 1px solid #54c9ff; border-radius: 10px; position: relative; top: 50%; text-align: center;">
-			<form<%-- action="<%=request.getContextPath()%>/insertReason" --%> >
-				<p>
-					<span style="margin: 10px;">协同服务</span>
-				<p>
-					管理员是：<input type="text" id="admin"
-						style="width: 300px; margin-top: 20px; border-style: none"
-						readonly="readonly" />
-				<p>
-					用户原因： <input type="text" id="userReason"
-						style="width: 300px; margin-top: 20px; border-style: none"
-						readonly="readonly" />
-				<p>
-					医生原因： <input type="text" id="docReason"
-						style="width: 300px; margin-top: 20px; border-style: none"
-						readonly="readonly" />
-				<p>
-					<input type="button" onclick="closehandled()" value="关闭"
-						style="margin-top: 20px">
-			</form>
+	
+	<div id="handled" style="display: none;width:100%;height:100%;position:fixed;top:0;left:0;">
+			<div class="pop" style="width: 500px;height: 360px;overflow: hidden;border-radius: 8px;box-shadow: 0 0 4px 4px #116A9A;background: #f6f6f6;position: fixed;left: 50%;margin: -180px 0 0 -250px;top: 50%;">
+			<div class="bg" style="height: 36px;background: linear-gradient(#116a9a,skyblue);margin-bottom: 20px;"></div>
+			<div style="width: 360px;height:52px;margin:0 auto 45px;line-height:52px;border-bottom: 2px solid #e1e1e1;">
+				管理员：<input id="admin" style="display:block;float: right;width: 280px;height:50px;background:#f6f6f6;color: #cc1616;font-weight: bold;border-style: none;" readonly="readonly"/>
+			</div>
+			<div style="width: 360px;height: 56px;margin:0 auto 15px;">
+				用户原因：<div id="userReason" style="float: right;width: 280px;background:#f6f6f6;color: #cc1616;" ></div>
+			</div>
+			<div style="width: 360px;height: 56px;margin:0 auto 15px;">
+				医生原因：<div id="docReason" style="float: right;width: 280px;height:56px;background:#f6f6f6;color: #cc1616;" ></div>
+			</div>
+			<button style="border: 1px solid black;background: white;border-radius: 8px;width: 76px;height: 30px;margin: 0 auto;display: block;"onclick="closehandled()">取消</button>
 		</div>
 	</div>
 	<!--处理弹窗end！  -->
@@ -264,6 +267,7 @@
 	<script type="text/javascript">
 	function showForm(mUserName,docName,mId){//显示弹窗，极其内容
 		document.getElementById("callfaile").style.display = "block";
+		/* $("#userName").val(mUserName); */
 		$("#userName").val(mUserName);
 		$("#docName").val(docName);
 		$("#RegistId").val(mId);
@@ -323,8 +327,10 @@
 				var obj =  jQuery.parseJSON(json);
 				document.getElementById("handled").style.display = "block";
 				 $('#admin').val(obj.mAdmin.mAdminName);
-				 $('#userReason').val(obj.mUserReason);
-				 $('#docReason').val(obj.mDocReason);
+				 document.getElementById('userReason').innerHTML=obj.mUserReason;
+				 document.getElementById('docReason').innerHTML=obj.mDocReason;
+				// $('#userReason').innerHTML="obj.mUserReason";
+				// $('#docReason').innerHTML=obj.mDocReason;
 			}
 			});
 	}
@@ -364,8 +370,9 @@
 			});
 	}
 	
-	</script>
-	<script src="js/jquery-1.9.1.min.js"></script>
+</script>
+					<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-</body>
+
+				</body>
 </html>

@@ -20,7 +20,7 @@
 
 	<select id="SelectAllRecord" resultMap="ITVRECORDMAP"
 		resultType="ITVRecord">
-		select * from ITV_RECORD record,ITV_ADMIN admin where record.regist_id = #{id} and record.admin_id= admin.id;
+		select * from ITV_RECORD record,ITV_ADMIN admin where record.regist_id = #{id} and record.admin_id= admin.id  LIMIT 1;
 	</select>
 	<insert id="InsertRecord" parameterType="ITVRecord">
 		insert into ITV_RECORD

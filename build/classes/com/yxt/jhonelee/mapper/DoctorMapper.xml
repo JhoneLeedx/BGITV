@@ -16,6 +16,7 @@
 		<result property="mName" column="name" />
 		<association property="mDoctor" javaType="Doctor">
 			<id property="mId" column="id" />
+			<result property="mDocName" column="name"/>
 			<result property="mDocPhone" column="phone" />
 			<result property="mIdCard" column="ID_Card" />
 		</association>
@@ -35,7 +36,5 @@
 		</foreach>
 		and dd.doctor_id = d.id order by convert(dd.name using gbk) asc
 	</select>
-
-
 </mapper>
 

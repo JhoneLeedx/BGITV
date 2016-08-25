@@ -11,6 +11,7 @@ public class Doctor {
 
 	private String mDocPhone;//医生电话
 
+	private String mDocName;//医生名称
 	private String mIdCard;//身份证号
 
 	
@@ -31,6 +32,12 @@ public class Doctor {
 	}
 	public void setmIdCard(String mIdCard) {
 		this.mIdCard = mIdCard;
+	}
+	public String getmDocName() {
+		return mDocName;
+	}
+	public void setmDocName(String mDocName) {
+		this.mDocName = mDocName;
 	}
 	
 }

@@ -2,21 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.AddressMapper">
-	<resultMap type="Address" id="AddressMap" >
+	<resultMap type="Address" id="AddressMap">
 		<id property="mId" column="id" />
 		<result property="mName" column="name" />
 		<result property="mCodevalue" column="code_value" />
 		<result property="mLevel" column="level" />
-		<result property="mRemark" column="remark"/>
-		<result property="mPid" column="pid"/>
-		<collection property="mlist" column="mId" ofType="Address"  javaType="ArrayList" select="SelectAddress"/>
-		
+		<result property="mRemark" column="remark" />
+		<result property="mPid" column="pid" />
+
 	</resultMap>
 
 	<select id="SelectAddress" resultMap="AddressMap" resultType="Address">
-		select name,code_value,id,pid,level from address where pid = #{mPid} 
+		select name,code_value,id,pid,level from address where pid = #{mPid}
 	</select>
 	<select id="SelectOneAddress" resultType="Address" resultMap="AddressMap">
-	   select name,code_value,id,pid,level from address where code_value = #{mCodevalue} 
+		select name,code_value,id,pid,level from address where code_value =
+		#{mCodevalue}
+	</select>
+
+	<select id="SelectAllAddress" resultType="Address" resultMap="AddressMap">
+		select id from address where
+		FIND_IN_SET(pid,fn_getaddress_childlist(#{mCodevalue,jdbcType=VARCHAR,mode=IN}))
 	</select>
 </mapper>

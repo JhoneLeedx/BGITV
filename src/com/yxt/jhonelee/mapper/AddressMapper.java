@@ -8,4 +8,8 @@ public interface AddressMapper {
 
 	public List<Address> SelectAddress(String pid);
     public Address SelectOneAddress(String mCodevalue);
+    public List<Address> SelectAllAddress(String mCodevalue);
+    
+    
 }
+    

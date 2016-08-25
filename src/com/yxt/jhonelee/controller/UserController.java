@@ -45,18 +45,7 @@ public class UserController {
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				getAddresss(request);
-			}
-		}).start();
-		
-		if(intList.size()>0){
-			
-		
+		List<Integer> list = getAddresss(request);
 		String stimeInt = request.getParameter("timeInt");
 		int timeInt = 0;
 		if (stimeInt != null) {
@@ -64,22 +53,17 @@ public class UserController {
 		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount = userService.getHomeCount(timeInt,getDocIdList(getAllHospital(intList)));
+		int totalcount = userService.getHomeCount(timeInt,getDocIdList(getAllHospital(list)));
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
-
 		} else {
 			page = new Page(totalcount, 1);
-
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,getDocIdList(getAllHospital(intList)));
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,getDocIdList(getAllHospital(list)));
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("page", page);
 		return "/home";
-		}else{
-			return "/error";
-		}
 	}
 
 	// 登录界面
@@ -131,12 +115,14 @@ public class UserController {
 		String stimeInt = request.getParameter("timeInt");
 		out.write(stimeInt);
 	}
-	private void getAddresss(HttpServletRequest request){
+	private List<Integer> getAddresss(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		Admin admin = (Admin)session.getAttribute("admin");
 		if(admin!=null){
-			getAddress(admin.getmPid());
+			List<Integer> list =	getAddress(admin.getmPid());
+			return list;
 		}
+		return null;
 	}
 	
 	@Autowired
@@ -150,16 +136,17 @@ public class UserController {
 	 * @param id
 	 * @return 递归遍历数据库得到所有的addressID
 	 */
-	private Address getAddress(String id){
-		Address address = aservice.SelectOneAddress(id);
-		List<Address> laddress = aservice.SelectAddress(address.getmCodevalue());
-		for(Address a : laddress){
-			Address aa = getAddress(a.getmCodevalue());
-			address.getList().add(aa);
+	private List<Integer> getAddress(String id){
+	
+	List<Address> list = 	aservice.SelectAllAddress(id);
+	List<Integer> intList = new ArrayList<Integer>();//得到所有的addressId
+	if(list.size()>0){
+		for(Address a:list){
+			intList.add(a.getmId());
 		}
-		intList.add(address.getmId());
-		return address;
 	}
+	return intList;
+}
 	/**
 	 * 
 	 * @param list
@@ -190,5 +177,5 @@ public class UserController {
 		}
 		return mlist;
 	}
-	List<Integer> intList = new ArrayList<Integer>();//得到所有的addressId
+	
 }
