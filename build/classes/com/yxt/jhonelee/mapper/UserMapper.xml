@@ -73,7 +73,7 @@
 		)
 		)
 		)
-		GROUP BY dd.doctor_id)
+		)
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
@@ -122,11 +122,12 @@
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (#{code_value})
+		fn_getaddress_childlist
+		(#{code_value})
 		)
 		)
 		)
-		GROUP BY dd.doctor_id)
+		)
 
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
