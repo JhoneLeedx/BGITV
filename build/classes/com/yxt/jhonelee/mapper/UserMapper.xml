@@ -49,9 +49,31 @@
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
 		SELECT * FROM (select * from ITV_REGIST where doctor_id in
-
-		<foreach item="item" index="index" collection="list" open="("
-			separator="," close=")"> #{item} </foreach>
+		(SELECT
+		dd.doctor_id
+		FROM
+		doctor_detail dd,
+		doctor d
+		WHERE
+		dd.zp_hospital_id IN (
+		SELECT
+		id
+		FROM
+		hospital
+		WHERE
+		address_id IN (
+		SELECT
+		id
+		FROM
+		address
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{code_value})
+		)
+		)
+		)
+		GROUP BY dd.doctor_id)
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
@@ -79,8 +101,33 @@
 		SELECT COUNT(*) FROM
 		(SELECT * FROM (select * from ITV_REGIST where
 		doctor_id in
-		<foreach item="item" index="index" collection="list" open="("
-			separator="," close=")"> #{item} </foreach>
+
+		(SELECT
+		dd.doctor_id
+		FROM
+		doctor_detail dd,
+		doctor d
+		WHERE
+		dd.zp_hospital_id IN (
+		SELECT
+		id
+		FROM
+		hospital
+		WHERE
+		address_id IN (
+		SELECT
+		id
+		FROM
+		address
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{code_value})
+		)
+		)
+		)
+		GROUP BY dd.doctor_id)
+
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		<where>

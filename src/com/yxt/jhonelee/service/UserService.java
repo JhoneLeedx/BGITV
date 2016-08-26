@@ -9,8 +9,8 @@ import com.yxt.jhonelee.model.User;
 public interface UserService {
      List<User> findAllUser(int id);
 	  public List<User> findUserBydocId();
-	  public List<User> selectUserHomeBypage(int startPos,int pageSize,int timeInt,List<Integer> list);
-	  public int getHomeCount(int timeInt,List<Integer> list);
+	  public List<User> selectUserHomeBypage(int startPos,int pageSize,int timeInt,String  code_value);
+	  public int getHomeCount(int timeInt,String  code_value);
 	  
 	  
 	  

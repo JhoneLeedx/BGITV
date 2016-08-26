@@ -10,12 +10,4 @@
 	<select id="SelectHospital" resultMap="HospitalMap" resultType="Hospital">
 		select id,name from hospital where address_id = #{mAddressId}
 	</select>
-	<select id="SelectAllHostpital" resultMap="HospitalMap"
-		resultType="Hospital">
-		select id,name from hospital where address_id in
-		<foreach item="item" index="index" collection="list" open="("
-			separator="," close=")">
-			#{item}
-		</foreach>
-	</select>
 </mapper>

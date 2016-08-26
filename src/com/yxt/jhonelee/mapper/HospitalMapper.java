@@ -6,6 +6,5 @@ import com.yxt.jhonelee.model.Hospital;
 
 public interface HospitalMapper {
 	public List<Hospital> SelectHospital(int addressId);
-	public  List<Hospital> SelectAllHostpital(List<Integer> list);
 	
 }

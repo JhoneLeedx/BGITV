@@ -40,14 +40,14 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getUserCount(docid,timeInt);
 	}
 	@Override
-	public List<User> selectUserHomeBypage(int startPos, int pageSize, int timeInt, List<Integer> list) {
+	public List<User> selectUserHomeBypage(int startPos, int pageSize, int timeInt, String code_value) {
 		// TODO Auto-generated method stub
-		return userMapper.selectUserHomeBypage(startPos, pageSize,timeInt,list);
+		return userMapper.selectUserHomeBypage(startPos, pageSize, timeInt, code_value);
 	}
 	@Override
-	public int getHomeCount(int timeInt, List<Integer> list) {
+	public int getHomeCount(int timeInt, String code_value) {
 		// TODO Auto-generated method stub
-		return userMapper.getHomeCount(timeInt,list);
+		return userMapper.getHomeCount(timeInt, code_value);
 	}
 
 }

@@ -234,7 +234,7 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var doctor=obj[j];
-							htm += "<li><a href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"' target='right'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title='预约用户的详细列表'>"+doctor.mName+"</span><span class='left-body' style='display: none'>"+doctor.mDoctor.mDocPhone+"</span></div></a></li>";	
+							htm += "<li><a  target='right' href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title='预约用户的详细列表'>"+doctor.mName+"</span><span class='left-body' style='display: none'>"+doctor.mDoctor.mDocPhone+"</span></div></a></li>";	
 					}
 				th.html(htm);
 				

@@ -146,39 +146,39 @@
 								<div>
 									<font size="2">共 ${page.totalPageCount} 页</font> <font size="2">第
 										${page.pageNow} 页</font> <a
-										href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=1">首页</a>
+										href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=1">首页</a>
 									<c:choose>
 										<c:when test="${page.pageNow - 1 > 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow - 1}">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.pageNow - 1}">上一页</a>
 										</c:when>
 										<c:when test="${page.pageNow - 1 <= 0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=1">上一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=1">上一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}}&timeInt=${timeInt }&pageNow=${page.pageNow}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.pageNow}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 < page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow + 1}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.pageNow + 1}">下一页</a>
 										</c:when>
 										<c:when test="${page.pageNow + 1 >= page.totalPageCount}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.totalPageCount}">下一页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.totalPageCount}">下一页</a>
 										</c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${page.totalPageCount==0}">
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.pageNow}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.pageNow}">尾页</a>
 										</c:when>
 										<c:otherwise>
 											<a
-												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&pageNow=${page.totalPageCount}">尾页</a>
+												href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=${timeInt }&docName=${docName }&pageNow=${page.totalPageCount}">尾页</a>
 										</c:otherwise>
 									</c:choose>
 
@@ -249,7 +249,7 @@
 	
 	<div id="handled" style="display: none;width:100%;height:100%;position:fixed;top:0;left:0;">
 			<div class="pop" style="width: 500px;height: 360px;overflow: hidden;border-radius: 8px;box-shadow: 0 0 4px 4px #116A9A;background: #f6f6f6;position: fixed;left: 50%;margin: -180px 0 0 -250px;top: 50%;">
-			<div class="bg" style="height: 36px;background: linear-gradient(#116a9a,skyblue);margin-bottom: 20px;"></div>
+			<div class="bg" style="height: 36px;background: linear-gradient(#116a9a,skyblue);margin-bottom: 20px;padding-left:15px;line-height:36px;">协同服务</div>
 			<div style="width: 360px;height:52px;margin:0 auto 45px;line-height:52px;border-bottom: 2px solid #e1e1e1;">
 				管理员：<input id="admin" style="display:block;float: right;width: 280px;height:50px;background:#f6f6f6;color: #cc1616;font-weight: bold;border-style: none;" readonly="readonly"/>
 			</div>
@@ -266,6 +266,7 @@
 
 	<script type="text/javascript">
 	function showForm(mUserName,docName,mId){//显示弹窗，极其内容
+	//	alert(docName);
 		document.getElementById("callfaile").style.display = "block";
 		/* $("#userName").val(mUserName); */
 		$("#userName").val(mUserName);
@@ -353,16 +354,16 @@
 			success: function(data) {
 		      switch (Number(data)) {
 			case 0:
-				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=0";
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=0";
 				break;
 			case 1:
-				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=1";
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=1";
 				break;
 			case 2:
-				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=2";
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=2";
 				break;
 			default:
-				location.href="<%=request.getContextPath()%>/detail?id=${id}&timeInt=3";
+				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=3";
 				break;
 			}
 				

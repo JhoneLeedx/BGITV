@@ -19,9 +19,4 @@
 		select name,code_value,id,pid,level from address where code_value =
 		#{mCodevalue}
 	</select>
-
-	<select id="SelectAllAddress" resultType="Address" resultMap="AddressMap">
-		select * from address where
-		FIND_IN_SET(pid,fn_getaddress_childlist(#{mCodevalue,jdbcType=VARCHAR,mode=IN}))
-	</select>
 </mapper>

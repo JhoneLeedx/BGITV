@@ -29,10 +29,6 @@ public class AddressServiceImpl implements AddressService {
 		return mapper.SelectOneAddress(mCodevalue);
 	}
 
-	@Override
-	public List<Address> SelectAllAddress(String mCodevalue) {
-		// TODO Auto-generated method stub
-		return mapper.SelectAllAddress(mCodevalue);
-	}
+
 
 }

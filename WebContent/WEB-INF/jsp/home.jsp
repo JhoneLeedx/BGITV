@@ -121,7 +121,7 @@
 													<c:otherwise>
 														<td>
 															<button style="color: red;"
-																onclick="showHomeForm('${user.mUserName }','${docName }',${user.mId })">未处理</button>
+																onclick="showHomeForm()">未处理</button>
 														</td>
 													</c:otherwise>
 												</c:choose>
@@ -193,59 +193,6 @@
 		</div>
 	</div>
 
-	
-		<!-- 未处理的弹窗 -->
-	<div  id="home_callfaile" style="display: none;width:100%;height:100%;position:fixed;top:0;left:0;">
-		<div style="width: 500px;height: 360px;overflow: hidden;border-radius: 8px;box-shadow: 0 0 4px 4px #116A9A;background: #f6f6f6;position: fixed;left: 50%;margin: -180px 0 0 -250px;top: 50%;">
-			<div style="height: 36px;line-height:36px;padding-left:15px;
-				background: linear-gradient(#116a9a,skyblue);
-				margin-bottom: 20px;">协同服务</div>
-			<form style="width: 336px;
-				margin: 10px auto 0;">
-				<span>填写您联系后的（医生或用户的原因，如果没有就写"无"）</span>
-				<input type="text" id=home_RegistId style="display: none;" />
-				<div  style="width: 336px;margin-top:10px;
-				height: 30px;">用户姓名：<input id="home_userName" style="display: inline-block;color: #cc1616;background:#f6f6f6;border-style: none;
-				font-weight: bold;" readonly="readonly"/></div>
-				<label class="reason" style="line-height: 50px;
-				vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label><textarea id="home_userneirong" style="width: 230px;
-				height: 30px;
-				padding: 10px;
-				border-radius: 5px;
-				margin-bottom: 15px;
-				border: 1px solid black;"onfocus="if(value=='用户原因：'){value=''}"
-				onblur="if (value ==''){value='用户原因：'}"></textarea><br />
-				<div class="uad" style="width: 336px;
-				height: 30px;">医生姓名：<input id="home_docName" style="display: inline-block;color: #cc1616;background:#f6f6f6;border-style: none;
-				font-weight: bold;"readonly="readonly"></div>
-				<label class="reason" style="line-height: 50px;
-				vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label><textarea id="home_docneirong" style="width: 230px;
-				height: 30px;
-				padding: 10px;
-				border-radius: 5px;
-				margin-bottom: 15px;
-				border: 1px solid black;" onfocus="if(value=='医生原因：'){value=''}"
-				onblur="if (value ==''){value='医生原因：'}"></textarea><br />
-				<div class="btns" style="width: 160px;
-				margin: 0 auto;">
-				<input type="button" id="submit" value="提交" onclick="btnSubmit()" style="width: 76px;
-				height: 30px;
-				background: white;
-				border: 1px solid black;
-				border-radius: 8px;"/>
-				<input type="button" style="width: 76px;
-				height: 30px;
-				background: white;
-				border: 1px solid black;
-				border-radius: 8px;" onclick="closeHomeForm()" value="取消">
-				</div>
-			</form>
-		</div>
-	</div>
-
-	<!--未处理弹窗end！  -->
-
-
 	<!-- 处理了的结果的弹窗 -->
 	
 	<div id="home_handled" style="display: none;width:100%;height:100%;position:fixed;top:0;left:0;">
@@ -267,48 +214,9 @@
 	<!--处理弹窗end！  -->
 
 	<script type="text/javascript">
-	function showHomeForm(mUserName,docName,mId){
-		document.getElementById("home_callfaile").style.display = "block";
-		$("#home_userName").val(mUserName);
-		$("#home_docName").val(docName);
-		$("#home_RegistId").val(mId);
-	}
-	function closeHomeForm(){
-		document.getElementById("home_callfaile").style.display = "none";
-		$("#home_userneirong").val("");
-	}
-	function btnSubmit(){
-		 
-		var adminId=${admin.mId};
-		if(adminId!=""){
-			var registid =$("#home_RegistId").val();
-			var userreason = $('home_#userneirong').val();
-			var docreason= $('#home_docneirong').val();
-			if($('#home_userneirong').val() == '用户原因：'||$('#home_userneirong').val() == ''||$('#home_docneirong').val() == '医生原因：'||$('#home_docneirong').val() == ''){
-				$('#home_userneirong').focus();
-				$('#home_docneirong').focus();
-			}else{
-			var	handle =1;/* 1：表示处理状态  0：表示未处理状态 */
-				$.ajax({
-					cache: false,
-					url: "<%=request.getContextPath()%>/insertReason", 
-					data:{'adminid':adminId,'registid':registid,'userreason':userreason,'docreason':docreason,'handle':handle}, //要发送的是ajaxFrm表单中的数据
-					dataType : 'text',
-					contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-					async: true,
-					error: function(data) {
-					alert("发送请求失败！");
-					},
-					success: function(data) {
-						 alert(data); //将返回的结果显示到ajaxDiv中
-						 closeHomeForm(); 
-						location.href="<%=request.getContextPath()%>/home?id=${id}";
-					}
-					 
-					});
-			}
-			
-		}
+	function showHomeForm(){
+
+		alert("请到具体医生界面去处理用户预约问题");
 	}
 	//显示处理的具体内容
 	function showHomeReason(mid) {
@@ -329,8 +237,10 @@
 				var obj =  jQuery.parseJSON(json);
 				document.getElementById("home_handled").style.display = "block";
 				 $('#home_admin').val(obj.mAdmin.mAdminName);
-				 $('#home_userReason').val(obj.mUserReason);
-				 $('#home_docReason').val(obj.mDocReason);
+				 document.getElementById('home_userReason').innerHTML=obj.mUserReason;
+				 document.getElementById('home_docReason').innerHTML=obj.mDocReason;
+				/*  $('#home_userReason').val(obj.mUserReason);
+				 $('#home_docReason').val(obj.mDocReason); */
 			}
 			});
 	}

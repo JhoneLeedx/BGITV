@@ -1,24 +1,16 @@
 package com.yxt.jhonelee.controller;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yxt.jhonelee.model.Address;
 import com.yxt.jhonelee.model.Admin;
-import com.yxt.jhonelee.model.DocDetail;
-import com.yxt.jhonelee.model.Hospital;
 import com.yxt.jhonelee.model.User;
-import com.yxt.jhonelee.service.AddressService;
-import com.yxt.jhonelee.service.DoctorService;
-import com.yxt.jhonelee.service.HospitalService;
 import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
 
@@ -45,7 +37,9 @@ public class UserController {
 	@RequestMapping("/home")
 	public String findUserBydocId(HttpServletRequest request) {
 		
-		List<Integer> list = getAddresss(request);
+		Admin admin =(Admin) request.getSession().getAttribute("admin");
+		
+		
 		String stimeInt = request.getParameter("timeInt");
 		int timeInt = 0;
 		if (stimeInt != null) {
@@ -53,13 +47,13 @@ public class UserController {
 		}
 		String pageNow = request.getParameter("pageNow");
 		Page page = null;
-		int totalcount = userService.getHomeCount(timeInt,getDocIdList(getAllHospital(list)));
+		int totalcount = userService.getHomeCount(timeInt,admin.getmPid());
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 		} else {
 			page = new Page(totalcount, 1);
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,getDocIdList(getAllHospital(list)));
+		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,admin.getmPid());
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("timeInt", timeInt);
 		request.setAttribute("page", page);
@@ -115,67 +109,4 @@ public class UserController {
 		String stimeInt = request.getParameter("timeInt");
 		out.write(stimeInt);
 	}
-	private List<Integer> getAddresss(HttpServletRequest request){
-		HttpSession session = request.getSession();
-		Admin admin = (Admin)session.getAttribute("admin");
-		if(admin!=null){
-			List<Integer> list =	getAddress(admin.getmPid());
-			return list;
-		}
-		return null;
-	}
-	
-	@Autowired
-	private AddressService aservice;
-	@Autowired
-	private HospitalService hservice;
-	@Autowired DoctorService dservice;
-	
-	/**
-	 * 
-	 * @param id
-	 * @return 递归遍历数据库得到所有的addressID
-	 */
-	private List<Integer> getAddress(String id){
-	
-	List<Address> list = 	aservice.SelectAllAddress(id);
-	List<Integer> intList = new ArrayList<Integer>();//得到所有的addressId
-	if(list.size()>0){
-		for(Address a:list){
-			intList.add(a.getmId());
-		}
-	}
-	return intList;
-}
-	/**
-	 * 
-	 * @param list
-	 * @return所有医院的id集合
-	 */
-	private List<Integer> getAllHospital(List<Integer> list){
-		List<Hospital> hlist = hservice.SelectAllHostpital(list);
-		List<Integer> mlist = new ArrayList<Integer>();
-		if(hlist.size()>0){
-			for(Hospital h : hlist){
-				mlist.add(h.getmId());
-			}
-		}
-		return  mlist;
-	}
-	/**
-	 * 
-	 * @param list
-	 * @return 所有医院下的所有医生Id
-	 */
-	private List<Integer> getDocIdList(List<Integer> list){
-		List<DocDetail> dlist = dservice.findAllDoctor(list);
-		List<Integer> mlist = new ArrayList<Integer>();
-		if(dlist!=null&&dlist.size()>0){
-			for(DocDetail d: dlist){
-				mlist.add(d.getmDoctor().getmId());
-			}
-		}
-		return mlist;
-	}
-	
 }

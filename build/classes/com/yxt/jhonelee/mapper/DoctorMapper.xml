@@ -26,15 +26,5 @@
 		dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by
 		convert(dd.name using gbk) asc
 	</select>
-
-	<select id="findAllDoctor" resultType="DocDetail" resultMap="DocDetailResultMap">
-		select d.*,dd.* from doctor_detail dd,doctor d where dd.zp_hospital_id
-		in
-		<foreach item="item" index="index" collection="list" open="("
-			separator="," close=")">
-			#{item}
-		</foreach>
-		and dd.doctor_id = d.id order by convert(dd.name using gbk) asc
-	</select>
 </mapper>
 

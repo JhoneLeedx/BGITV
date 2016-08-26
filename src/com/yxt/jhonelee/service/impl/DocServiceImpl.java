@@ -22,10 +22,5 @@ public class DocServiceImpl implements DoctorService {
 		// TODO Auto-generated method stub
 		return mapper.findAllDoc(hospitalId);
 	}
-	@Override
-	public List<DocDetail> findAllDoctor(List<Integer> list) {
-		// TODO Auto-generated method stub
-		return mapper.findAllDoctor(list);
-	}
 
 }
