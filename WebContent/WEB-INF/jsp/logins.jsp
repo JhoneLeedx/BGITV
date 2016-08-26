@@ -55,9 +55,12 @@
 			<div class="bottom">Copyright &copy; 2016 - 2017</div>
 		</div>
 	</div>
+	<div id="load" style="width: 500px; height: 360px; overflow: hidden;display: none; position: fixed; left: 60%; margin: -180px 0 0 -250px; top: 80%;">
+	  <img src="images/loading.gif"/>登录中.....
+	</div>
 	<script type="text/javascript">
 	function login() {
-		
+		document.getElementById("load").style.display = "block";
 		var adminName = $("#adminName").val();
 		var password = $("#password").val();
 		
@@ -75,13 +78,15 @@
 				var reason =data;
 				
 				if(reason=='登录成功'){
-					location.href="<%=request.getContextPath()%>/main";
+					location.href="<%=request.getContextPath()%>/main"; 
 				}else if(reason=='密码错误')
 				{
 					alert("密码错误");
 					 $("#password").val("");
+					 document.getElementById("load").style.display = "none";
 				}else if(reason =='用户名不存在'){
 					alert("用户名不存在");
+					document.getElementById("load").style.display = "none";
 				}else{
 					
 				}
