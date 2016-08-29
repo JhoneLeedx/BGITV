@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxt.jhonelee.mapper.DocSignMapper">
+	<resultMap type="DocSign" id="DocSignResultMap">
+		<id property="mId" column="id" />
+		<result property="mKeyId" column="key_id" />
+		<result property="mSignTime" column="sign_time" />
+		<result property="mState" column="state" />
+		<result property="mToken" column="token" />
+	</resultMap>
+
+	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
+		select * from ITV_SIGNIN where key_id = #{id} and
+		<choose>
+			<when test="timeInt==0">
+				and TO_DAYS(sign_time) = TO_DAYS(NOW())
+			</when>
+			<when test="timeInt==1">
+				and TO_DAYS(sign_time) = (TO_DAYS(NOW())-1)
+			</when>
+			<when test="timeInt==2">
+				and TO_DAYS(sign_time) = (TO_DAYS(NOW())-2)
+			</when>
+		</choose>
+
+		order by
+		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time)
+	</select>
+</mapper>

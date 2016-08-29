@@ -76,29 +76,30 @@
 											<c:forEach items="${listAddress }" var="address">
 												<li style="cursor: pointer"><a
 													onclick="findNext(this,'${address.mCodevalue}',${address.mId })">
-													<c:choose>
-													<c:when test="${address.mLevel==2 }">
-													<img  src="images/city.png"/>
-													</c:when>
-																<c:when test="${address.mLevel==3 }">
-													<img  src="images/county.png"/>
-														</c:when>
-																<c:when test="${address.mLevel==4 }">
-													<img  src="images/community.png"/>
-													</c:when>
-																<c:when test="${address.mLevel==5 }">
-													<img  src="images/sjw.png"/>
-													</c:when>
-													</c:choose>
-													${address.mName }</a>
+														<c:choose>
+															<c:when test="${address.mLevel==2 }">
+																<img src="images/city.png" />
+															</c:when>
+															<c:when test="${address.mLevel==3 }">
+																<img src="images/county.png" />
+															</c:when>
+															<c:when test="${address.mLevel==4 }">
+																<img src="images/community.png" />
+															</c:when>
+															<c:when test="${address.mLevel==5 }">
+																<img src="images/sjw.png" />
+															</c:when>
+														</c:choose> ${address.mName }
+												</a>
 													<ul id="${address.mId }" style="display: none"></ul></li>
 											</c:forEach>
 										</c:if>
 										<c:if test="${!empty listHospitals }">
 											<c:forEach items="${listHospitals }" var="hospital">
 												<li style="cursor: pointer"><a
-													onclick="findDoc(this,'${hospital.mId}')"><img src="images/hospital.png"/>${hospital.mName}</a>
-												<ul style='display: none'></ul></li>
+													onclick="findDoc(this,'${hospital.mId}')"><img
+														src="images/hospital.png" />${hospital.mName}</a>
+													<ul style='display: none'></ul></li>
 
 											</c:forEach>
 										</c:if>
@@ -234,11 +235,12 @@
 				var l = obj.length;
 				for (var j=0;j<l;j++) {
 					var doctor=obj[j];
-							htm += "<li><a  target='right' href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title='预约用户的详细列表'>"+doctor.mName+"</span><span class='left-body' style='display: none'>"+doctor.mDoctor.mDocPhone+"</span></div></a></li>";	
-					}
+								
+				 /* 	 htm+="<li style='list-style:none;'><a onclick='openDetail(this,"+doctor.mDocId+",\""+doctor.mDoctor.mDocName + "\")'>"+doctor.mDoctor.mDocName+"</a><ul style='display:block'></ul></li>"   */
+				 	htm += "<li style='list-style:none;'><a target='right' href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mDoctor.mDocName+"'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title=''>"+doctor.mDoctor.mDocName+"</span><span class='left-body' style='display: none'>"+doctor.mDoctor.mDocPhone+"</span></div></a></li>";
+				
+				}
 				th.html(htm);
-				
-				
 				//console.log($(".accordion-inner"));
 				$(".accordion-inner").click(function () {
 					console.log("1");
@@ -268,7 +270,17 @@
 		}
 		
 	}
-	
+	function openDetail(obj,mid,name){
+		console.log(name);
+		var th=$(obj).next();
+		
+		var htm = "";
+		if(htm==""){
+			htm+="<li  style='list-style:none;'><a target='right' href='<%=request.getContextPath()%>/detail?id="+mid+"&docName="+name+"'>签约的用户</a></li>";
+			htm+="<li  style='list-style:none;'><a href='<%=request.getContextPath()%>/docsign?id="+mid+"' target='right'>医生的签到信息</a></li>";
+		    th.html(htm);
+		}
+	}
 	
 	<%-- function findSecond(obj,mCodevalue,mId) {
 		var th=$(obj).next();
@@ -329,6 +341,6 @@
 	}
 	 --%>
 	</script>
-<script src="js/Index.js"></script>
+	<script src="js/Index.js"></script>
 </body>
 </html>

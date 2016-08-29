@@ -10,10 +10,11 @@
 <script src="js/jquery-1.9.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
-
 </head>
-
 <body>
+
+
+
 
 </body>
 </html>

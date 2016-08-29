@@ -15,10 +15,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/Index2.css" rel="stylesheet" />
 <title></title>
+<style type="text/css">
+.Menubox {
+	height: 28px;
+	border-bottom: 1px solid #64B8E4;
+	background: #E4F2FB;
+}
+
+.Menubox ul {
+	list-style: none;
+	margin: 7px 40px;
+	padding: 0;
+	position: absolute;
+}
+
+.Menubox ul li {
+	float: left;
+	background: #64B8E4;
+	line-height: 20px;
+	display: block;
+	cursor: pointer;
+	width: 120px;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	border-top: 1px solid #64B8E4;
+	border-left: 1px solid #64B8E4;
+	border-right: 1px solid #64B8E4;
+}
+
+.Menubox ul li.hover {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	color: #147AB8;
+}
+</style>
+<script>
+
+	function setTab(name,cursel,n){
+		for(i=1;i<=n;i++){
+			var menu=document.getElementById(name+i);
+			var con=document.getElementById("con_"+name+"_"+i);
+			menu.className=i==cursel?"hover":"";
+			con.style.display=i==cursel?"block":"none";
+		}
+	}
+	
+ </script>
+
 </head>
 <body>
-	<div class="container-fluid">
-		<select id="time_select" style="float: right; right:"
+	<div class="Menubox">
+		<ul>
+			<li id="menu1" onmouseover="setTab('menu',1,2)">医生签到信息</li>
+			<li id="menu2" onmouseover="setTab('menu',2,2)" class="hover">医生预约用户</li>
+		</ul>
+		<select id="time_select" style="float: right; margin-top: 10px"
 			onchange="FindtimeUser()">
 			<c:choose>
 				<c:when test="${timeInt==0 }">
@@ -47,6 +99,29 @@
 				</c:otherwise>
 			</c:choose>
 		</select>
+	</div>
+	<div id="con_menu_1" style="display: none; margin-top: 5px"
+		class="container-fluid">
+		<div class="row-fluid">
+			<div class="w">
+				<div class="span12">
+					<table class="table table-condensed table-bordered table-hover tab">
+						<thead>
+							<tr class="tableHead">
+								<th>ID</th>
+								<th>医生的ID</th>
+								<th>签到时间</th>
+								<th>扫码标识</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div id="con_menu_2" class="container-fluid" style="margin-top: 5px">
 		<div class="row-fluid">
 			<div class="w">
 				<div class="span12">
@@ -187,7 +262,6 @@
 						</c:choose>
 					</div>
 					<!-- 分页功能 End -->
-					<div id="page" class="tr"></div>
 				</div>
 			</div>
 		</div>
@@ -209,7 +283,8 @@
 						readonly="readonly" />
 				</div>
 				<label class="reason"
-					style="line-height: 50px; vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label><textarea id="userneirong"
+					style="line-height: 50px; vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label>
+				<textarea id="userneirong"
 					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
@@ -220,7 +295,8 @@
 						readonly="readonly">
 				</div>
 				<label class="reason"
-					style="line-height: 50px; vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label><textarea id="docneirong"
+					style="line-height: 50px; vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label>
+				<textarea id="docneirong"
 					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
 					onfocus="if(value=='医生原因：'){value=''}"
 					onblur="if (value ==''){value='医生原因：'}"></textarea>
