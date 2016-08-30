@@ -26,6 +26,11 @@
 			<result property="mHandle" column="handle" />
 		</association>
 
+        <association property="mDoctor" javaType="Doctor">
+        <result property="mDocName" column="name"/>
+			<result property="mDocPhone" column="phone" />
+			<result property="mIdCard" column="ID_Card" />
+        </association>
 
 	</resultMap>
 	<!--查询医生id下的所有签约用户 -->
@@ -48,7 +53,7 @@
 	<!-- 首页显示的分页实现 -->
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
-		SELECT * FROM (select * from ITV_REGIST where doctor_id in
+		SELECT * FROM (		select i.*,d.`name` from ITV_REGIST i,doctor d where doctor_id in
 		(SELECT
 		dd.doctor_id
 		FROM
@@ -69,11 +74,11 @@
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (#{code_value})
+		fn_getaddress_childlist (510000)
 		)
 		)
 		)
-		)
+		) and i.DOCTOR_ID = d.id
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
@@ -99,9 +104,7 @@
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
 		SELECT COUNT(*) FROM
-		(SELECT * FROM (select * from ITV_REGIST where
-		doctor_id in
-
+		(SELECT * FROM (select i.*,d.`name` from ITV_REGIST i,doctor d where doctor_id in
 		(SELECT
 		dd.doctor_id
 		FROM
@@ -122,12 +125,11 @@
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist
-		(#{code_value})
+		fn_getaddress_childlist (510000)
 		)
 		)
 		)
-		)
+		) and i.DOCTOR_ID = d.id
 
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users

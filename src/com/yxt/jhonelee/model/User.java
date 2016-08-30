@@ -23,6 +23,8 @@ public class User {
 	 private Date  mUpdateTime;//最后一次更新时间
 	 private int mScanCount;//扫码次数
 	 private ITVRecord mItvRecord;//
+	 private Doctor mDoctor;
+	 
 	 
      public int getmId() {
 		return mId;
@@ -102,6 +104,12 @@ public class User {
 	}
 	public void setmItvRecord(ITVRecord mItvRecord) {
 		this.mItvRecord = mItvRecord;
+	}
+	public Doctor getmDoctor() {
+		return mDoctor;
+	}
+	public void setmDoctor(Doctor mDoctor) {
+		this.mDoctor = mDoctor;
 	}
 	 
 	

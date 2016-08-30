@@ -52,8 +52,9 @@
 </style>
 <script>
 
-	function setTab(name,cursel,n){
+	function setTab(name,cursel,n,mid){
 		for(i=1;i<=n;i++){
+			
 			var menu=document.getElementById(name+i);
 			var con=document.getElementById("con_"+name+"_"+i);
 			menu.className=i==cursel?"hover":"";
@@ -67,8 +68,8 @@
 <body>
 	<div class="Menubox">
 		<ul>
-			<li id="menu1" onmouseover="setTab('menu',1,2)">医生签到信息</li>
-			<li id="menu2" onmouseover="setTab('menu',2,2)" class="hover">医生预约用户</li>
+			<li id="menu1" onmouseover="setTab('menu',1,2,${id})">医生签到信息</li>
+			<li id="menu2" onmouseover="setTab('menu',2,2,${id})" class="hover">医生预约用户</li>
 		</ul>
 		<select id="time_select" style="float: right; margin-top: 10px"
 			onchange="FindtimeUser()">
@@ -114,12 +115,24 @@
 								<th>扫码标识</th>
 							</tr>
 						</thead>
+						<tbody id="tbody">
+							<c:if test="${!empty list }">
+								<c:forEach items="${list }" var="docsignin">
+									<tr class="patient">
+										<td>${docsignin.mId }</td>
+										<td>${docsignin.mKeyId }</td>
+										<td><fmt:formatDate value="${docsignin.mSignTime }"
+												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+										<td>医生首页扫码查看预约</td>
+
+									</tr>
+								</c:forEach>
+							</c:if>
+						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-
-
 	</div>
 	<div id="con_menu_2" class="container-fluid" style="margin-top: 5px">
 		<div class="row-fluid">
@@ -283,8 +296,7 @@
 						readonly="readonly" />
 				</div>
 				<label class="reason"
-					style="line-height: 50px; vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label>
-				<textarea id="userneirong"
+					style="line-height: 50px; vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label><textarea id="userneirong"
 					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
@@ -295,8 +307,7 @@
 						readonly="readonly">
 				</div>
 				<label class="reason"
-					style="line-height: 50px; vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label>
-				<textarea id="docneirong"
+					style="line-height: 50px; vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label><textarea id="docneirong"
 					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
 					onfocus="if(value=='医生原因：'){value=''}"
 					onblur="if (value ==''){value='医生原因：'}"></textarea>
@@ -437,20 +448,41 @@
 		      switch (Number(data)) {
 			case 0:
 				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=0";
+				OpenDocsign(id,0);
 				break;
 			case 1:
 				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=1";
+				OpenDocsign(id,1);
 				break;
 			case 2:
 				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=2";
+				OpenDocsign(id,2);
 				break;
 			default:
 				location.href="<%=request.getContextPath()%>/detail?id=${id}&docName=${docName }&timeInt=3";
+				OpenDocsign(id,3);
 				break;
 			}
 				
 			}
 			});
+	}
+	function OpenDocsign(mid,timeInt){
+		console.log(mid);
+		$.ajax({
+			cache: false,
+			url: "<%=request.getContextPath()%>/docsign", 
+			data:{"id":mid,"timeInt":timeInt},
+			dataType : 'text',
+			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
+			async: true,
+			error: function(data) {
+			console.log("发送请求失败！");
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		});
 	}
 	
 </script>

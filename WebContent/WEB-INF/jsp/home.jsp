@@ -53,7 +53,7 @@
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
 							<tr class="tableHead">
-								<th>用户ID</th>
+								<th>医生姓名</th>
 								<th>用户姓名</th>
 								<th>用户电话</th>
 								<th>预约时间</th>
@@ -70,7 +70,7 @@
 							<c:if test="${!empty listUser }">
 								<c:forEach items="${listUser}" var="user">
 									<tr class="patient">
-										<td>${user.mUserId }</td>
+										<td>${user.mDoctor.mDocName }</td>
 										<td>${user.mUserName }</td>
 										<td>${user.mUserPhone }</td>
 										<td><fmt:formatDate value="${user.mRegTime }"

@@ -11,7 +11,7 @@
 	</resultMap>
 
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
-		select * from ITV_SIGNIN where key_id = #{id} and
+		select * from ITV_SIGNIN where key_id = #{id} 
 		<choose>
 			<when test="timeInt==0">
 				and TO_DAYS(sign_time) = TO_DAYS(NOW())
@@ -23,7 +23,6 @@
 				and TO_DAYS(sign_time) = (TO_DAYS(NOW())-2)
 			</when>
 		</choose>
-
 		order by
 		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time)
 	</select>

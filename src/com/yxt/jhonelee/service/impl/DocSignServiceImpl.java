@@ -19,9 +19,9 @@ public class DocSignServiceImpl implements DocSignService {
 	private DocSignMapper mapper;
 	
 	@Override
-	public List<Docsignin> findAllDocSign(int id) {
+	public List<Docsignin> findAllDocSign(int id,int timeInt) {
 		// TODO Auto-generated method stub
-		return mapper.findAllDocSign(id);
+		return mapper.findAllDocSign(id,timeInt);
 	}
 
 }
