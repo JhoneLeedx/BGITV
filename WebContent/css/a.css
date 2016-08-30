@@ -1,10 +1,11 @@
-/* a{	
+ a{	
 	display:block;
 	cursor:pointer;
 }
 a:hover{
-	width:100%;
-	background:pink;
-	border:1px solid green;
+	background-image:url("../images/left-title-bg-h.png");
 	text-decoration:none;
-} */
+} 
+a:LINK {
+	color: gray;
+}

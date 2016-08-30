@@ -26,11 +26,11 @@
 			<result property="mHandle" column="handle" />
 		</association>
 
-        <association property="mDoctor" javaType="Doctor">
-        <result property="mDocName" column="name"/>
+		<association property="mDoctor" javaType="Doctor">
+			<result property="mDocName" column="name" />
 			<result property="mDocPhone" column="phone" />
 			<result property="mIdCard" column="ID_Card" />
-        </association>
+		</association>
 
 	</resultMap>
 	<!--查询医生id下的所有签约用户 -->
@@ -53,32 +53,64 @@
 	<!-- 首页显示的分页实现 -->
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
-		SELECT * FROM (		select i.*,d.`name` from ITV_REGIST i,doctor d where doctor_id in
-		(SELECT
-		dd.doctor_id
+		SELECT * FROM (SELECT
+		i.id,
+		i.USER_ID,
+		i.USER_NAME,
+		i.DOCTOR_ID,
+		i.IS_SIGN,
+		i.REG_STATE,
+		i.REG_TIME,
+		i.SCAN_COUNT,
+		i.UPDATE_TIME,
+		d.`name`
 		FROM
-		doctor_detail dd,
+		ITV_REGIST i,
 		doctor d
 		WHERE
-		dd.zp_hospital_id IN (
+		EXISTS (
 		SELECT
-		id
+		ids
 		FROM
-		hospital
+		(
+		SELECT
+		dd.doctor_id ids
+		FROM
+		doctor_detail dd
 		WHERE
-		address_id IN (
+		EXISTS (
 		SELECT
 		id
 		FROM
-		address
+		(
+		SELECT
+		id
+		FROM
+		hospital h
+		WHERE
+		EXISTS (
+		SELECT
+		id
+		FROM
+		address a
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (510000)
+		fn_getaddress_childlist (#{code_value})
+		)
+		AND h.address_id = a.id
 		)
 		)
+		z
+		WHERE
+		z.id = dd.zp_hospital_id
 		)
-		) and i.DOCTOR_ID = d.id
+		) m
+		WHERE
+		m.ids = i.DOCTOR_ID
+		)
+		AND
+		i.DOCTOR_ID = d.id
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
@@ -104,32 +136,64 @@
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
 		SELECT COUNT(*) FROM
-		(SELECT * FROM (select i.*,d.`name` from ITV_REGIST i,doctor d where doctor_id in
-		(SELECT
-		dd.doctor_id
+		(SELECT * FROM (SELECT
+		i.id,
+		i.USER_ID,
+		i.USER_NAME,
+		i.DOCTOR_ID,
+		i.IS_SIGN,
+		i.REG_STATE,
+		i.REG_TIME,
+		i.SCAN_COUNT,
+		i.UPDATE_TIME,
+		d.`name`
 		FROM
-		doctor_detail dd,
+		ITV_REGIST i,
 		doctor d
 		WHERE
-		dd.zp_hospital_id IN (
+		EXISTS (
 		SELECT
-		id
+		ids
 		FROM
-		hospital
+		(
+		SELECT
+		dd.doctor_id ids
+		FROM
+		doctor_detail dd
 		WHERE
-		address_id IN (
+		EXISTS (
 		SELECT
 		id
 		FROM
-		address
+		(
+		SELECT
+		id
+		FROM
+		hospital h
+		WHERE
+		EXISTS (
+		SELECT
+		id
+		FROM
+		address a
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (510000)
+		fn_getaddress_childlist (#{code_value})
 		)
+		AND
+		h.address_id = a.id
 		)
+		) z
+		WHERE
+		z.id = dd.zp_hospital_id
 		)
-		) and i.DOCTOR_ID = d.id
+		) m
+		WHERE
+		m.ids =
+		i.DOCTOR_ID
+		)
+		AND i.DOCTOR_ID = d.id
 
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
