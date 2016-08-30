@@ -297,7 +297,7 @@
 				</div>
 				<label class="reason"
 					style="line-height: 50px; vertical-align: top;" for="reason1">原&nbsp;&nbsp;因：</label><textarea id="userneirong"
-					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
+					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;resize: none"
 					onfocus="if(value=='用户原因：'){value=''}"
 					onblur="if (value ==''){value='用户原因：'}"></textarea>
 				<br />
@@ -308,7 +308,7 @@
 				</div>
 				<label class="reason"
 					style="line-height: 50px; vertical-align: top;" for="reason2">原&nbsp;&nbsp;因：</label><textarea id="docneirong"
-					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;"
+					style="width: 230px; height: 30px; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid black;resize: none;"
 					onfocus="if(value=='医生原因：'){value=''}"
 					onblur="if (value ==''){value='医生原因：'}"></textarea>
 				<br />

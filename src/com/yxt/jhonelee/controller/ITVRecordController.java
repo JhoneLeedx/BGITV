@@ -44,9 +44,11 @@ public class ITVRecordController {
 			}
 		}
 	}
-
-	// 插入数据到数据库当中
-
+    /**
+     * 
+     * @param request
+     * @param out 管理员插入数据到数据库当中
+     */
 	@RequestMapping("/insertReason")
 	public void insertReason(HttpServletRequest request, PrintWriter out) {
 		try {
@@ -80,7 +82,6 @@ public class ITVRecordController {
 				out.write("添加失败");
 			}
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

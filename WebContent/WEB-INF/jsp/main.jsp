@@ -13,6 +13,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/a.css" rel="stylesheet" />
+
+<!-- 3秒验证时间，跳转到登录界面 -->
 <script type="text/javascript">
 		var secs = 3; //倒计时的秒数
 		var URL;
@@ -103,23 +105,6 @@
 
 											</c:forEach>
 										</c:if>
-
-										<%-- <c:if test="${!empty listdoc }">
-											<c:forEach items="${listdoc }" var="doctor">
-
-												<li><a
-													href="<%=request.getContextPath()%>/detail?id=${doctor.mId}&docName=${doctor.mDocName }"
-													target="right">
-														<div class="accordion-inner">
-															<img class="left-icon-child"
-																src="images/32/doctoricon.jpg" /> <span
-																class="left-body" title="预约用户的详细列表">${doctor.mDocName }
-															</span> <span class="left-body" style="display: none">
-																电话号码：${doctor.mDocPhone } </span>
-														</div>
-												</a></li>
-											</c:forEach>
-										</c:if> --%>
 									</ul>
 								</div>
 							</div>
@@ -146,6 +131,7 @@
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+	//找到地址下的下级地址和医院
 	function findNext(obj,mCodevalue,mId) {
 		var th=$(obj).next();
 		th.toggle();
@@ -212,7 +198,7 @@
 		}
 		
 	}
-	
+	//找到对应医院下属的所有医生
 	function findDoc(obj,mId){
 		var th=$(obj).next();
 		th.toggle();
@@ -270,6 +256,7 @@
 		}
 		
 	}
+	//异步执行医生的签到信息查询并显示
 	function OpenDocsign(mid){
 		console.log(mid);
 		$.ajax({
@@ -287,65 +274,6 @@
 			}
 		});
 	}
-	
-	<%-- function findSecond(obj,mCodevalue,mId) {
-		var th=$(obj).next();
-		th.toggle();
-		var htm = "";
-		if(th.html()==""){
-		$.ajax({
-			cache: false,
-			url: "<%=request.getContextPath()%>/findNext", 
-			data:{"pid":mCodevalue},
-			dataType : 'json',
-			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-			async: true,
-			error: function(data) {
-			alert("发送请求失败！");
-			},
-			success: function(data) {
-				var json = JSON.stringify(data);
-				//var obj = eval("("+json+")");  
-				var obj =  jQuery.parseJSON(json);
-				
-				console.log(obj);
-				var l = obj.length;
-				for (var j=0;j<l;j++) {
-					var address=obj[j];
-							htm += "<li style='cursor:pointer'><a onclick='findSecond(this,"+address.mCodevalue+","+address.mId+")'>" + address.mName + "</a><ul style='display:none'></ul></li>";	
-					}
-				console.log(htm);
-				th.html(htm);
-			}
-		});
-		$.ajax({
-			cache: false,
-			url: "<%=request.getContextPath()%>/findHospital", 
-			data:{"addressId":mId},
-			dataType : 'json',
-			contentType: "application/x-www-form-urlencoded; charset=utf-8", 
-			async: true,
-			error: function(data) {
-			alert("发送请求失败！");
-			},
-			success: function(data) {
-				var json = JSON.stringify(data);
-				//var obj = eval("("+json+")");  
-				var obj =  jQuery.parseJSON(json);
-				console.log(obj);
-				var l = obj.length;
-				for (var j=0;j<l;j++) {
-					var hospital=obj[j];
-							htm += "<li style='cursor:pointer'><a onclick='findDoc(this,"+hospital.mId+")'>" + hospital.mName + "</a><ul style='display:none'></ul></li>";	
-					}
-				console.log(htm);
-				th.html(htm);
-			}
-		});
-		}
-		
-	}
-	 --%>
 	</script>
 	<script src="js/Index.js"></script>
 </body>

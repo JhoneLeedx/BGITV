@@ -6,8 +6,8 @@ import com.yxt.jhonelee.model.Address;
 
 public interface AddressMapper {
 
-	public List<Address> SelectAddress(String pid);
-    public Address SelectOneAddress(String mCodevalue);
+	public List<Address> SelectAddress(String pid);//通过pid查出所有的address
+    public Address SelectOneAddress(String mCodevalue);//通过codevalue查出对应的address
     
     
 }

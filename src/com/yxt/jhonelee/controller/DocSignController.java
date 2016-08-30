@@ -23,6 +23,13 @@ public class DocSignController {
 
 	@Autowired
 	private DocSignService service;
+	
+	/**
+	 * 
+	 * @param request
+	 * @param out 把医生扫二维码签到的list存到session中
+	 */
+	
 	@RequestMapping("/docsign")
 	public void findAllDocSign(HttpServletRequest request,PrintWriter out){
 		HttpSession session = request.getSession();
