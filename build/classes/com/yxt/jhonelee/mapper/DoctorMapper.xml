@@ -15,9 +15,10 @@
 		</association>
 	</resultMap>
 	<select id="findAllDoc" resultType="DocDetail" resultMap="DocDetailResultMap">
-		select d.*,dd.* from doctor_detail dd,doctor d where
+		select dd.doctor_id,dd.zp_hospital_id,dd.`name`,d.phone,d.ID_Card from doctor_detail dd,doctor d where
 		dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by
 		convert(dd.name using gbk) asc
+
 	</select>
 </mapper>
 

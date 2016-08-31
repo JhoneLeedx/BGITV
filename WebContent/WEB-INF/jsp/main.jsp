@@ -223,7 +223,7 @@
 					var doctor=obj[j];
 								
 				 /* 	 htm+="<li style='list-style:none;'><a onclick='openDetail(this,"+doctor.mDocId+",\""+doctor.mDoctor.mDocName + "\")'>"+doctor.mDoctor.mDocName+"</a><ul style='display:block'></ul></li>"   */
-				 	htm += "<li style='list-style:none;'><a onclick='OpenDocsign("+doctor.mDocId+")' target='right' href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mDoctor.mDocName+"'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title=''>"+doctor.mDoctor.mDocName+"</span><span class='left-body' style='display: none'>电话为："+doctor.mDoctor.mDocPhone+"</span></div></a></li>";
+				 	htm += "<li style='list-style:none;'><a onclick='OpenDocsign("+doctor.mDocId+")' target='right' href='<%=request.getContextPath()%>/detail?id="+doctor.mDocId+"&docName="+doctor.mName+"'><div class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/><span class='left-body' title=''>"+doctor.mName+"</span><span class='left-body' style='display: none'>电话为："+doctor.mDoctor.mDocPhone+"</span></div></a></li>";
 				
 				}
 				th.html(htm);
