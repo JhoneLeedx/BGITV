@@ -11,8 +11,14 @@ public class Admin {
 	private String mAdminPass;
 	private int mLevel;
 	private String mPid;
+	private int mSysType;
 	
-	
+	public int getmSysType() {
+		return mSysType;
+	}
+	public void setmSysType(int mSysType) {
+		this.mSysType = mSysType;
+	}
 	public int getmId() {
 		return mId;
 	}

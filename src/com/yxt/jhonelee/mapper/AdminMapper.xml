@@ -8,6 +8,8 @@
 		<result property="mAdminPass" column="pass" />
 		<result property="mLevel" column="level" />
 		<result property="mPid" column="pid"/>
+		<result property="mSysType" column="sys_type"/>
+
 	</resultMap>
 
 	<select id="SelectAllAdmin" resultMap="AdminMap" resultType="Admin">

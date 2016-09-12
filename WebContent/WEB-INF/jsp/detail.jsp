@@ -75,25 +75,25 @@
 			onchange="FindtimeUser()">
 			<c:choose>
 				<c:when test="${timeInt==0 }">
-					<option>所有时间</option>
+					<option>选择时间</option>
 					<option value="0" selected="selected">今天</option>
 					<option value="1">昨天</option>
 					<option value="2">前天</option>
 				</c:when>
 				<c:when test="${timeInt==1 }">
-					<option>所有时间</option>
+					<option>选择时间</option>
 					<option value="0">今天</option>
 					<option value="1" selected="selected">昨天</option>
 					<option value="2">前天</option>
 				</c:when>
 				<c:when test="${timeInt==2 }">
-					<option>所有时间</option>
+					<option>选择时间</option>
 					<option value="0">今天</option>
 					<option value="1">昨天</option>
 					<option value="2" selected="selected">前天</option>
 				</c:when>
 				<c:otherwise>
-					<option selected="selected">所有时间</option>
+					<option selected="selected">选择时间</option>
 					<option value="0">今天</option>
 					<option value="1">昨天</option>
 					<option value="2">前天</option>

@@ -39,8 +39,13 @@ public class AdminController {
 		if (list.size() > 0) {
 			for (Admin admin : list) {
 				if (password.equals(admin.getmAdminPass())) {
-					session.setAttribute("admin", admin);
-					r = "登录成功";
+					if(admin.getmSysType()==1){
+						session.setAttribute("admin", admin);
+						r = "登录成功";
+					}else{
+						r = "该管理员不是协同服务的，请联系超级管理员";
+					}
+					
 				} else {
 					r = "密码错误";
 				}

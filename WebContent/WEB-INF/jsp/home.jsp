@@ -16,6 +16,7 @@
 <link href="css/Index2.css" rel="stylesheet" />
 <title></title>
 </head>
+<c:if test="${!empty admin }">
 <body>
 	<div class="container-fluid">
 		<select id="timeHomeselect" style="float: right; right:"
@@ -281,4 +282,5 @@
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
+</c:if>
 </html>

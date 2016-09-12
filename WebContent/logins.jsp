@@ -20,7 +20,6 @@
 <script src="js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript" src="js/tooltips.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
 </head>
 
 <body>
@@ -44,7 +43,7 @@
 						</div>
 						<div class="form-group space">
 							<label class="t"></label>
-							<input type="button" onclick="login()" class="btn btn-primary btn-lg"
+							<input type="button" onclick="login()" class="btn btn-primary btn-lg" id="submit_btn"
 								style="margin-left: 50px" value="&nbsp;登&nbsp;录&nbsp;">
 							<input type="reset" value="&nbsp;重&nbsp;置&nbsp;"
 								class="btn btn-default btn-lg" style="margin-left: 20px">
@@ -59,11 +58,33 @@
 	  <img src="images/loading.gif"/>登录中.....
 	</div>
 	<script type="text/javascript">
+	
+	
+	document.onkeydown = function(e) {
+		if ($(".bac").length == 0) {
+			if (!e)
+				e = window.event;
+			if ((e.keyCode || e.which) == 13) {
+				var obtnLogin = document.getElementById("submit_btn")
+				obtnLogin.focus();
+			}
+		}
+	}
+
+	
 	function login() {
 		document.getElementById("load").style.display = "block";
 		var adminName = $("#adminName").val();
 		var password = $("#password").val();
-		
+		if(adminName==""){
+			alert('用户名还没填呢！');
+			document.getElementById("load").style.display = "none";
+			$('#adminName').focus();
+		}else if(password==""){
+			alert('密码还没填呢！');
+			document.getElementById("load").style.display = "none";
+			$('#password').focus();
+		}else{
 		$.ajax({
 			cache: false,
 			url: "<%=request.getContextPath()%>/login", 
@@ -78,22 +99,23 @@
 				var reason =data;
 				
 				if(reason=='登录成功'){
-					location.href="<%=request.getContextPath()%>/main";
+					location.href="<%=request.getContextPath()%>/main"; 
 				}else if(reason=='密码错误')
 				{
-					 alert("密码错误");
+					alert("密码错误");
 					 $("#password").val("");
 					 document.getElementById("load").style.display = "none";
 				}else if(reason =='用户名不存在'){
-					 alert("用户名不存在");
-					 document.getElementById("load").style.display = "none";
+					alert("用户名不存在");
+					document.getElementById("load").style.display = "none";
 				}else{
-					
+					alert("该管理员不属于协同服务");
+					 location.reload();
 				}
 			}
 			
 		});
-		
+		}
 		
 	}
 	
@@ -102,7 +124,6 @@
 	<!-- Javascript -->
 	<script src="js/supersized.3.2.7.min.js"></script>
 	<script src="js/supersized-init.js"></script>
-	<script src="js/scripts.js"></script>
 
 	<div style="text-align: center;"></div>
 </body>

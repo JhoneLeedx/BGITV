@@ -53,7 +53,7 @@
 	<!-- 首页显示的分页实现 -->
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
-		SELECT * FROM (SELECT
+		SELECT * FROM ( SELECT
 		i.id,
 		i.USER_ID,
 		i.USER_NAME,
@@ -96,12 +96,11 @@
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (#{code_value})
-		)
+		fn_getaddress_childlist (510100)
+		) or code_value=510100
 		AND h.address_id = a.id
 		)
-		)
-		z
+		) z
 		WHERE
 		z.id = dd.zp_hospital_id
 		)
@@ -109,8 +108,7 @@
 		WHERE
 		m.ids = i.DOCTOR_ID
 		)
-		AND
-		i.DOCTOR_ID = d.id
+		AND i.DOCTOR_ID = d.id
 		<!-- (select id from doctor) -->
 		ORDER BY REG_TIME DESC) users
 		LEFT JOIN ITV_RECORD
@@ -136,7 +134,7 @@
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
 		SELECT COUNT(*) FROM
-		(SELECT * FROM (SELECT
+		(SELECT * FROM ( SELECT
 		i.id,
 		i.USER_ID,
 		i.USER_NAME,
@@ -179,10 +177,9 @@
 		WHERE
 		FIND_IN_SET(
 		pid,
-		fn_getaddress_childlist (#{code_value})
-		)
-		AND
-		h.address_id = a.id
+		fn_getaddress_childlist (510100)
+		) or code_value=510100
+		AND h.address_id = a.id
 		)
 		) z
 		WHERE
@@ -190,8 +187,7 @@
 		)
 		) m
 		WHERE
-		m.ids =
-		i.DOCTOR_ID
+		m.ids = i.DOCTOR_ID
 		)
 		AND i.DOCTOR_ID = d.id
 
