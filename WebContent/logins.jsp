@@ -71,7 +71,6 @@
 		}
 	}
 
-	
 	function login() {
 		document.getElementById("load").style.display = "block";
 		var adminName = $("#adminName").val();
@@ -97,7 +96,6 @@
 			},
 			success: function(data) {
 				var reason =data;
-				
 				if(reason=='登录成功'){
 					location.href="<%=request.getContextPath()%>/main"; 
 				}else if(reason=='密码错误')
