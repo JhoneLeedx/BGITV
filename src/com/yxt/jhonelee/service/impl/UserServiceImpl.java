@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yxt.jhonelee.mapper.UserMapper;
+import com.yxt.jhonelee.mapper.UserSignMapper;
 import com.yxt.jhonelee.model.User;
 import com.yxt.jhonelee.service.UserService;
 
@@ -18,6 +19,10 @@ public class UserServiceImpl implements UserService{
 	
 	@Resource
 	private UserMapper userMapper;
+	
+	@Resource
+	private UserSignMapper userSignMapper;
+	
 	@Override
 	public List<User> findAllUser(int docid) {
 		// TODO Auto-generated method stub
@@ -48,6 +53,11 @@ public class UserServiceImpl implements UserService{
 	public int getHomeCount(int timeInt, String code_value) {
 		// TODO Auto-generated method stub
 		return userMapper.getHomeCount(timeInt, code_value);
+	}
+	@Override
+	public List<User> UserSignSum() {
+		// TODO Auto-generated method stub
+		return userSignMapper.UserSignSum();
 	}
 
 }

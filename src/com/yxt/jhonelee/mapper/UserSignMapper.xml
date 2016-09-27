@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 关于查询用户的sql -->
+<mapper namespace="com.yxt.jhonelee.mapper.UserSignMapper">
+
+	<resultMap type="User" id="userSignMap">
+		<id property="mId" column="id" />
+		<result property="mUserId" column="USER_ID" />
+		<result property="mUserName" column="USER_NAME" />
+		<result property="mScanCount" column="SCAN_COUNT" />
+		<result property="mIsSign" column="IS_SIGN" />
+		<result property="mRegTime" column="reg_time" />
+		<result property="mSu" column="su" />
+	</resultMap>
+	<select id="UserSignSum" resultMap="userSignMap" resultType="User">
+		SELECT
+		id,user_id,user_name,is_sign,reg_time,scan_count,
+		SUM(scan_count) su
+		FROM
+		ITV_REGIST
+		<where>
+			is_sign=1
+		</where>
+		GROUP BY
+		user_name
+	</select>
+
+</mapper>

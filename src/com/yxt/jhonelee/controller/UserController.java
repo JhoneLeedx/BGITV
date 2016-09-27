@@ -14,6 +14,8 @@ import com.yxt.jhonelee.model.User;
 import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
 
+import sun.print.resources.serviceui;
+
 /**
  * 
  * @author JhoneLee 用户的控制器实现后台数据和jsp页面的交互
@@ -100,4 +102,16 @@ public class UserController {
 		String stimeInt = request.getParameter("timeInt");
 		out.write(stimeInt);
 	}
+	
+	
+	
+	@RequestMapping("/userSign")
+	public String userSign(HttpServletRequest request) {
+		
+		List<User> list = userService.UserSignSum();
+		System.out.println(list);
+		request.setAttribute("list", list);
+		return "usersign";
+	}
+	
 }

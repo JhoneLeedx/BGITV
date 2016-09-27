@@ -8,10 +8,13 @@
 		<result property="mSignTime" column="sign_time" />
 		<result property="mState" column="state" />
 		<result property="mToken" column="token" />
+		<result property="mCu" column="cu" />
+
 	</resultMap>
 
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
-		select * from ITV_SIGNIN where key_id = #{id} 
+		select id,key_id,sign_time,state,token from ITV_SIGNIN where key_id =
+		#{id} and state=201
 		<choose>
 			<when test="timeInt==0">
 				and TO_DAYS(sign_time) = TO_DAYS(NOW())
@@ -24,6 +27,15 @@
 			</when>
 		</choose>
 		order by
-		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time) limit 0,15
+		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time) limit
+		0,15
+	</select>
+
+	<select id="SignCount" resultType="DocSign" resultMap="DocSignResultMap">
+		select id,key_id,sign_time,state,token,count(id) cu from ITV_SIGNIN
+		<where>
+			state = #{mState} and key_id = #{mKeyId}
+		</where>
+		GROUP by key_id;
 	</select>
 </mapper>

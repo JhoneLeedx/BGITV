@@ -25,8 +25,17 @@ public class User {
 	 private ITVRecord mItvRecord;//
 	 private Doctor mDoctor;
 	 
+	 private Long mSu;//当前签到总数
 	 
-     public int getmId() {
+     public Long getmSu() {
+		return mSu;
+	}
+	public void setmSu(Long mSu) {
+		this.mSu = mSu;
+	}
+	
+	
+	public int getmId() {
 		return mId;
 	}
 	public void setmId(int mId) {
