@@ -1,13 +1,16 @@
 package com.yxt.jhonelee.model;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author JhoneLee
  * @category reason类
  *
  */
-public class ITVRecord {
-
+public class ITVRecord implements Serializable{
+	
+	private static final long serialVersionUID = 3833603392928185515L;
 	private int mAdminId;
 	private int mId;
 	private int mRegistId;

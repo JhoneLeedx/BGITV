@@ -13,6 +13,7 @@
 		<result property="mRegTime" column="reg_time" />
 		<result property="mSu" column="su" />
 	</resultMap>
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="UserSignSum" resultMap="userSignMap" resultType="User">
 		SELECT
 		id,user_id,user_name,is_sign,reg_time,scan_count,

@@ -1,11 +1,15 @@
 package com.yxt.jhonelee.model;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author JhoneLee
  * @category 管理员类
  */
-public class Admin {
+public class Admin implements Serializable{
 	
+	private static final long serialVersionUID = 2955927340586579725L;
 	private int mId;
 	private String mAdminName;
 	private String mAdminPass;

@@ -1,13 +1,16 @@
 package com.yxt.jhonelee.model;
 
+import java.io.Serializable;
 
 /**
  * 
  * @author JhoneLee
  *  地址
  */
-public class Address {
+public class Address implements Serializable{
 
+
+	private static final long serialVersionUID = 9124487212988044056L;
 	private int mId;
 	private String mCodevalue;
 	private String mName;

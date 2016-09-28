@@ -16,12 +16,15 @@
 </head>
 <body>
 		<div class="row-fluid">
+		 <a href="<%=path %>/healthUserSign?num=0">所有时间</a>
+	     <a href="<%=path %>/healthUserSign?num=1">今天</a>
+	     <a href="<%=path %>/healthUserSign?num=2">本周</a>
+	     <a href="<%=path %>/healthUserSign?num=3">本月</a>
 			<div class="w">
 				<div class="span12">
 					<table class="table table-condensed table-bordered table-hover tab">
 						<thead>
 							<tr class="tableHead">
-								<th>序号</th>
 								<th>用户编号</th>
 								<th>用户姓名</th>
 								<th>最后一次扫码时间</th>
@@ -32,13 +35,12 @@
 							<c:if test="${!empty list }">
 								<c:forEach items="${list}" var="user">
 									<tr class="patient">
-										<td>${user.mId }</td>
-										<td>${user.mUserId }</td>
+										<td>${user.mKeyId }</td>
 										<td>${user.mUserName }</td>
-										<td><fmt:formatDate value="${user.mRegTime }"
+										<td><fmt:formatDate value="${user.mSignTime }"
 												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
 										</td>
-										<td>${user.mSu }</td>
+										<td>${user.mCu }</td>
 									</tr>
 								</c:forEach>
 							</c:if>

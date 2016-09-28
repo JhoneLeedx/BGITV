@@ -1,7 +1,10 @@
 package com.yxt.jhonelee.model;
 
-public class DocDetail {
+import java.io.Serializable;
 
+public class DocDetail implements Serializable{
+
+	private static final long serialVersionUID = 7332348284556196013L;
 	private int mDocId;
 	private String mName;
 	private int mHospitalId;

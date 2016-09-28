@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxt.jhonelee.mapper.HealthSignMapper">
+	<resultMap type="DocSign" id="DocSignResultMap">
+		<result property="mKeyId" column="key_id" />
+		<result property="mSignTime" column="sign_time" />
+		<result property="mState" column="state" />
+		<result property="mToken" column="token" />
+		<result property="mUserName" column="username" />
+		<result property="mDocName" column="docname" />
+		<result property="mCu" column="cu" />
+	</resultMap>
+<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+	<select id="HealthUserSignCount" resultType="DocSign" resultMap="DocSignResultMap" parameterType="int"><!--用户扫码查看健康档案 -->
+		select signin.key_id,vitv.user_name username,max(signin.sign_time) sign_time,count(signin.id) cu FROM
+	    v_itv_is_contract vitv LEFT JOIN doctor_detail dd ON dd.doctor_id = vitv.doctor_id
+        LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (SELECT id FROM address a WHERE FIND_IN_SET(pid,
+		fn_getaddress_childlist (#{mCodeValue})) OR code_value = #{mCodeValue} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
+        LEFT JOIN ITV_SIGNIN signin ON vitv.user_id = signin.KEY_ID
+		<where>
+			signin.state = 102
+			<if test="mNum==1">
+				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+			</if>
+			<if test="mNum==2">
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())<!-- #查询本周签到记录 -->
+			</if>
+			<if test="mNum==3">
+				AND DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+				<!--#查询本月签到记录 -->
+			</if>
+		</where>
+		GROUP BY signin.key_id
+		ORDER BY signin.SIGN_TIME desc
+	</select>
+	<select id="HealthDocSignCount" resultType="DocSign" resultMap="DocSignResultMap">		
+		select signin.key_id,dd.`name` docname,max(signin.sign_time) sign_time,count(signin.id) cu from doctor d
+		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
+		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (SELECT id FROM address a WHERE
+		FIND_IN_SET(pid,fn_getaddress_childlist (#{mCodeValue}))OR code_value = #{mCodeValue}
+		AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
+		LEFT JOIN ITV_SIGNIN signin on d.id= signin.KEY_ID 
+		<where>
+			signin.state = 201
+			<if test="mNum==1">
+				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+			</if>
+			<if test="mNum==2">
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())<!-- #查询本周签到记录 -->
+			</if>
+			<if test="mNum==3">
+				AND
+				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
+					#查询本月签到记录 -->
+			</if>
+		</where>
+        GROUP BY signin.KEY_ID
+        ORDER BY signin.SIGN_TIME desc
+	</select>
+</mapper>

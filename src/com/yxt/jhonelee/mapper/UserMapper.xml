@@ -19,7 +19,6 @@
 		<result property="mUpdateTime" column="UPDATE_TIME" />
 
 		<association property="mItvRecord" javaType="ITVRecord">
-			<id property="mId" column="id" />
 			<result property="mAdminId" column="admin_id" />
 			<result property="mRegistId" column="regist_id" />
 			<result property="mReason" column="reason" />
@@ -33,6 +32,9 @@
 		</association>
 
 	</resultMap>
+	
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+	
 	<!--查询医生id下的所有签约用户 -->
 	<select id="findAllUser" resultMap="userResultMap" resultType="User">
 		select * from ITV_REGIST where doctor_id = #{id} order by
@@ -53,66 +55,14 @@
 	<!-- 首页显示的分页实现 -->
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
-		SELECT * FROM ( SELECT
-		i.id,
-		i.USER_ID,
-		i.USER_NAME,
-		i.DOCTOR_ID,
-		i.IS_SIGN,
-		i.REG_STATE,
-		i.REG_TIME,
-		i.SCAN_COUNT,
-		i.UPDATE_TIME,
-		d.`name`
-		FROM
-		ITV_REGIST i,
-		doctor d
-		WHERE
-		EXISTS (
-		SELECT
-		ids
-		FROM
-		(
-		SELECT
-		dd.doctor_id ids
-		FROM
-		doctor_detail dd
-		WHERE
-		EXISTS (
-		SELECT
-		id
-		FROM
-		(
-		SELECT
-		id
-		FROM
-		hospital h
-		WHERE
-		EXISTS (
-		SELECT
-		id
-		FROM
-		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (510100)
-		) or code_value=510100
-		AND h.address_id = a.id
-		)
-		) z
-		WHERE
-		z.id = dd.zp_hospital_id
-		)
-		) m
-		WHERE
-		m.ids = i.DOCTOR_ID
-		)
-		AND i.DOCTOR_ID = d.id
-		<!-- (select id from doctor) -->
-		ORDER BY REG_TIME DESC) users
-		LEFT JOIN ITV_RECORD
-		on(ITV_RECORD.REGIST_ID = users.ID)
+		SELECT * FROM (SELECT r.*, dd.`name`,re.DOC_REASON,re.ADMIN_ID,
+		re.HANDLE,re.USER_REASON FROM ITV_REGIST r
+		LEFT JOIN doctor d ON d.id = r.doctor_id
+		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
+		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (
+		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{code_value}))
+		OR code_value = #{code_value} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
+		LEFT JOIN ITV_RECORD re ON(re.REGIST_ID = r.id) ORDER BY r.REG_TIME DESC) users
 		<where>
 			<choose>
 				<when test="timeInt==0">
@@ -126,73 +76,21 @@
 				</when>
 			</choose>
 		</where>
-		GROUP BY
-		users.doctor_id limit #{startPos},#{pageSize}
+		GROUP BY doctor_id limit #{startPos},#{pageSize}
 	</select>
 
 
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
-		SELECT COUNT(*) FROM
-		(SELECT * FROM ( SELECT
-		i.id,
-		i.USER_ID,
-		i.USER_NAME,
-		i.DOCTOR_ID,
-		i.IS_SIGN,
-		i.REG_STATE,
-		i.REG_TIME,
-		i.SCAN_COUNT,
-		i.UPDATE_TIME,
-		d.`name`
-		FROM
-		ITV_REGIST i,
-		doctor d
-		WHERE
-		EXISTS (
-		SELECT
-		ids
-		FROM
-		(
-		SELECT
-		dd.doctor_id ids
-		FROM
-		doctor_detail dd
-		WHERE
-		EXISTS (
-		SELECT
-		id
-		FROM
-		(
-		SELECT
-		id
-		FROM
-		hospital h
-		WHERE
-		EXISTS (
-		SELECT
-		id
-		FROM
-		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (510100)
-		) or code_value=510100
-		AND h.address_id = a.id
-		)
-		) z
-		WHERE
-		z.id = dd.zp_hospital_id
-		)
-		) m
-		WHERE
-		m.ids = i.DOCTOR_ID
-		)
-		AND i.DOCTOR_ID = d.id
-
-		<!-- (select id from doctor) -->
-		ORDER BY REG_TIME DESC) users
+	    select count(*) from
+		(SELECT * FROM (SELECT r.*, dd.`name`,re.DOC_REASON,re.ADMIN_ID,
+		re.HANDLE,re.USER_REASON FROM ITV_REGIST r
+		LEFT JOIN doctor d ON d.id = r.doctor_id
+		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
+		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (
+		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{code_value}))
+		OR code_value = #{code_value} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
+		LEFT JOIN ITV_RECORD re ON(re.REGIST_ID = r.id) ORDER BY r.REG_TIME DESC) users
 		<where>
 			<choose>
 				<when test="timeInt==0">
@@ -206,8 +104,7 @@
 				</when>
 			</choose>
 		</where>
-		GROUP BY users.doctor_id)
-		doc_user
+		GROUP BY doctor_id) u
 	</select>
 	<!-- SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record 
 		on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) order 

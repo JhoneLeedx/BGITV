@@ -1,15 +1,34 @@
 package com.yxt.jhonelee.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Docsignin {
+public class Docsignin implements Serializable{
 
+	private static final long serialVersionUID = -8951218520487290690L;
 	private int mId;
 	private int mKeyId;
 	private Date mSignTime;
 	private int mState;
 	private String mToken;
+	
 	private int mCu;
+	private String mDocName;
+	private String mUserName;
+	
+	public String getmDocName() {
+		return mDocName;
+	}
+	public void setmDocName(String mDocName) {
+		this.mDocName = mDocName;
+	}
+	public String getmUserName() {
+		return mUserName;
+	}
+	public void setmUserName(String mUserName) {
+		this.mUserName = mUserName;
+	}
+	
 	public int getmId() {
 		return mId;
 	}

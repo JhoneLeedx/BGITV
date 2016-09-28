@@ -11,7 +11,7 @@
 		<result property="mPid" column="pid" />
 
 	</resultMap>
-
+<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="SelectAddress" resultMap="AddressMap" resultType="Address">
 		select name,code_value,id,pid,level from address where pid = #{mPid}
 	</select>

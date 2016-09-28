@@ -17,7 +17,7 @@
 			<result property="mAdminName" column="name" />
 		</association>
 	</resultMap>
-
+<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="SelectAllRecord" resultMap="ITVRECORDMAP"
 		resultType="ITVRecord">
 		select * from ITV_RECORD record,ITV_ADMIN admin where record.regist_id = #{id} and record.admin_id= admin.id  LIMIT 1;

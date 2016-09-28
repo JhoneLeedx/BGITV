@@ -1,11 +1,15 @@
 package com.yxt.jhonelee.model;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author JhoneLee
  *医生类
  */
-public class Doctor {
+public class Doctor implements Serializable {
+
+	private static final long serialVersionUID = -9089475339561959737L;
 
 	private int mId;
 

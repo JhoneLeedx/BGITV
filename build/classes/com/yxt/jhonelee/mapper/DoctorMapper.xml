@@ -14,6 +14,7 @@
 			<result property="mIdCard" column="ID_Card" />
 		</association>
 	</resultMap>
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="findAllDoc" resultType="DocDetail" resultMap="DocDetailResultMap">
 		select dd.doctor_id,dd.zp_hospital_id,dd.`name`,d.phone,d.ID_Card from doctor_detail dd,doctor d where
 		dd.zp_hospital_id=#{hospitalId} and dd.doctor_id = d.id order by

@@ -11,7 +11,7 @@
 		<result property="mSysType" column="sys_type"/>
 
 	</resultMap>
-
+<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="SelectAllAdmin" resultMap="AdminMap" resultType="Admin">
 		select * from ITV_ADMIN where name = #{mAdminName} 
 	</select>

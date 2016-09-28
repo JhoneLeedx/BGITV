@@ -72,7 +72,7 @@
 										</a>
 									</div>
 									<!--显示医生列表  -->
-									<ul id="collapseOne" class="collapse in">
+									<ul id="collapseOne" class="collapse">
 
 										<c:if test="${!empty listAddress }">
 											<c:forEach items="${listAddress }" var="address">
@@ -113,18 +113,18 @@
 											class="left-title">扫码信息统计</span>
 										</a>
 									</div>
-									<ul id="collapseTwo" class="collapse in">
+									<ul id="collapseTwo" class="collapse">
 									    <li style="cursor: pointer"><a class="accordion-toggle" data-toggle="collapse" href="#user">用户首页扫码</a>
-									    <ul id="user" class="collapse in">
+									    <ul id="user" class="collapse">
 									    <li><a href="<%=path%>/userSign" target="right">签约用户</a></li>
 									    <li>未签约用户</li>
 									    </ul>
 									    </li>
 									    <li style="cursor: pointer"><a class="accordion-toggle" data-toggle="collapse" href="#doctor">健康档案扫码</a>
-									    <ul id="doctor" class="collapse in">
-									      <li>签约医生</li>
+									    <ul id="doctor" class="collapse">
+									      <li><a href="<%=path%>/healthDocSign" target="right">签约医生</a></li>
 									      <li>未签约医生</li>
-									      <li>签约用户</li>
+									      <li><a href="<%=path%>/healthUserSign" target="right">签约用户</a></li>
 									       <li>未签约用户</li>
 									    </ul>
 									    </li>

@@ -1,7 +1,10 @@
 package com.yxt.jhonelee.model;
 
-public class Hospital {
+import java.io.Serializable;
 
+public class Hospital implements Serializable{
+
+	private static final long serialVersionUID = -1568993857146732853L;
 	private int mId;
 	private String mName;
 	public int getmId() {

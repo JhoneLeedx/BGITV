@@ -11,7 +11,7 @@
 		<result property="mCu" column="cu" />
 
 	</resultMap>
-
+<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
 		select id,key_id,sign_time,state,token from ITV_SIGNIN where key_id =
 		#{id} and state=201
@@ -29,13 +29,5 @@
 		order by
 		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time) limit
 		0,15
-	</select>
-
-	<select id="SignCount" resultType="DocSign" resultMap="DocSignResultMap">
-		select id,key_id,sign_time,state,token,count(id) cu from ITV_SIGNIN
-		<where>
-			state = #{mState} and key_id = #{mKeyId}
-		</where>
-		GROUP by key_id;
 	</select>
 </mapper>

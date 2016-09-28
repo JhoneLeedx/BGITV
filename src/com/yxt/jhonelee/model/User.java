@@ -1,5 +1,6 @@
 package com.yxt.jhonelee.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,9 +9,10 @@ import java.util.Date;
  * 用户类
  */
 
-public class User {
+public class User implements Serializable{
 	
-	 private int mId;//用户预约表主键ID
+	private static final long serialVersionUID = -8233973025341449488L;
+	private int mId;//用户预约表主键ID
 	 private String mToken;//登录微信唯一token
      private String mItvToken;//Itv唯一token
 	 private int mUserId;//用户id
