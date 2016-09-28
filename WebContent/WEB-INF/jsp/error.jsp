@@ -12,7 +12,7 @@
 <body>
 	<div class="page-container">
 		<div>
-			<p>登录失败，请重新登录</p>
+			<p>404错误！！！！！</p>
 		</div>
 	</div>
 	<div style="text-align: center;"></div>

@@ -33,31 +33,37 @@
 			</if>
 		</where>
 		GROUP BY signin.key_id
-		ORDER BY signin.SIGN_TIME desc
+		ORDER BY sign_time desc
 	</select>
 	<select id="HealthDocSignCount" resultType="DocSign" resultMap="DocSignResultMap">		
-		select signin.key_id,dd.`name` docname,max(signin.sign_time) sign_time,count(signin.id) cu from doctor d
-		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
-		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (SELECT id FROM address a WHERE
-		FIND_IN_SET(pid,fn_getaddress_childlist (#{mCodeValue}))OR code_value = #{mCodeValue}
-		AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
-		LEFT JOIN ITV_SIGNIN signin on d.id= signin.KEY_ID 
+        select 	signin.key_id,dd.name docname,max(signin.sign_time) sign_time,count(signin.id) cu 
+  		from ITV_SIGNIN signin,doctor_detail dd,doctor d,(SELECT id FROM hospital h WHERE h.address_id in (
+		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{mCodeValue}))OR code_value = #{mCodeValue})) hos 
 		<where>
-			signin.state = 201
+		    hos.id = dd.zp_hospital_id 
+		    and dd.doctor_id = d.id 
+		    and d.id = signin.key_id 
+		    and signin.state = 201
 			<if test="mNum==1">
 				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
-				YEARWEEK(now())<!-- #查询本周签到记录 -->
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) = YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
-				AND
-				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
-					#查询本月签到记录 -->
+				AND DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- #查询本月签到记录 -->
 			</if>
 		</where>
-        GROUP BY signin.KEY_ID
-        ORDER BY signin.SIGN_TIME desc
+        GROUP BY signin.key_id
+        ORDER BY sign_time desc
 	</select>
+	<!--
+ 	select addres.id, hos.name,addres.name placename,signin.key_id,dd.name docname,max(signin.sign_time) sign_time,count(signin.id) cu 
+	from ITV_SIGNIN signin,address addres,doctor_detail dd,doctor d,(SELECT id,`name`,address_id FROM hospital h WHERE h.address_id in (
+	SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (510100))OR code_value = 510100)) hos 
+	where hos.id = dd.zp_hospital_id and dd.doctor_id = d.id and d.id = signin.key_id and 	signin.state = 201 and hos.address_id = addres.id
+	GROUP BY KEY_ID ORDER BY SIGN_TIME desc
+	  -->
+	
+	
 </mapper>

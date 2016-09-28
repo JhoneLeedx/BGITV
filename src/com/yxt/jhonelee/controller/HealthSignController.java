@@ -18,35 +18,41 @@ public class HealthSignController {
 
 	@Autowired
 	private HealthSignService service;
-	
+
 	@RequestMapping("/healthUserSign")
-	public String HealthUserSign(HttpServletRequest request){
-		
-		String mNum = request.getParameter("num");
-		int num = 0;
-		if(mNum!=null){
-			num  = Integer.parseInt(mNum.trim());
-		}
-		List<Docsignin> list = service.HealthUserSignCount(num);
-		request.setAttribute("list", list);
-		
-		return "healthusersign";
-	}
-	@RequestMapping("/healthDocSign")
-	public String HealthDocSign(HttpServletRequest request,HttpSession session){
-		
-		Admin admin = (Admin)session.getAttribute("admin");
-		if(admin!=null){
+	public String HealthUserSign(HttpServletRequest request, HttpSession session) {
+
+		Admin admin = (Admin) session.getAttribute("admin");
+		if (admin != null) {
 			String mNum = request.getParameter("num");
 			int num = 0;
-			if(mNum!=null){
-				num  = Integer.parseInt(mNum.trim());
+			if (mNum != null) {
+				num = Integer.parseInt(mNum.trim());
 			}
 			List<Docsignin> list = service.HealthDocSignCount(num, admin.getmPid());
 			request.setAttribute("list", list);
+			return "healthusersign";
+		} else {
+			return "error";
 		}
-		
-		
-		return "healthdocsign";
+	}
+
+	@RequestMapping("/healthDocSign")
+	public String HealthDocSign(HttpServletRequest request, HttpSession session) {
+
+		Admin admin = (Admin) session.getAttribute("admin");
+		if (admin != null) {
+			String mNum = request.getParameter("num");
+			int num = 0;
+			if (mNum != null) {
+				num = Integer.parseInt(mNum.trim());
+			}
+			List<Docsignin> list = service.HealthDocSignCount(num, admin.getmPid());
+			request.setAttribute("list", list);
+			return "healthdocsign";
+		} else {
+			return "error";
+		}
+
 	}
 }

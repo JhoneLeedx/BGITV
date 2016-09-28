@@ -19,9 +19,9 @@ public class HealthSignServiceImpl implements HealthSignService {
 	private HealthSignMapper mapper;
 	
 	@Override
-	public List<Docsignin> HealthUserSignCount(int mNum) {
+	public List<Docsignin> HealthUserSignCount(int mNum,String codeValue) {
 		// TODO Auto-generated method stub
-		return mapper.HealthUserSignCount(mNum);
+		return mapper.HealthUserSignCount(mNum,codeValue);
 	}
 
 	@Override
