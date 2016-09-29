@@ -10,8 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yxt.jhonelee.model.Admin;
-import com.yxt.jhonelee.model.Docsignin;
+import com.yxt.jhonelee.model.HealthSign;
 import com.yxt.jhonelee.service.HealthSignService;
+import com.yxt.jhonelee.util.Page;
 
 @Controller
 public class HealthSignController {
@@ -23,17 +24,33 @@ public class HealthSignController {
 	public String HealthUserSign(HttpServletRequest request, HttpSession session) {
 
 		Admin admin = (Admin) session.getAttribute("admin");
+		Page page = null;
 		if (admin != null) {
 			String mNum = request.getParameter("num");
+			String pageNow = request.getParameter("pageNow");
 			int num = 0;
+			
 			if (mNum != null) {
 				num = Integer.parseInt(mNum.trim());
 			}
-			List<Docsignin> list = service.HealthDocSignCount(num, admin.getmPid());
-			request.setAttribute("list", list);
-			return "healthusersign";
+			int count = service.UserSignCount(num, admin.getmPid());
+			if(pageNow!=null){
+				page = new Page(count, Integer.parseInt(pageNow.trim()));
+			}else{
+				page = new Page(count, 1);
+			}
+			List<HealthSign> list = service.HealthUserSignCount(num, admin.getmPid(),page.getStartPos(),page.getPageSize());
+			if(list.size()>0){
+				request.setAttribute("list", list);
+				request.setAttribute("page", page);
+				request.setAttribute("num", num);
+				return "healthusersign";
+			}else{
+				return "500";
+			}
+			
 		} else {
-			return "error";
+			return "404";
 		}
 	}
 
@@ -41,18 +58,39 @@ public class HealthSignController {
 	public String HealthDocSign(HttpServletRequest request, HttpSession session) {
 
 		Admin admin = (Admin) session.getAttribute("admin");
+		Page page = null;
 		if (admin != null) {
 			String mNum = request.getParameter("num");
+			String pageNow = request.getParameter("pageNow");
 			int num = 0;
+			
 			if (mNum != null) {
 				num = Integer.parseInt(mNum.trim());
 			}
-			List<Docsignin> list = service.HealthDocSignCount(num, admin.getmPid());
-			request.setAttribute("list", list);
-			return "healthdocsign";
+			int count = service.DocSignCount(num, admin.getmPid());
+			
+			if(pageNow!=null){
+				page = new Page(count, Integer.parseInt(pageNow.trim()));
+			}else{
+				page = new Page(count, 1);
+			}
+			List<HealthSign> list = service.HealthDocSignCount(num, admin.getmPid(),page.getStartPos(),page.getPageSize());
+			if(list.size()>0){
+				request.setAttribute("list", list);
+				request.setAttribute("page", page);
+				request.setAttribute("num", num);
+				return "healthdocsign";
+			}else{
+				return "500";
+			}
 		} else {
-			return "error";
+			return "404";
 		}
 
+	}
+	@RequestMapping("/healthNoUserSign")
+	public String healthNoUesrSign(){
+		
+		return null;
 	}
 }

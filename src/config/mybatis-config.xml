@@ -11,6 +11,7 @@
 		<typeAlias type="com.yxt.jhonelee.model.Address" alias="Address"/>
 		<typeAlias type="com.yxt.jhonelee.model.Hospital" alias="Hospital"/>
 		<typeAlias type="com.yxt.jhonelee.model.Docsignin" alias="DocSign"/>
+		<typeAlias type="com.yxt.jhonelee.model.HealthSign" alias="healthSign"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/yxt/jhonelee/mapper/DoctorMapper.xml" />
@@ -20,6 +21,7 @@
 		<mapper resource="com/yxt/jhonelee/mapper/AddressMapper.xml"/>
 		<mapper resource="com/yxt/jhonelee/mapper/HospitalMapper.xml"/>
 		<mapper resource="com/yxt/jhonelee/mapper/DocSignMapper.xml"/>
+		<mapper resource="com/yxt/jhonelee/mapper/HealthSignMapper.xml"/>
 	</mappers>
 </configuration>
 

@@ -2,24 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yxt.jhonelee.mapper.HealthSignMapper">
-	<resultMap type="DocSign" id="DocSignResultMap">
-		<result property="mKeyId" column="key_id" />
-		<result property="mSignTime" column="sign_time" />
-		<result property="mState" column="state" />
-		<result property="mToken" column="token" />
+	<resultMap type="HealthSign" id="HealthSignResultMap">
+		<result property="mId" column="id" />
+		<result property="mPlaceName" column="placename" />
+		<result property="mHospitalName" column="hospitalname" />
+		<result property="mDocId" column="docid" />
+		<result property="mUserId" column="userid" />
 		<result property="mUserName" column="username" />
 		<result property="mDocName" column="docname" />
+		<result property="mSignInTime" column="sign_time" />
 		<result property="mCu" column="cu" />
 	</resultMap>
-<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
-	<select id="HealthUserSignCount" resultType="DocSign" resultMap="DocSignResultMap" parameterType="int"><!--用户扫码查看健康档案 -->
-		select signin.key_id,vitv.user_name username,max(signin.sign_time) sign_time,count(signin.id) cu FROM
-	    v_itv_is_contract vitv LEFT JOIN doctor_detail dd ON dd.doctor_id = vitv.doctor_id
-        LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (SELECT id FROM address a WHERE FIND_IN_SET(pid,
-		fn_getaddress_childlist (#{mCodeValue})) OR code_value = #{mCodeValue} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
-        LEFT JOIN ITV_SIGNIN signin ON vitv.user_id = signin.KEY_ID
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+	<select id="HealthUserSignCount" resultType="HealthSign"
+		resultMap="HealthSignResultMap"><!--用户扫码查看健康档案 -->
+		SELECT
+		addres.id,
+		addres. NAME placename,
+		hos. NAME hospitalname,
+		dd.doctor_id docid,
+		dd. NAME docname,
+		signin.key_id userid,
+		vitv.user_name username,
+		max(signin.sign_time) sign_time,
+		count(signin.id) cu
+		FROM
+		ITV_SIGNIN signin,
+		address addres,
+		doctor_detail
+		dd,
+		v_itv_is_contract vitv,
+		(
+		SELECT
+		id,
+		`name`,
+		address_id
+		FROM
+		hospital h
+		WHERE
+		h.address_id IN (
+		SELECT
+		id
+		FROM
+		address a
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{mCodeValue})
+		)
+		OR code_value = #{mCodeValue}
+		)
+		) hos
 		<where>
-			signin.state = 102
+			hos.id = dd.zp_hospital_id
+			AND dd.doctor_id = vitv.doctor_id
+			AND
+			vitv.user_id = signin.key_id
+			AND signin.state = 102
+			AND hos.address_id
+			= addres.id
 			<if test="mNum==1">
 				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
@@ -28,42 +69,198 @@
 				YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
-				AND DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+				AND
+				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
 				<!--#查询本月签到记录 -->
 			</if>
 		</where>
-		GROUP BY signin.key_id
-		ORDER BY sign_time desc
+		GROUP BY userid
+		ORDER BY sign_time desc limit #{startPos},#{pageSize}
 	</select>
-	<select id="HealthDocSignCount" resultType="DocSign" resultMap="DocSignResultMap">		
-        select 	signin.key_id,dd.name docname,max(signin.sign_time) sign_time,count(signin.id) cu 
-  		from ITV_SIGNIN signin,doctor_detail dd,doctor d,(SELECT id FROM hospital h WHERE h.address_id in (
-		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{mCodeValue}))OR code_value = #{mCodeValue})) hos 
+	<select id="UserSignCount" resultType="int">
+		select count(userid) from ( SELECT
+		hos. NAME hospitalname,
+		dd.doctor_id
+		docid,
+		dd. NAME docname,
+		signin.key_id userid,
+		vitv.user_name username,
+		max(signin.sign_time) sign_time,
+		count(signin.id) cu
+		FROM
+		ITV_SIGNIN
+		signin,
+		doctor_detail
+		dd,
+		v_itv_is_contract vitv,
+		(
+		SELECT
+		id,
+		`name`,
+		address_id
+		FROM
+		hospital h
+		WHERE
+		h.address_id IN (
+		SELECT
+		id
+		FROM
+		address a
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{mCodeValue})
+		)
+		OR
+		code_value = #{mCodeValue}
+		)
+		) hos
 		<where>
-		    hos.id = dd.zp_hospital_id 
-		    and dd.doctor_id = d.id 
-		    and d.id = signin.key_id 
-		    and signin.state = 201
+			hos.id = dd.zp_hospital_id
+			AND dd.doctor_id = vitv.doctor_id
+			AND
+			vitv.user_id = signin.key_id
+			AND signin.state = 102
 			<if test="mNum==1">
 				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) = YEARWEEK(now())<!-- #查询本周签到记录 -->
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
-				AND DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- #查询本月签到记录 -->
+				AND
+				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+				<!--#查询本月签到记录 -->
 			</if>
 		</where>
-        GROUP BY signin.key_id
-        ORDER BY sign_time desc
+		GROUP BY userid) users
 	</select>
-	<!--
- 	select addres.id, hos.name,addres.name placename,signin.key_id,dd.name docname,max(signin.sign_time) sign_time,count(signin.id) cu 
-	from ITV_SIGNIN signin,address addres,doctor_detail dd,doctor d,(SELECT id,`name`,address_id FROM hospital h WHERE h.address_id in (
-	SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (510100))OR code_value = 510100)) hos 
-	where hos.id = dd.zp_hospital_id and dd.doctor_id = d.id and d.id = signin.key_id and 	signin.state = 201 and hos.address_id = addres.id
-	GROUP BY KEY_ID ORDER BY SIGN_TIME desc
-	  -->
-	
-	
+
+
+
+	<select id="HealthDocSignCount" resultType="HealthSign"
+		resultMap="HealthSignResultMap">
+		SELECT
+		addres.id,
+		addres. NAME placename,
+		hos. NAME hospitalname,
+		signin.key_id docid,
+		dd. NAME docname,
+		max(signin.sign_time) sign_time,
+		count(signin.id) cu
+		FROM
+		ITV_SIGNIN signin,
+		address addres,
+		doctor_detail
+		dd,
+		(
+		SELECT
+		id,
+		`name`,
+		address_id
+		FROM
+		hospital h
+		WHERE
+		h.address_id IN (
+		SELECT
+		id
+		FROM
+		address a
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist
+		(#{mCodeValue})
+		)
+		OR code_value = #{mCodeValue}
+		)
+		) hos
+		<where>
+			hos.id = dd.zp_hospital_id
+			and dd.doctor_id =
+			signin.key_id
+			and
+			signin.state = 201
+			and hos.address_id = addres.id
+			<if test="mNum==1">
+				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+			</if>
+			<if test="mNum==2">
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())<!-- #查询本周签到记录 -->
+			</if>
+			<if test="mNum==3">
+				AND
+				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
+					#查询本月签到记录 -->
+			</if>
+		</where>
+		GROUP BY docid
+		ORDER BY sign_time desc limit #{startPos},#{pageSize}
+	</select>
+
+
+	<select id="DocSignCount" resultType="int">
+		select count(id) from (SELECT
+		addres.id,
+		addres. NAME placename,
+		hos.
+		NAME hospitalname,
+		signin.key_id docid,
+		dd. NAME docname,
+		max(signin.sign_time) sign_time,
+		count(signin.id) cu
+		FROM
+		ITV_SIGNIN
+		signin,
+		address addres,
+		doctor_detail dd,
+		(
+		SELECT
+		id,
+		`name`,
+		address_id
+		FROM
+		hospital h
+		WHERE
+		h.address_id IN (
+		SELECT
+		id
+		FROM
+		address a
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{mCodeValue})
+		)
+		OR code_value
+		= #{mCodeValue}
+		)
+		) hos
+		<where>
+			hos.id = dd.zp_hospital_id
+			and dd.doctor_id =
+			signin.key_id
+			and
+			signin.state = 201
+			and hos.address_id = addres.id
+			<if test="mNum==1">
+				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+			</if>
+			<if test="mNum==2">
+				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())<!-- #查询本周签到记录 -->
+			</if>
+			<if test="mNum==3">
+				AND
+				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
+					#查询本月签到记录 -->
+			</if>
+		</where>
+		GROUP BY docid) doc
+
+	</select>
+
+
 </mapper>

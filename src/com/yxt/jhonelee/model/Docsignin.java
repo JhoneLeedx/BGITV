@@ -12,22 +12,7 @@ public class Docsignin implements Serializable{
 	private int mState;
 	private String mToken;
 	
-	private int mCu;
-	private String mDocName;
-	private String mUserName;
-	
-	public String getmDocName() {
-		return mDocName;
-	}
-	public void setmDocName(String mDocName) {
-		this.mDocName = mDocName;
-	}
-	public String getmUserName() {
-		return mUserName;
-	}
-	public void setmUserName(String mUserName) {
-		this.mUserName = mUserName;
-	}
+
 	
 	public int getmId() {
 		return mId;
@@ -59,12 +44,5 @@ public class Docsignin implements Serializable{
 	public void setmToken(String mToken) {
 		this.mToken = mToken;
 	}
-	public int getmCu() {
-		return mCu;
-	}
-	public void setmCu(int mCu) {
-		this.mCu = mCu;
-	}
-	
 	
 }

@@ -8,7 +8,6 @@
 		<result property="mSignTime" column="sign_time" />
 		<result property="mState" column="state" />
 		<result property="mToken" column="token" />
-		<result property="mCu" column="cu" />
 
 	</resultMap>
 <cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
