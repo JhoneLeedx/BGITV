@@ -81,7 +81,7 @@ public class HealthSignController {
 				request.setAttribute("num", num);
 				return "healthdocsign";
 			}else{
-				return "500";
+				return "healthdocsign";
 			}
 		} else {
 			return "404";
