@@ -44,4 +44,16 @@ public class HealthSignServiceImpl implements HealthSignService {
 		return mapper.UserSignCount(mNum, mCodeValue);
 	}
 
+	@Override
+	public List<HealthSign> noUserSign() {
+		// TODO Auto-generated method stub
+		return mapper.noUserSign();
+	}
+
+	@Override
+	public List<HealthSign> noDocSign() {
+		// TODO Auto-generated method stub
+		return mapper.noDocSign();
+	}
+
 }

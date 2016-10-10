@@ -11,11 +11,17 @@ public interface HealthSignMapper {
 	public List<HealthSign> HealthUserSignCount(@Param(value = "mNum") int mNum,
 			@Param(value = "mCodeValue") String mCodeValue, @Param(value = "startPos") int startPos,
 			@Param(value = "pageSize") int pageSize);// 用户健康签到数据
-	public int UserSignCount(@Param(value = "mNum") int mNum, @Param(value = "mCodeValue") String mCodeValue);//用户总数
+
+	public int UserSignCount(@Param(value = "mNum") int mNum, @Param(value = "mCodeValue") String mCodeValue);// 用户总数
 
 	public List<HealthSign> HealthDocSignCount(@Param(value = "mNum") int mNum,
 			@Param(value = "mCodeValue") String mCodeValue, @Param(value = "startPos") int startPos,
 			@Param(value = "pageSize") int pageSize);// 医生健康签到数据
 
-	public int DocSignCount(@Param(value = "mNum") int mNum, @Param(value = "mCodeValue") String mCodeValue);//医生总数
+	public int DocSignCount(@Param(value = "mNum") int mNum, @Param(value = "mCodeValue") String mCodeValue);// 医生总数
+
+	public List<HealthSign> noUserSign();// 健康档案未签约用户扫码信息
+
+	public List<HealthSign> noDocSign();// 健康档案未签约医生扫码信息
+
 }

@@ -263,4 +263,17 @@
 	</select>
 
 
+	<select id="noUserSign" resultType="HealthSign" resultMap="HealthSignResultMap">
+		select sign_time, count(key_id) cu
+		from ITV_SIGNIN where key_id=0 and state = 102 GROUP BY
+		TO_DAYS(sign_time)
+	</select>
+	
+		<select id="noDocSign" resultType="HealthSign" resultMap="HealthSignResultMap">
+		select sign_time, count(key_id) cu
+		from ITV_SIGNIN where key_id=0 and state = 201 GROUP BY
+		TO_DAYS(sign_time)
+	</select>
+	
+
 </mapper>

@@ -124,8 +124,8 @@
 									    <ul id="doctor" class="collapse">
 									      <li><a href="<%=path%>/healthDocSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>签约医生</span></a></li>
 									      <li><a href="<%=path%>/healthUserSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>签约用户</span></a></li>
-									      <li><a href="<%=path%>/healthNoDocSign" target="right">未签约医生</a></li>
-									      <li><a href="<%=path%>/healthNoUserSign" target="right">未签约用户</a></li>  
+									      <li><a href="<%=path%>/healthNoDocSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>未签约医生</span></a></li>
+									      <li><a href="<%=path%>/healthNoUserSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>未签约用户</span></a></li>
 									    </ul>
 									    </li>
 									</ul> 

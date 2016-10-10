@@ -1,5 +1,6 @@
 package com.yxt.jhonelee.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class HealthSignController {
 				request.setAttribute("num", num);
 				return "healthusersign";
 			}else{
-				return "500";
+				return "healthusersign";
 			}
 			
 		} else {
@@ -89,8 +90,41 @@ public class HealthSignController {
 
 	}
 	@RequestMapping("/healthNoUserSign")
-	public String healthNoUesrSign(){
+	public String healthNoUesrSign(HttpServletRequest request){
 		
-		return null;
+		List<HealthSign> list = service.noUserSign();
+		
+		StringBuilder sb = new StringBuilder();
+		StringBuilder sbc = new StringBuilder();
+		for(int i=0;i<list.size();i++){
+			sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
+			sbc.append(list.get(i).getmCu()+",");
+		}
+		String signtime = sb.toString().substring(0,sb.toString().length()-1);
+		String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+		System.out.println(signtime);
+		System.out.println(counts);
+		request.setAttribute("signtime", signtime);
+		request.setAttribute("counts", counts);
+		return "nousersign";
+		
+	}
+	
+	@RequestMapping("/healthNoDocSign")
+	public String healthUserSign(HttpServletRequest request){
+		List<HealthSign> list = service.noDocSign();
+		StringBuilder sb = new StringBuilder();
+		StringBuilder sbc = new StringBuilder();
+		for(int i=0;i<list.size();i++){
+			sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
+			sbc.append(list.get(i).getmCu()+",");
+		}
+		String signtime = sb.toString().substring(0,sb.toString().length()-1);
+		String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+		System.out.println(signtime);
+		System.out.println(counts);
+		request.setAttribute("signtime", signtime);
+		request.setAttribute("counts", counts);
+		return "nodocsign";
 	}
 }

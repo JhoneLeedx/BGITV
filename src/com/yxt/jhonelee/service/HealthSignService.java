@@ -13,4 +13,8 @@ public interface HealthSignService {
 	public int DocSignCount(int mNum, String mCodeValue);
 
 	public int UserSignCount(int mNum, String mCodeValue);
+	
+	public List<HealthSign> noUserSign();//健康档案未签约用户扫码信息
+	
+	public List<HealthSign> noDocSign();// 健康档案未签约医生扫码信息
 }
