@@ -12,14 +12,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="css/ul.css">
 <link href="css/Index2.css" rel="stylesheet" />
 </head>
 <body>
+
+     <div class="menu">
+    	<ul>
+    		<li><a href="<%=path %>/healthDocSign?num=0">所有时间</a>
+	  		<li><a href="<%=path %>/healthDocSign?num=1">今天</a>
+	   		<li><a href="<%=path %>/healthDocSign?num=2">本周</a>
+	   		<li><a href="<%=path %>/healthDocSign?num=3">本月</a>
+    	</ul>
+    </div>
 		<div class="row-fluid">
-		 <a href="<%=path %>/healthDocSign?num=0">所有时间</a>
-	     <a href="<%=path %>/healthDocSign?num=1">今天</a>
-	     <a href="<%=path %>/healthDocSign?num=2">本周</a>
-	     <a href="<%=path %>/healthDocSign?num=3">本月</a>
+		
 			<div class="w">
 				<div class="span12">
 					<table class="table table-condensed table-bordered table-hover tab">
