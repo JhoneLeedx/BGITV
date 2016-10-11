@@ -14,7 +14,11 @@ import com.yxt.jhonelee.model.Admin;
 import com.yxt.jhonelee.model.HealthSign;
 import com.yxt.jhonelee.service.HealthSignService;
 import com.yxt.jhonelee.util.Page;
-
+/**
+ * 
+ * @author JhoneLee
+ * @category 健康信息扫码控制器
+ */
 @Controller
 public class HealthSignController {
 
@@ -92,39 +96,54 @@ public class HealthSignController {
 	@RequestMapping("/healthNoUserSign")
 	public String healthNoUesrSign(HttpServletRequest request){
 		
-		List<HealthSign> list = service.noUserSign();
-		
-		StringBuilder sb = new StringBuilder();
-		StringBuilder sbc = new StringBuilder();
-		for(int i=0;i<list.size();i++){
-			sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
-			sbc.append(list.get(i).getmCu()+",");
+		String time = request.getParameter("time");
+		int mTime = 0;
+		if(time!=null){
+			mTime = Integer.parseInt(time.trim());
 		}
-		String signtime = sb.toString().substring(0,sb.toString().length()-1);
-		String counts = sbc.toString().substring(0,sbc.toString().length()-1);
-		System.out.println(signtime);
-		System.out.println(counts);
-		request.setAttribute("signtime", signtime);
-		request.setAttribute("counts", counts);
+		List<HealthSign> list = service.noUserSign(mTime);
+		if(list.size()>0){
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc = new StringBuilder();
+			for(int i=0;i<list.size();i++){
+				sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
+				sbc.append(list.get(i).getmCu()+",");
+			}
+			String signtime = sb.toString().substring(0,sb.toString().length()-1);
+			String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime", signtime);
+			request.setAttribute("counts", counts);
+		}
 		return "nousersign";
 		
 	}
 	
 	@RequestMapping("/healthNoDocSign")
 	public String healthUserSign(HttpServletRequest request){
-		List<HealthSign> list = service.noDocSign();
-		StringBuilder sb = new StringBuilder();
-		StringBuilder sbc = new StringBuilder();
-		for(int i=0;i<list.size();i++){
-			sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
-			sbc.append(list.get(i).getmCu()+",");
+		
+		String time = request.getParameter("time");
+		int mTime = 0;
+		if(time!=null){
+			mTime = Integer.parseInt(time.trim());
 		}
-		String signtime = sb.toString().substring(0,sb.toString().length()-1);
-		String counts = sbc.toString().substring(0,sbc.toString().length()-1);
-		System.out.println(signtime);
-		System.out.println(counts);
-		request.setAttribute("signtime", signtime);
-		request.setAttribute("counts", counts);
+		List<HealthSign> list = service.noDocSign(mTime);
+		
+		if(list.size()>0){
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc = new StringBuilder();
+			for(int i=0;i<list.size();i++){
+				sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmSignInTime())+"'"+",");
+				sbc.append(list.get(i).getmCu()+",");
+			}
+			String signtime = sb.toString().substring(0,sb.toString().length()-1);
+			String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime", signtime);
+			request.setAttribute("counts", counts);
+		}
 		return "nodocsign";
 	}
 }

@@ -265,15 +265,63 @@
 
 	<select id="noUserSign" resultType="HealthSign" resultMap="HealthSignResultMap">
 		select sign_time, count(key_id) cu
-		from ITV_SIGNIN where key_id=0 and state = 102 GROUP BY
+		from ITV_SIGNIN
+		<where>
+			key_id=0
+			and state = 102
+			<!--1表示查询上个个月数据，2表示查询本月数据，3表示查询上周数据，4表示查询本周数据 -->
+			<if test="mTime==1">
+				and
+				PERIOD_DIFF(date_format(now(),'%Y%m'),
+				date_format(sign_time,'%Y%m')
+				) = 1
+			</if>
+			<if test="mTime==2">
+				and DATE_FORMAT(sign_time, '%Y%m' ) = DATE_FORMAT(
+				CURDATE() , '%Y%m' )
+			</if>
+			<if test="mTime==3">
+				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())-1
+			</if>
+			<if test="mTime==4">
+				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())
+			</if>
+		</where>
+		GROUP BY
 		TO_DAYS(sign_time)
 	</select>
-	
-		<select id="noDocSign" resultType="HealthSign" resultMap="HealthSignResultMap">
-		select sign_time, count(key_id) cu
-		from ITV_SIGNIN where key_id=0 and state = 201 GROUP BY
-		TO_DAYS(sign_time)
+
+	<select id="noDocSign" resultType="HealthSign" resultMap="HealthSignResultMap">
+		select
+		sign_time, count(key_id) cu
+		from ITV_SIGNIN
+		<where>
+			key_id=0
+			and state = 201
+			<!--1表示查询上个个月数据，2表示查询本月数据，3表示查询上周数据，4表示查询本周数据 -->
+			<if test="mTime==1">
+				and
+				PERIOD_DIFF(date_format(now(),'%Y%m'),
+				date_format(sign_time,'%Y%m')
+				) = 1
+			</if>
+			<if test="mTime==2">
+				and DATE_FORMAT(sign_time,'%Y%m') = DATE_FORMAT(
+				CURDATE(),'%Y%m' )
+			</if>
+			<if test="mTime==3">
+				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())-1
+			</if>
+			<if test="mTime==4">
+				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				YEARWEEK(now())
+			</if>
+		</where>
+		GROUP BY TO_DAYS(sign_time)
 	</select>
-	
+
 
 </mapper>

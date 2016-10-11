@@ -45,15 +45,15 @@ public class HealthSignServiceImpl implements HealthSignService {
 	}
 
 	@Override
-	public List<HealthSign> noUserSign() {
+	public List<HealthSign> noUserSign(int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.noUserSign();
+		return mapper.noUserSign(mTime);
 	}
 
 	@Override
-	public List<HealthSign> noDocSign() {
+	public List<HealthSign> noDocSign(int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.noDocSign();
+		return mapper.noDocSign(mTime);
 	}
 
 }

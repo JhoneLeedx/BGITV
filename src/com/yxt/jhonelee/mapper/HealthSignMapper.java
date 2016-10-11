@@ -20,8 +20,8 @@ public interface HealthSignMapper {
 
 	public int DocSignCount(@Param(value = "mNum") int mNum, @Param(value = "mCodeValue") String mCodeValue);// 医生总数
 
-	public List<HealthSign> noUserSign();// 健康档案未签约用户扫码信息
+	public List<HealthSign> noUserSign(@Param(value="mTime")int mTime);// 健康档案未签约用户扫码信息
 
-	public List<HealthSign> noDocSign();// 健康档案未签约医生扫码信息
+	public List<HealthSign> noDocSign(@Param(value="mTime")int mTime);// 健康档案未签约医生扫码信息
 
 }
