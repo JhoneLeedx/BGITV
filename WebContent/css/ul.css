@@ -14,7 +14,7 @@
     float:left; /* 向左漂移，将竖排变为横排 */
 }
 /* 所有class为menu的div中的ul中的a样式(包括尚未点击的和点击过的样式) */
-.menu ul li a, div.menu ul li a:visited
+.menu ul li a, .menu ul li a:visited
 {
     background-color: #465c71; /* 背景色 */
     border: 1px #4e667d solid; /* 边框 */

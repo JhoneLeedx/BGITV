@@ -29,7 +29,7 @@
 	}
 	window.onload = function() {
 		var ctx = document.getElementById("canvas").getContext("2d");
-		window.myBar = new Chart(ctx).Bar(barChartData, {
+		window.myBar = new Chart(ctx).Radar(barChartData, {  /*Bar,Line,Radar  */
 			responsive : true
 		});
 	}
