@@ -27,9 +27,10 @@
 		} ]
 
 	}
+	
 	window.onload = function() {
 		var ctx = document.getElementById("canvas").getContext("2d");
-		window.myBar = new Chart(ctx).Radar(barChartData, {  /*Bar,Line,Radar  */
+		window.myBar = new Chart(ctx).Line(barChartData,{  /*Bar,Line,Radar  */
 			responsive : true
 		});
 	}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yxt.jhonelee.mapper.HomeBarMapper">
+
+
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false" />
+	<resultMap type="homeBar" id="homeBarMap">
+		<result property="mDocId" column="doctor_id" />
+		<result property="mUserName" column="user_name" />
+		<result property="mRegTime" column="reg_time" />
+		<result property="mCot" column="cot" />
+	</resultMap>
+
+	<select id="HomeSum" resultMap="homeBarMap" resultType="homeBar">
+		select
+		regist.REG_TIME,
+		sum(regist.SCAN_COUNT) cot
+		from
+		ITV_REGIST regist,
+		hospital h,
+		doctor_detail dd
+		<where>
+			h.address_id in (
+			select
+			id
+			from
+			address a
+			<where>
+				find_in_set(
+				pid,
+				fn_getaddress_childlist (#{mCodeValue})
+				)
+				or code_value = #{mCodeValue}
+			</where>
+			)
+			and h.id = dd.zp_hospital_id
+			and regist.DOCTOR_ID = dd.doctor_id
+		</where>
+		group by to_days(REG_TIME)<!--  #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
+	</select>
+	
+		<select id="HomeSumCount" resultMap="homeBarMap" resultType="homeBar">
+		select
+		regist.REG_TIME,
+		sum(regist.SCAN_COUNT) cot
+		from
+		ITV_REGIST regist,
+		hospital h,
+		doctor_detail dd
+		<where>
+			h.address_id in (
+			select
+			id
+			from
+			address a
+			<where>
+				find_in_set(
+				pid,
+				fn_getaddress_childlist (#{mCodeValue})
+				)
+				or code_value = #{mCodeValue}
+			</where>
+			)
+			and h.id = dd.zp_hospital_id
+			and regist.DOCTOR_ID = dd.doctor_id
+			and regist.reg_state = #{mNum}
+		</where>
+		group by to_days(REG_TIME)<!--  #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
+	</select>
+	
+</mapper>

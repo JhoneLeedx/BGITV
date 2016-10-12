@@ -7,6 +7,10 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String signtime = (String) request.getAttribute("signtime");
+	String counts = (String) request.getAttribute("counts");
+	String signtime1 = (String) request.getAttribute("signtime1");
+	String counts1 = (String) request.getAttribute("counts1");
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,11 +18,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/Index2.css" rel="stylesheet" />
+<script type="text/javascript" src="js/Chart.js"></script>
 <title></title>
+<script type="text/javascript">
+	var barChartData = {
+
+		labels : [<%=signtime%>],
+		
+		datasets : [ {
+			fillColor : "#CCCCFF",
+			strokeColor : "rgba(220,220,220,1)",
+			highlightFill : "rgba(151,187,205,0.75)",
+			highlightStroke : "rgba(151,187,205,1)",
+			label : "首页扫码数据",
+			data : [<%=counts%>]
+		},
+		
+		{
+			fillColor : "#fec",
+			strokeColor : "rgba(220,220,220,1)",
+			highlightFill : "#fecc",
+			highlightStroke : "rgba(151,187,205,1)",
+			label : "首页预约成功数据",
+			data : [<%=counts1%>]	
+		}
+		]
+
+	}
+	
+	window.onload = function() {
+		var ctx = document.getElementById("canvas").getContext("2d");
+		var chart = new Chart(ctx).Bar(barChartData,{  /*Bar,Line,Radar  */
+			responsive : true,
+		});
+		var lenged =chart.generateLegend();
+		document.getElementById("legend").innerHTML = lenged;
+	}
+</script>
+
 </head>
 <c:if test="${!empty admin }">
 <body>
-	<div class="container-fluid">
+<label>用户扫码次数</label>
+<canvas id="canvas" width="5" height="1"></canvas>
+<div id="legend"></div>
+<label>医生扫码次数</label>
+<canvas id="canvasUser"></canvas>
+<canvas id="canvasDoc"></canvas>
+
+
+
+	<%-- <div class="container-fluid">
 		<select id="timeHomeselect" style="float: right; right:"
 			onchange="FindHometimeUser()">
 			<c:choose>
@@ -75,7 +125,7 @@
 										<td>${user.mUserName }</td>
 										<td>${user.mUserPhone }</td>
 										<td><fmt:formatDate value="${user.mRegTime }"
-												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
+												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> 	${user.mRegTime }
 										</td>
 										<td><jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 											<c:set var="interval"
@@ -106,7 +156,7 @@
 										</c:otherwise>
 											</c:choose></td>
 										<td>
-											<%-- ${user.mUpdateTime } --%> <fmt:formatDate
+											${user.mUpdateTime } <fmt:formatDate
 												value="${user.mUpdateTime }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 										</td>
 										<c:choose>
@@ -114,7 +164,7 @@
 												<c:choose>
 													<c:when test="${user.mItvRecord.mHandle==1 }">
 														<td style="color: green;">
-															<%-- 医生:${user.mItvRecord.mReason } --%>
+															医生:${user.mItvRecord.mReason }
 															<button style="color: green;"
 																onclick="showHomeReason(${user.mId})">已处理</button>
 														</td>
@@ -280,7 +330,7 @@
 	}
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script> --%>
 </body>
 </c:if>
 </html>

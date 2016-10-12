@@ -1,6 +1,7 @@
 package com.yxt.jhonelee.controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yxt.jhonelee.model.Admin;
+import com.yxt.jhonelee.model.HomeBar;
 import com.yxt.jhonelee.model.User;
+import com.yxt.jhonelee.service.HomeBarService;
 import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
 
@@ -25,7 +28,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private HomeBarService homeBarService;
 	/**
 	 * 
 	 * @param request
@@ -35,9 +39,38 @@ public class UserController {
 	public String findUserBydocId(HttpServletRequest request) {
 		
 		Admin admin =(Admin) request.getSession().getAttribute("admin");
+		List<HomeBar> list =  homeBarService.HomeSum(admin.getmPid());
+		List<HomeBar> list1 =  homeBarService.HomeSumCount(admin.getmPid(),2);
+		if(list.size()>0){
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc = new StringBuilder();
+			for(int i=0;i<list.size();i++){
+				sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmRegTime())+"'"+",");
+				sbc.append(list.get(i).getmCot()+",");
+			}
+			String signtime = sb.toString().substring(0,sb.toString().length()-1);
+			String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime", signtime);
+			request.setAttribute("counts", counts);
+		}
 		
-		
-		String stimeInt = request.getParameter("timeInt");
+		if(list1.size()>0){
+			StringBuilder sb1 = new StringBuilder();
+			StringBuilder sbc1 = new StringBuilder();
+			for(int i=0;i<list1.size();i++){
+				sb1.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list1.get(i).getmRegTime())+"'"+",");
+				sbc1.append(list1.get(i).getmCot()+",");
+			}
+			String signtime1 = sb1.toString().substring(0,sb1.toString().length()-1);
+			String counts1 = sbc1.toString().substring(0,sbc1.toString().length()-1);
+			System.out.println(signtime1);
+			System.out.println(counts1);
+			request.setAttribute("signtime1", signtime1);
+			request.setAttribute("counts1", counts1);
+		}
+		/*String stimeInt = request.getParameter("timeInt");
 		int timeInt = 0;
 		if (stimeInt != null) {
 			timeInt = Integer.parseInt(stimeInt);
@@ -53,7 +86,7 @@ public class UserController {
 		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,admin.getmPid());
 		request.setAttribute("listUser", listUser);
 		request.setAttribute("timeInt", timeInt);
-		request.setAttribute("page", page);
+		request.setAttribute("page", page);*/
 		return "/home";
 	}
 	/**
