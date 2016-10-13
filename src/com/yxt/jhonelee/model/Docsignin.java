@@ -11,8 +11,7 @@ public class Docsignin implements Serializable{
 	private Date mSignTime;
 	private int mState;
 	private String mToken;
-	
-
+	private int mCu;  
 	
 	public int getmId() {
 		return mId;
@@ -43,6 +42,12 @@ public class Docsignin implements Serializable{
 	}
 	public void setmToken(String mToken) {
 		this.mToken = mToken;
+	}
+	public int getmCu() {
+		return mCu;
+	}
+	public void setmCu(int mCu) {
+		this.mCu = mCu;
 	}
 	
 }

@@ -2,7 +2,6 @@ package com.yxt.jhonelee.service;
 
 import java.util.List;
 
-import com.yxt.jhonelee.model.HomeBar;
 import com.yxt.jhonelee.model.User;
 
 public interface UserService {
@@ -22,6 +21,6 @@ public interface UserService {
 	
 	public List<User> UserSignSum();
 	
-	public List<HomeBar> HomeSum(String mCodeValue);	//首页图形数据
+
 	
 }

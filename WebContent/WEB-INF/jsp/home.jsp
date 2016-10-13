@@ -11,6 +11,10 @@
 	String counts = (String) request.getAttribute("counts");
 	String signtime1 = (String) request.getAttribute("signtime1");
 	String counts1 = (String) request.getAttribute("counts1");
+	String signtime2 = (String) request.getAttribute("signtime2");
+	String counts2 = (String) request.getAttribute("counts2");
+	String signtime3 = (String) request.getAttribute("signtime3");
+	String counts3 = (String) request.getAttribute("counts3");
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,12 +23,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/Index2.css" rel="stylesheet" />
 <script type="text/javascript" src="js/Chart.js"></script>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/ul.css">
 <title></title>
 <script type="text/javascript">
 	var barChartData = {
 
 		labels : [<%=signtime%>],
-		
+
 		datasets : [ {
 			fillColor : "#CCCCFF",
 			strokeColor : "rgba(220,220,220,1)",
@@ -32,43 +39,118 @@
 			highlightStroke : "rgba(151,187,205,1)",
 			label : "首页扫码数据",
 			data : [<%=counts%>]
-		},
-		
-		{
+		} ]
+
+	}
+
+	var datasuccess = {
+		labels : [<%=signtime1%>],
+		datasets : [ {
 			fillColor : "#fec",
 			strokeColor : "rgba(220,220,220,1)",
-			highlightFill : "#fecc",
+			highlightFill : "rgba(151,187,205,0.75)",
 			highlightStroke : "rgba(151,187,205,1)",
-			label : "首页预约成功数据",
-			data : [<%=counts1%>]	
-		}
-		]
+			label : "预约成功的数据",
+			data : [<%=counts1%>]
+		} ]
 
 	}
 	
+	var dataCall= {
+			labels : [<%=signtime2%>],
+			datasets : [ {
+				fillColor : "#ceb",
+				strokeColor : "rgba(220,220,220,1)",
+				highlightFill : "rgba(151,187,205,0.75)",
+				highlightStroke : "rgba(151,187,205,1)",
+				label : "通话完成",
+				data : [<%=counts2%>]
+			} ]
+
+		}
+	var dataUser= {
+			labels : [<%=signtime3%>],
+			datasets : [ {
+				fillColor : "#ffe",
+				strokeColor : "rgba(220,220,220,1)",
+				highlightFill : "rgba(151,187,205,0.75)",
+				highlightStroke : "rgba(151,187,205,1)",
+				label : "用户取消",
+				data : [<%=counts3%>]
+			} ]
+
+		}
+
 	window.onload = function() {
 		var ctx = document.getElementById("canvas").getContext("2d");
-		var chart = new Chart(ctx).Bar(barChartData,{  /*Bar,Line,Radar  */
+		var chart = new Chart(ctx).Bar(barChartData, { /*Bar,Line,Radar  */
 			responsive : true,
 		});
-		var lenged =chart.generateLegend();
-		document.getElementById("legend").innerHTML = lenged;
+
+		var ctxsuccess = document.getElementById("canvasuccess").getContext(
+				"2d");
+		var chartsuccess = new Chart(ctxsuccess).Bar(datasuccess, { /*Bar,Line,Radar  */
+			responsive : true,
+		});
+		var ctxCall = document.getElementById("canvasCall").getContext(
+		"2d");
+		var chartsuccess = new Chart(ctxCall).Bar(dataCall, { /*Bar,Line,Radar  */
+			responsive : true,
+		});
+		var ctxuser = document.getElementById("canvasUser").getContext(
+		"2d");
+		var chartsuccess = new Chart(ctxuser).Bar(dataUser, { /*Bar,Line,Radar  */
+			responsive : true,
+		});
+		var lenged = chart.generateLegend();
+		/* document.getElementById("legend").innerHTML = lenged; */
 	}
 </script>
 
 </head>
 <c:if test="${!empty admin }">
-<body>
-<label>用户扫码次数</label>
-<canvas id="canvas" width="5" height="1"></canvas>
-<div id="legend"></div>
-<label>医生扫码次数</label>
-<canvas id="canvasUser"></canvas>
-<canvas id="canvasDoc"></canvas>
+	<body>
+		<div>
+		<div class="menu">
+			<ul>
+				<li><a href="<%=path%>/home?time=1">上月</a></li>
+				<li><a href="<%=path%>/home?time=2">本月</a></li>
+				<li><a href="<%=path%>/home?time=3">上周</a></li>
+				<li><a href="<%=path%>/home?time=4">本周</a></li>
+			</ul>
+		</div>
+		<div style="height: 35px"></div>
+			<div style="height: 400px;">
+				<div style="float: left; margin-right: 100px">
+					<h4>所有数据</h4>
+					<canvas id="canvas" width="650px" height="280px"></canvas>
+				</div>
+				<div style="float: left;">
+					<h4>预约成功</h4>
+					<canvas id="canvasuccess" width="650px" height="280px"
+						onclick="showSuccess()"></canvas>
+				</div>
+			</div>
+			<div style="height: 400px;">
+				<div style="float: left; margin-right: 100px">
+					<h4>服务完成</h4>
+					<canvas id="canvasCall" width="650px" height="280px"></canvas>
+				</div>
+				<div style="float: left;">
+					<h4>用户取消</h4>
+					<canvas id="canvasUser" width="650px" height="280px"></canvas>
+				</div>
+			</div>
+		</div>
+<script type="text/javascript">
+
+	function showSuccess() {
+		location.href="<%=path%>/home";
+			}
+</script>
 
 
-
-	<%-- <div class="container-fluid">
+		<%-- <div class="container-fluid">
 		<select id="timeHomeselect" style="float: right; right:"
 			onchange="FindHometimeUser()">
 			<c:choose>
@@ -331,6 +413,6 @@
 	</script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script> --%>
-</body>
+	</body>
 </c:if>
 </html>

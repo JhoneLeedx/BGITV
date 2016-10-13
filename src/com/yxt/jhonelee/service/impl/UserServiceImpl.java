@@ -7,10 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yxt.jhonelee.mapper.HomeBarMapper;
 import com.yxt.jhonelee.mapper.UserMapper;
 import com.yxt.jhonelee.mapper.UserSignMapper;
-import com.yxt.jhonelee.model.HomeBar;
 import com.yxt.jhonelee.model.User;
 import com.yxt.jhonelee.service.UserService;
 
@@ -22,8 +20,7 @@ public class UserServiceImpl implements UserService{
 	@Resource
 	private UserMapper userMapper;
 	
-	@Resource
-	private HomeBarMapper hoMapper;
+
 	
 	@Resource
 	private UserSignMapper userSignMapper;
@@ -64,9 +61,6 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userSignMapper.UserSignSum();
 	}
-	@Override
-	public List<HomeBar> HomeSum(String mCodeValue) {
-		return hoMapper.HomeSum(mCodeValue);
-	}
+
 
 }

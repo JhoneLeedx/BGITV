@@ -39,13 +39,21 @@ public class UserController {
 	public String findUserBydocId(HttpServletRequest request) {
 		
 		Admin admin =(Admin) request.getSession().getAttribute("admin");
-		List<HomeBar> list =  homeBarService.HomeSum(admin.getmPid());
-		List<HomeBar> list1 =  homeBarService.HomeSumCount(admin.getmPid(),2);
+		String time = request.getParameter("time");
+		int mTime = 0;
+		if(time!=null){
+			mTime = Integer.parseInt(time.trim());
+		}
+		
+		List<HomeBar> list =  homeBarService.HomeSum(admin.getmPid(),mTime);
+		List<HomeBar> list1 =  homeBarService.HomeSumCount(admin.getmPid(),1,mTime);
+		List<HomeBar> list2 =  homeBarService.HomeSumCount(admin.getmPid(),2,mTime);
+		List<HomeBar> list3 =  homeBarService.HomeSumCount(admin.getmPid(),3,mTime);
 		if(list.size()>0){
 			StringBuilder sb = new StringBuilder();
 			StringBuilder sbc = new StringBuilder();
 			for(int i=0;i<list.size();i++){
-				sb.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list.get(i).getmRegTime())+"'"+",");
+				sb.append("'"+new SimpleDateFormat("MM-dd").format(list.get(i).getmRegTime())+"'"+",");
 				sbc.append(list.get(i).getmCot()+",");
 			}
 			String signtime = sb.toString().substring(0,sb.toString().length()-1);
@@ -60,7 +68,7 @@ public class UserController {
 			StringBuilder sb1 = new StringBuilder();
 			StringBuilder sbc1 = new StringBuilder();
 			for(int i=0;i<list1.size();i++){
-				sb1.append("'"+new SimpleDateFormat("yyyy-MM-dd").format(list1.get(i).getmRegTime())+"'"+",");
+				sb1.append("'"+new SimpleDateFormat("MM-dd").format(list1.get(i).getmRegTime())+"'"+",");
 				sbc1.append(list1.get(i).getmCot()+",");
 			}
 			String signtime1 = sb1.toString().substring(0,sb1.toString().length()-1);
@@ -70,23 +78,37 @@ public class UserController {
 			request.setAttribute("signtime1", signtime1);
 			request.setAttribute("counts1", counts1);
 		}
-		/*String stimeInt = request.getParameter("timeInt");
-		int timeInt = 0;
-		if (stimeInt != null) {
-			timeInt = Integer.parseInt(stimeInt);
+		
+		
+		if(list2.size()>0){
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc= new StringBuilder();
+			for(int i=0;i<list2.size();i++){
+				sb.append("'"+new SimpleDateFormat("MM-dd").format(list2.get(i).getmRegTime())+"'"+",");
+				sbc.append(list2.get(i).getmCot()+",");
+			}
+			String signtime = sb.toString().substring(0,sb.toString().length()-1);
+			String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime2", signtime);
+			request.setAttribute("counts2", counts);
 		}
-		String pageNow = request.getParameter("pageNow");
-		Page page = null;
-		int totalcount = userService.getHomeCount(timeInt,admin.getmPid());
-		if (pageNow != null) {
-			page = new Page(totalcount, Integer.parseInt(pageNow));
-		} else {
-			page = new Page(totalcount, 1);
+		if(list3.size()>0){
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc= new StringBuilder();
+			for(int i=0;i<list3.size();i++){
+				sb.append("'"+new SimpleDateFormat("MM-dd").format(list3.get(i).getmRegTime())+"'"+",");
+				sbc.append(list3.get(i).getmCot()+",");
+			}
+			String signtime = sb.toString().substring(0,sb.toString().length()-1);
+			String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime3", signtime);
+			request.setAttribute("counts3", counts);
 		}
-		List<User> listUser = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt,admin.getmPid());
-		request.setAttribute("listUser", listUser);
-		request.setAttribute("timeInt", timeInt);
-		request.setAttribute("page", page);*/
+		
 		return "/home";
 	}
 	/**

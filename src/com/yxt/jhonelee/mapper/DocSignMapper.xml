@@ -8,25 +8,15 @@
 		<result property="mSignTime" column="sign_time" />
 		<result property="mState" column="state" />
 		<result property="mToken" column="token" />
+		<result property="mCu" column="cu" />
 
 	</resultMap>
-<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
-		select id,key_id,sign_time,state,token from ITV_SIGNIN where key_id =
+		select id,key_id,sign_time,state,token,count(SIGN_TIME) cu from
+		ITV_SIGNIN where key_id =
 		#{id} and state=201
-		<choose>
-			<when test="timeInt==0">
-				and TO_DAYS(sign_time) = TO_DAYS(NOW())
-			</when>
-			<when test="timeInt==1">
-				and TO_DAYS(sign_time) = (TO_DAYS(NOW())-1)
-			</when>
-			<when test="timeInt==2">
-				and TO_DAYS(sign_time) = (TO_DAYS(NOW())-2)
-			</when>
-		</choose>
-		order by
-		TO_DAYS(sign_time) DESC, sign_time-TO_DAYS(sign_time) limit
-		0,15
+		GROUP BY
+		TO_DAYS(sign_time)
 	</select>
 </mapper>

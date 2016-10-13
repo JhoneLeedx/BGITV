@@ -132,7 +132,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="span10 content-right">
+						<div class="span10 content-right" style="overflow:hidden;">
 							<iframe name="right" src="<%=request.getContextPath()%>/home"
 								class="iframe"></iframe>
 						</div>

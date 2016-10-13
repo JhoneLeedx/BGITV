@@ -12,5 +12,5 @@ import com.yxt.jhonelee.model.Docsignin;
  */
 public interface DocSignMapper {
 	//查出对应id的医生的签到记录list
-	public List<Docsignin> findAllDocSign( @Param(value="id")int id, @Param(value="timeInt")int timeInt);
+	public List<Docsignin> findAllDocSign( @Param(value="id")int id);
 }

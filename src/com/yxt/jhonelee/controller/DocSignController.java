@@ -1,6 +1,7 @@
 package com.yxt.jhonelee.controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,17 +34,27 @@ public class DocSignController {
 	@RequestMapping("/docsign")
 	public void findAllDocSign(HttpServletRequest request,PrintWriter out){
 		HttpSession session = request.getSession();
-		session.removeAttribute("list");
+		session.removeAttribute("signtime");
+		session.removeAttribute("counts");
 		String mId = request.getParameter("id");
-		String stimeInt = request.getParameter("timeInt");
-		int timeInt = 0;
-		if (stimeInt != null) {
-			timeInt = Integer.parseInt(stimeInt);
-		}
 		if(mId!=null){
 			int id = Integer.parseInt(mId.trim());
-			List<Docsignin> list = service.findAllDocSign(id,timeInt);
-			request.getSession().setAttribute("list", list);
+			List<Docsignin> list = service.findAllDocSign(id);
+			
+			if(list.size()>0){
+				StringBuilder sb = new StringBuilder();
+				StringBuilder sbc = new StringBuilder();
+				for(int i=0;i<list.size();i++){
+					sb.append("'"+new SimpleDateFormat("MM-dd").format(list.get(i).getmSignTime())+"'"+",");
+					sbc.append(list.get(i).getmCu()+",");
+				}
+				String signtime = sb.toString().substring(0,sb.toString().length()-1);
+				String counts = sbc.toString().substring(0,sbc.toString().length()-1);
+				System.out.println(signtime);
+				System.out.println(counts);
+				session.setAttribute("signtime", signtime);
+				session.setAttribute("counts", counts);
+			}
 			out.write("成功");
 		}
 	}

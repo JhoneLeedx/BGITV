@@ -7,6 +7,8 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String signtime = (String)session.getAttribute("signtime");
+	String counts = (String) session.getAttribute("counts");
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,6 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/Index2.css" rel="stylesheet" />
+<script type="text/javascript" src="js/Chart.js"></script>
 <title></title>
 <style type="text/css">
 .Menubox {
@@ -53,47 +56,72 @@
 <script>
 
 	function setTab(name,cursel,n,mid){
+		
 		for(i=1;i<=n;i++){
-			
 			var menu=document.getElementById(name+i);
 			var con=document.getElementById("con_"+name+"_"+i);
+			var tselect = document.getElementById("time_select");
 			menu.className=i==cursel?"hover":"";
 			con.style.display=i==cursel?"block":"none";
-		}
+			if(cursel==1){
+				tselect.style.display="none";
+				
+				var barChartData = {
+						labels : [<%=signtime%>],
+						datasets : [ {
+							fillColor : "#CCC",
+							strokeColor : "rgba(220,220,220,1)",
+							highlightFill : "rgba(151,187,205,0.75)",
+							highlightStroke : "rgba(151,187,205,1)",
+							label : "首页扫码数据",
+							data : [<%=counts%>]
+						} ]
+
+					}
+				var ctx = document.getElementById("canvas").getContext("2d");
+				var chart = new Chart(ctx).Line(barChartData, { /*Bar,Line,Radar  */
+					responsive : true,
+				});
+				
+				
+			}else{
+				tselect.style.display="block";
+			}
+			
+			}
 	}
-	
  </script>
 
 </head>
 <body>
 	<div class="Menubox">
 		<ul>
-			<li id="menu1" onmouseover="setTab('menu',1,2,${id})">医生签到信息</li>
-			<li id="menu2" onmouseover="setTab('menu',2,2,${id})" class="hover">医生预约用户</li>
+			<li id="menu1" onclick="setTab('menu',1,2,${id})">医生签到信息</li>
+			<li id="menu2" onclick="setTab('menu',2,2,${id})" class="hover">医生预约用户</li>
 		</ul>
 		<select id="time_select" style="float: right; margin-top: 10px"
 			onchange="FindtimeUser()">
 			<c:choose>
 				<c:when test="${timeInt==0 }">
-					<option>选择时间</option>
+					<option>所有时间</option>
 					<option value="0" selected="selected">今天</option>
 					<option value="1">昨天</option>
 					<option value="2">前天</option>
 				</c:when>
 				<c:when test="${timeInt==1 }">
-					<option>选择时间</option>
+					<option>所有时间</option>
 					<option value="0">今天</option>
 					<option value="1" selected="selected">昨天</option>
 					<option value="2">前天</option>
 				</c:when>
 				<c:when test="${timeInt==2 }">
-					<option>选择时间</option>
+					<option>所有时间</option>
 					<option value="0">今天</option>
 					<option value="1">昨天</option>
 					<option value="2" selected="selected">前天</option>
 				</c:when>
 				<c:otherwise>
-					<option selected="selected">选择时间</option>
+					<option selected="selected">所有时间</option>
 					<option value="0">今天</option>
 					<option value="1">昨天</option>
 					<option value="2">前天</option>
@@ -101,38 +129,10 @@
 			</c:choose>
 		</select>
 	</div>
-	<div id="con_menu_1" style="display: none; margin-top: 5px"
+	<div id="con_menu_1" style="display: none; margin-top: 5px;height: 200px;"
 		class="container-fluid">
-		<div class="row-fluid">
-			<div class="w">
-				<div class="span12">
-					<table class="table table-condensed table-bordered table-hover tab">
-						<thead>
-							<tr class="tableHead">
-								<th>ID</th>
-								<th>医生的ID</th>
-								<th>签到时间</th>
-								<th>扫码标识</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-							<c:if test="${!empty list }">
-								<c:forEach items="${list }" var="docsignin">
-									<tr class="patient">
-										<td>${docsignin.mId }</td>
-										<td>${docsignin.mKeyId }</td>
-										<td><fmt:formatDate value="${docsignin.mSignTime }"
-												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-										<td>医生首页扫码查看预约</td>
-
-									</tr>
-								</c:forEach>
-							</c:if>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		<h4>医生扫码查询</h4>
+        <canvas id="canvas" width="650px" height="280px"></canvas>
 	</div>
 	<div id="con_menu_2" class="container-fluid" style="margin-top: 5px">
 		<div class="row-fluid">

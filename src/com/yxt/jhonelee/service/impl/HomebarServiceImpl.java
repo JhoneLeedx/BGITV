@@ -18,16 +18,17 @@ public class HomebarServiceImpl implements HomeBarService{
 	@Resource
 	private HomeBarMapper mapper;
 	
+
 	@Override
-	public List<HomeBar> HomeSum(String mCodeValue) {
+	public List<HomeBar> HomeSum(String mCodeValue, int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.HomeSum(mCodeValue);
+		return mapper.HomeSum(mCodeValue,mTime);
 	}
 
 	@Override
-	public List<HomeBar> HomeSumCount(String mCodeValue, int mNum) {
+	public List<HomeBar> HomeSumCount(String mCodeValue, int mNum, int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.HomeSumCount(mCodeValue, mNum);
+		return mapper.HomeSumCount(mCodeValue,mNum,mTime);
 	}
 
 }
