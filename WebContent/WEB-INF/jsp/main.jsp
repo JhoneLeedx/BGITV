@@ -248,9 +248,9 @@
 							htm+="<li class='newli'>"+"&nbsp&nbsp&nbsp"+li[i].firstChild.nodeValue+"</li>";
 						}
 				    $(".breadcrumb").append(htm);
-				    $(".newli:last").css({'position':'absolute','right':'300px'});
+				    /* $(".newli:last").css({'position':'absolute','right':'300px'}); */
 					}
-				})
+				}) 
 			}
 		});
 		}

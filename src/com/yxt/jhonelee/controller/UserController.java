@@ -185,13 +185,13 @@ public class UserController {
 		if(id!=null){
 			mId = Integer.parseInt(id);
 		}
+		totalcount = userService.getUserCount(timeInt, mId);
 		if (pageNow != null) {
 			page = new Page(totalcount, Integer.parseInt(pageNow));
 
 		} else {
 			page = new Page(totalcount, 1);
 		}
-		totalcount = userService.getUserCount(timeInt, mId);
 		List<User> list = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt, mId);
 		request.setAttribute("list", list);
 		request.setAttribute("timeInt", timeInt);

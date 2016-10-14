@@ -11,7 +11,7 @@
 <head>
 
 <meta charset="utf-8">
-<title>后台登录界面</title>
+<title>预约协同服务中心</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="css/supersized.css">
@@ -27,7 +27,7 @@
 		<div class="main_box" style="background-color: threedlightshadow;">
 			<div class="login_box">
 				<div class="login_logo">
-					<p style="font-size: 30px">ITV预约协同服务中心首页管理登录</p>
+					<p style="font-size: 30px">登录</p>
 				</div>
 				<div class="login_form">
 					<form id="loginForm">

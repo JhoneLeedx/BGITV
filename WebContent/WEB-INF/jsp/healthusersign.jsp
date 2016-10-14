@@ -64,7 +64,6 @@
 				</table>
 				<!-- 分页开始 -->
 				<div align="center" style="margin-top: 20px">
-
 					<c:choose>
 						<c:when test="${page.totalPageCount==0}">
 
@@ -114,7 +113,6 @@
 					</c:choose>
 				</div>
 				<!-- 分页功能 End -->
-				<div id="page" class="tr"></div>
 			</div>
 		</div>
 	</div>

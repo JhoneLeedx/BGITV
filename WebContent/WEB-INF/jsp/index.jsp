@@ -143,7 +143,6 @@
 
 						<c:choose>
 							<c:when test="${page.totalPageCount==0}">
-
 							</c:when>
 							<c:otherwise>
 								<div>
