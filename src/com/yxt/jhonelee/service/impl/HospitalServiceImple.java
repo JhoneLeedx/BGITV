@@ -23,5 +23,10 @@ public class HospitalServiceImple implements HospitalService{
 		// TODO Auto-generated method stub
 		return mapper.SelectHospital(addressId);
 	}
+	@Override
+	public List<Hospital> SelectAllHospital(String mCodeValue) {
+		// TODO Auto-generated method stub
+		return mapper.SelectAllHospital(mCodeValue);
+	}
 
 }

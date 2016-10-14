@@ -18,6 +18,7 @@ import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
 
 
+
 /**
  * 
  * @author JhoneLee 用户的控制器实现后台数据和jsp页面的交互
@@ -168,4 +169,34 @@ public class UserController {
 		return "usersign";
 	}
 	
+	
+	@RequestMapping("/index")
+	public String UserHome(HttpServletRequest request){
+		String id = request.getParameter("hospitalId");
+		String stimeInt = request.getParameter("timeInt");
+		String pageNow = request.getParameter("pageNow");
+		Page page = null;
+		int totalcount = 0;
+		int mId = 0;
+		int timeInt = 0;
+		if (stimeInt != null) {
+			timeInt = Integer.parseInt(stimeInt);
+		}
+		if(id!=null){
+			mId = Integer.parseInt(id);
+		}
+		if (pageNow != null) {
+			page = new Page(totalcount, Integer.parseInt(pageNow));
+
+		} else {
+			page = new Page(totalcount, 1);
+		}
+		totalcount = userService.getUserCount(timeInt, mId);
+		List<User> list = userService.selectUserHomeBypage(page.getStartPos(), page.getPageSize(), timeInt, mId);
+		request.setAttribute("list", list);
+		request.setAttribute("timeInt", timeInt);
+		request.setAttribute("mId", mId);
+		request.setAttribute("page", page);
+		return "index";
+	}
 }

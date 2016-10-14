@@ -32,9 +32,9 @@
 		</association>
 
 	</resultMap>
-	
+
 	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
-	
+
 	<!--查询医生id下的所有签约用户 -->
 	<select id="findAllUser" resultMap="userResultMap" resultType="User">
 		select * from ITV_REGIST where doctor_id = #{id} order by
@@ -55,56 +55,72 @@
 	<!-- 首页显示的分页实现 -->
 	<select id="selectUserHomeBypage" resultMap="userResultMap"
 		resultType="User">
-		SELECT * FROM (SELECT r.*, dd.`name`,re.DOC_REASON,re.ADMIN_ID,
-		re.HANDLE,re.USER_REASON FROM ITV_REGIST r
-		LEFT JOIN doctor d ON d.id = r.doctor_id
-		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
-		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (
-		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{code_value}))
-		OR code_value = #{code_value} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
-		LEFT JOIN ITV_RECORD re ON(re.REGIST_ID = r.id) ORDER BY r.REG_TIME DESC) users
+		select * from(
+		SELECT
+		dd.`name`,
+		regist.*,
+		re.ADMIN_ID,re.DOC_REASON,re.USER_REASON,re.HANDLE
+		FROM
+		doctor_detail
+		dd,
+		ITV_REGIST regist
+		LEFT JOIN ITV_RECORD re ON (re.REGIST_ID =
+		regist.id)
+		<where>
+			dd.doctor_id = regist.DOCTOR_ID
+			AND dd.zp_hospital_id =#{mId}
+		</where>
+		order by regist.REG_TIME desc) users 
 		<where>
 			<choose>
 				<when test="timeInt==0">
-					and TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
+					 TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
 				</when>
 				<when test="timeInt==1">
-					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
+					 TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
 				</when>
 				<when test="timeInt==2">
-					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
+					 TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
 				</when>
 			</choose>
 		</where>
-		GROUP BY doctor_id limit #{startPos},#{pageSize}
+		group by name limit #{startPos},#{pageSize}
 	</select>
 
 
 	<!--首页显示总数 -->
 	<select id="getHomeCount" resultType="int">
-	    select count(*) from
-		(SELECT * FROM (SELECT r.*, dd.`name`,re.DOC_REASON,re.ADMIN_ID,
-		re.HANDLE,re.USER_REASON FROM ITV_REGIST r
-		LEFT JOIN doctor d ON d.id = r.doctor_id
-		LEFT JOIN doctor_detail dd ON dd.doctor_id = d.id
-		LEFT JOIN (SELECT id FROM hospital h WHERE EXISTS (
-		SELECT id FROM address a WHERE FIND_IN_SET(pid,fn_getaddress_childlist (#{code_value}))
-		OR code_value = #{code_value} AND h.address_id = a.id)) h ON h.id = dd.zp_hospital_id
-		LEFT JOIN ITV_RECORD re ON(re.REGIST_ID = r.id) ORDER BY r.REG_TIME DESC) users
+		select count(*) from
+		(select * from(
+		SELECT
+		dd.`name`,
+		regist.*,
+		re.ADMIN_ID,re.DOC_REASON,re.USER_REASON,re.HANDLE
+		FROM
+		doctor_detail
+		dd,
+		ITV_REGIST regist
+		LEFT JOIN ITV_RECORD re ON (re.REGIST_ID =
+		regist.id)
+		<where>
+			dd.doctor_id = regist.DOCTOR_ID
+			AND dd.zp_hospital_id =#{mId}
+		</where>
+		order by regist.REG_TIME desc) users 
 		<where>
 			<choose>
 				<when test="timeInt==0">
-					and TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
+					 TO_DAYS(users.REG_TIME) = TO_DAYS(NOW())
 				</when>
 				<when test="timeInt==1">
-					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
+					 TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-1)
 				</when>
 				<when test="timeInt==2">
-					and TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
+					 TO_DAYS(users.REG_TIME) = (TO_DAYS(NOW())-2)
 				</when>
 			</choose>
 		</where>
-		GROUP BY doctor_id) u
+		group by name) u
 	</select>
 	<!-- SELECT itv_regist.*,itv_record.REASON FROM itv_regist LEFT JOIN itv_record 
 		on(itv_regist.DOCTOR_ID=1 and itv_record.REGIST_ID = itv_regist.ID) order 

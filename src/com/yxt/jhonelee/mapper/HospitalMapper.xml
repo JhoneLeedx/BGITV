@@ -6,8 +6,34 @@
 		<result property="mId" column="id" />
 		<result property="mName" column="name" />
 	</resultMap>
-<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="SelectHospital" resultMap="HospitalMap" resultType="Hospital">
-		select id,name from hospital where address_id = #{mAddressId}
+		select id,name from hospital where address_id = #{mAddressId} limit 1
 	</select>
+
+	<select id="SelectAllHospital" resultMap="HospitalMap"
+		resultType="Hospital">
+		SELECT
+		id,
+		`name`,
+		address_id
+		FROM
+		hospital h
+		WHERE
+		h.address_id IN (
+		SELECT
+		id
+		FROM
+		address a
+		WHERE
+		FIND_IN_SET(
+		pid,
+		fn_getaddress_childlist (#{mCodeValue})
+		)
+		OR
+		code_value = #{mCodeValue}
+		)
+
+	</select>
+
 </mapper>

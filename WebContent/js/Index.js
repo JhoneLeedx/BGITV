@@ -6,6 +6,7 @@ $(".accordion-inner").click(function () {
 	if( $(this).find(".left-body").text()=="首页"){
 		$(".active").html("");
 		$(".newli").html("");
+		$(".newli:last").css("");
 	}else{
 		console.log(this.getElementsByClassName("left-body"));
 		var newli=document.getElementsByClassName('newli');
@@ -15,12 +16,13 @@ $(".accordion-inner").click(function () {
 		var htm="";
 		var li=this.getElementsByClassName("left-body");
 		var l=li.length;
-		htm+="<li class='newli'>"+li[0].firstChild.nodeValue+"&nbsp&nbsp&nbsp"+li[0].title+"</li>";
+		htm+="<li class='newli'>"+li[0].firstChild.nodeValue+"</li>";
+		if(l>1){
 		for(var i=1;i<l;i++){
 			htm+="<li class='newli'>"+"&nbsp&nbsp&nbsp"+li[i].firstChild.nodeValue+"</li>";
 		}
+		}
     $(".breadcrumb").append(htm);
-    $(".newli:last").css({'position':'absolute','right':'300px'});
 	}
 })
 

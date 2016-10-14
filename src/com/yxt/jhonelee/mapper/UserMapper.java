@@ -12,6 +12,7 @@ import com.yxt.jhonelee.model.User;
  */
 
 public interface UserMapper {
+	
 	public List<User> findUserBydocId();// 查询所有用户
 
 	public List<User> findAllUser(int id);// 查询某个医生id下的所有用户信息
@@ -23,8 +24,8 @@ public interface UserMapper {
 
 	public List<User> selectUserHomeBypage(@Param(value = "startPos") int startPos,
 			@Param(value = "pageSize") int pageSize, @Param(value = "timeInt") int timeInt,
-			@Param(value = "code_value") String code_value);// 分页得到所有用户最新的数据
+			@Param(value = "mId") int mId);// 分页得到所有用户最新的数据
 
-	public int getHomeCount(@Param(value = "timeInt") int timeInt, @Param(value = "code_value") String code_value);// 得到首页的数据的总数
+	public int getHomeCount(@Param(value = "timeInt") int timeInt, @Param(value = "mId") int mId);// 得到首页的数据的总数
 
 }

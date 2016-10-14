@@ -19,8 +19,7 @@ import com.yxt.jhonelee.service.HospitalService;
 
 /**
  * 
- * @author JhoneLee
- *  管理地址的控制器
+ * @author JhoneLee 管理地址的控制器
  */
 
 @Controller
@@ -28,42 +27,36 @@ public class AddressController {
 
 	@Autowired
 	private AddressService service;
-	
+
 	@Autowired
 	private HospitalService Hservice;
-	
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return 登录成功返回首页，极其显示的数据（地址或者有医院就显示医院）
 	 */
 	@RequestMapping("/main")
-	public String SelectAddress(HttpServletRequest request){
+	public String SelectAddress(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Admin admin = (Admin)session.getAttribute("admin");
-		if(admin!=null){
-			List<Address> lists = service.SelectAddress(admin.getmPid());
-			Address address = service.SelectOneAddress(admin.getmPid());
-			if(address!=null){
-			List<Hospital> lHospitals = Hservice.SelectHospital(address.getmId());
-			if(lHospitals.size()>0){
-				request.setAttribute("listHospitals", lHospitals);
-			}
-			}
-			
-			request.setAttribute("listAddress", lists);
+		Admin admin = (Admin) session.getAttribute("admin");
+		if (admin != null) {
+			List<Hospital> lHospitals = Hservice.SelectAllHospital(admin.getmPid());
+			request.setAttribute("listHospitals", lHospitals);
 		}
+
 		return "/main";
 	}
+
 	/**
 	 * 
 	 * @param request
-	 * @param out 查询下一级别的地址返回的数据类型（json）
+	 * @param out
+	 *            查询下一级别的地址返回的数据类型（json）
 	 * 
 	 */
 	@RequestMapping("/findNext")
-	public void findNext(HttpServletRequest request,PrintWriter out){
+	public void findNext(HttpServletRequest request, PrintWriter out) {
 
 		String mpid = request.getParameter("pid");
 		List<Address> lists = service.SelectAddress(mpid);

@@ -20,7 +20,7 @@ jQuery(function($){
         // Components
         slide_links        : 'blank',    // Individual links for each slide (Options: false, 'num', 'name', 'blank')
         slides             : [    // Slideshow Images
-                                 {image : 'images/backgrounds/splash.png'}
+                                 {image : 'images/backgrounds/canNotUse.png'}
                        ]
 
     });

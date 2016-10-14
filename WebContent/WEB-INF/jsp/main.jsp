@@ -68,39 +68,17 @@
 										<a class="accordion-toggle" data-toggle="collapse"
 											data-parent="#accordion2" href="#collapseOne"> <img
 											class="left-icon" src="images/list.png" /><span
-											class="left-title">医生列表</span>
+											class="left-title">区域医院列表</span>
 										</a>
 									</div>
-									<!--显示医生列表  -->
+									<!--显示区域医院列表  -->
 									<ul id="collapseOne" class="collapse">
-
-										<c:if test="${!empty listAddress }">
-											<c:forEach items="${listAddress }" var="address">
-												<li style="cursor: pointer"><a
-													onclick="findNext(this,'${address.mCodevalue}',${address.mId })">
-														<c:choose>
-															<c:when test="${address.mLevel==2 }">
-																<img src="images/city.png" />
-															</c:when>
-															<c:when test="${address.mLevel==3 }">
-																<img src="images/county.png" />
-															</c:when>
-															<c:when test="${address.mLevel==4 }">
-																<img src="images/community.png" />
-															</c:when>
-															<c:when test="${address.mLevel==5 }">
-																<img src="images/sjw.png" />
-															</c:when>
-														</c:choose> ${address.mName }
-												</a>
-													<ul id="${address.mId }" style="display: none"></ul></li>
-											</c:forEach>
-										</c:if>
 										<c:if test="${!empty listHospitals }">
 											<c:forEach items="${listHospitals }" var="hospital">
 												<li style="cursor: pointer"><a
-													onclick="findDoc(this,'${hospital.mId}')"><img
-														src="images/hospital.png" />${hospital.mName}</a>
+													onclick="findDoc(this,'${hospital.mId}')" href="<%=request.getContextPath()%>/index?hospitalId=${hospital.mId}" target="right">									
+														<div class='accordion-inner'><img class='left-icon-child' src='images/hospital.png'/><span class='left-body' title=''>${hospital.mName}</span></div>
+														</a>
 													<ul style='display: none'></ul></li>
 
 											</c:forEach>
@@ -155,7 +133,7 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	//找到地址下的下级地址和医院
-	function findNext(obj,mCodevalue,mId) {
+<%-- 	function findNext(obj,mCodevalue,mId) {
 		var th=$(obj).next();
 		th.toggle();
 		var htm = "";
@@ -220,7 +198,7 @@
 		});
 		}
 		
-	}
+	} --%>
 	//找到对应医院下属的所有医生
 	function findDoc(obj,mId){
 		var th=$(obj).next();
@@ -275,10 +253,8 @@
 				})
 			}
 		});
-
 		}
-		
-	}
+}
 	//异步执行医生的签到信息查询并显示
 	function OpenDocsign(mid){
 		console.log(mid);
