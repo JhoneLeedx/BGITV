@@ -183,5 +183,10 @@
 			</choose>
 		</where>
 	</select>
+	
+	<select id="getCodeValueString" resultType="String">
+	 select fn_getaddress_childlist(#{mCodeValue})  
+	</select>
+	
 </mapper>
 

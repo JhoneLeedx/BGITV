@@ -20,15 +20,15 @@ public class HomebarServiceImpl implements HomeBarService{
 	
 
 	@Override
-	public List<HomeBar> HomeSum(String mCodeValue, int mTime) {
+	public List<HomeBar> HomeSum(List<String> list, int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.HomeSum(mCodeValue,mTime);
+		return mapper.HomeSum(list,mTime);
 	}
 
 	@Override
-	public List<HomeBar> HomeSumCount(String mCodeValue, int mNum, int mTime) {
+	public List<HomeBar> HomeSumCount(List<String> list, int mNum, int mTime) {
 		// TODO Auto-generated method stub
-		return mapper.HomeSumCount(mCodeValue,mNum,mTime);
+		return mapper.HomeSumCount(list,mNum,mTime);
 	}
 
 }

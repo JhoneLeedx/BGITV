@@ -16,61 +16,44 @@
 	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="HealthUserSignCount" resultType="HealthSign"
 		resultMap="HealthSignResultMap"><!--用户扫码查看健康档案 -->
-		SELECT
-		addres.id,
-		addres. NAME placename,
-		hos. NAME hospitalname,
-		dd.doctor_id docid,
-		dd. NAME docname,
-		signin.key_id userid,
-		vitv.user_name username,
-		max(signin.sign_time) sign_time,
-		count(signin.id) cu
-		FROM
-		ITV_SIGNIN signin,
-		address addres,
-		doctor_detail
-		dd,
-		v_itv_is_contract vitv,
-		(
-		SELECT
-		id,
-		`name`,
-		address_id
-		FROM
-		hospital h
-		WHERE
-		h.address_id IN (
-		SELECT
-		id
-		FROM
-		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (#{mCodeValue})
-		)
-		OR code_value = #{mCodeValue}
-		)
+		select addres.id,addres.name placename,hos.name hospitalname,
+		dd.doctor_id docid,dd.name docname,signin.key_id userid,
+		vitv.user_name username,max(signin.sign_time) sign_time,
+		count(signin.id) cu from
+		ITV_SIGNIN signin,address addres,doctor_detail dd,
+		v_itv_is_contract vitv,(
+		select id,`name`,address_id from hospital h
+		<where>
+			h.address_id in (
+			select id from address a
+			<where>
+				a.code_value in
+				<foreach item="item" index="index" collection="list" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</where>
+			)
+		</where>
 		) hos
 		<where>
 			hos.id = dd.zp_hospital_id
-			AND dd.doctor_id = vitv.doctor_id
-			AND
+			and dd.doctor_id = vitv.doctor_id
+			and
 			vitv.user_id = signin.key_id
-			AND signin.state = 102
-			AND hos.address_id
+			and signin.state = 102
+			and hos.address_id
 			= addres.id
 			<if test="mNum==1">
 				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
-				YEARWEEK(now())<!-- #查询本周签到记录 -->
+				and yearweek(date_format(signin.sign_time,'%Y-%m-%d')) =
+				yearweek(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
-				AND
-				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+				and
+				date_format(signin.sign_time,'%Y%m')=date_format(curdate(),'%Y%m')
 				<!--#查询本月签到记录 -->
 			</if>
 		</where>
@@ -106,13 +89,13 @@
 		id
 		FROM
 		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (#{mCodeValue})
-		)
-		OR
-		code_value = #{mCodeValue}
+		<where>
+			a.code_value in
+			<foreach item="item" index="index" collection="list" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 		)
 		) hos
 		<where>
@@ -167,13 +150,13 @@
 		id
 		FROM
 		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist
-		(#{mCodeValue})
-		)
-		OR code_value = #{mCodeValue}
+		<where>
+			a.code_value in
+			<foreach item="item" index="index" collection="list" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 		)
 		) hos
 		<where>
@@ -229,13 +212,13 @@
 		id
 		FROM
 		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (#{mCodeValue})
-		)
-		OR code_value
-		= #{mCodeValue}
+		<where>
+			a.code_value in
+			<foreach item="item" index="index" collection="list" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 		)
 		) hos
 		<where>

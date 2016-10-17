@@ -13,6 +13,6 @@ public interface HospitalMapper {
 	// 查出对应addressID下的所有医院
 	public List<Hospital> SelectHospital(int addressId);
 
-	public List<Hospital> SelectAllHospital(String mCodeValue);
+	public List<Hospital> SelectAllHospital(List<String> list);
 
 }

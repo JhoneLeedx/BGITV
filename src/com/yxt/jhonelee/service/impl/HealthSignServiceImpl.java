@@ -21,23 +21,23 @@ public class HealthSignServiceImpl implements HealthSignService {
 
 
 	@Override
-	public List<HealthSign> HealthUserSignCount(int mNum, String codeValue, int startPos, int pageSize) {
-		return mapper.HealthUserSignCount(mNum, codeValue, startPos, pageSize);
+	public List<HealthSign> HealthUserSignCount(int mNum, List<String> list, int startPos, int pageSize) {
+		return mapper.HealthUserSignCount(mNum, list, startPos, pageSize);
 	}
 
 	@Override
-	public List<HealthSign> HealthDocSignCount(int mNum, String codeValue, int startPos, int pageSize) {
-		return mapper.HealthDocSignCount(mNum, codeValue, startPos, pageSize);
+	public List<HealthSign> HealthDocSignCount(int mNum, List<String> list, int startPos, int pageSize) {
+		return mapper.HealthDocSignCount(mNum, list, startPos, pageSize);
 	}
 
 	@Override
-	public int DocSignCount(int mNum, String mCodeValue) {
-		return mapper.DocSignCount(mNum, mCodeValue);
+	public int DocSignCount(int mNum, List<String> list) {
+		return mapper.DocSignCount(mNum, list);
 	}
 
 	@Override
-	public int UserSignCount(int mNum, String mCodeValue) {
-		return mapper.UserSignCount(mNum, mCodeValue);
+	public int UserSignCount(int mNum, List<String> list) {
+		return mapper.UserSignCount(mNum, list);
 	}
 
 	@Override

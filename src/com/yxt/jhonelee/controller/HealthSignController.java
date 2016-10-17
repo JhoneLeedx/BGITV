@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yxt.jhonelee.model.Admin;
 import com.yxt.jhonelee.model.HealthSign;
 import com.yxt.jhonelee.service.HealthSignService;
+import com.yxt.jhonelee.service.UserService;
 import com.yxt.jhonelee.util.Page;
+import com.yxt.jhonelee.util.Util;
 
 /**
  * 
@@ -25,6 +27,9 @@ public class HealthSignController {
 
 	@Autowired
 	private HealthSignService service;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping("/healthUserSign")
 	public String HealthUserSign(HttpServletRequest request, HttpSession session) {
@@ -39,20 +44,28 @@ public class HealthSignController {
 			if (mNum != null) {
 				num = Integer.parseInt(mNum.trim());
 			}
-			int count = service.UserSignCount(num, admin.getmPid());
-			if (pageNow != null) {
-				page = new Page(count, Integer.parseInt(pageNow.trim()));
-			} else {
-				page = new Page(count, 1);
+
+			String slist = userService.getCodeValueString(admin.getmPid());
+			String[] s = slist.split(",");
+			System.out.println(s.length);
+			List<String> listString = Util.getCodeValues(s);//得到string类型的codevalue
+			if(listString!=null){
+				
+				int count = service.UserSignCount(num, listString);
+				if (pageNow != null) {
+					page = new Page(count, Integer.parseInt(pageNow.trim()));
+				} else {
+					page = new Page(count, 1);
+				}
+				List<HealthSign> list = service.HealthUserSignCount(num, listString, page.getStartPos(),
+						page.getPageSize());
+				request.setAttribute("list", list);
+				request.setAttribute("page", page);
+				request.setAttribute("num", num);
+				return "healthusersign";
+			}else{
+				return "500";
 			}
-			List<HealthSign> list = service.HealthUserSignCount(num, admin.getmPid(), page.getStartPos(),
-					page.getPageSize());
-
-			request.setAttribute("list", list);
-			request.setAttribute("page", page);
-			request.setAttribute("num", num);
-			return "healthusersign";
-
 		} else {
 			return "404";
 		}
@@ -71,21 +84,26 @@ public class HealthSignController {
 			if (mNum != null) {
 				num = Integer.parseInt(mNum.trim());
 			}
-			int count = service.DocSignCount(num, admin.getmPid());
+			String slist = userService.getCodeValueString(admin.getmPid());
+			String[] s = slist.split(",");
+			System.out.println(s.length);
+			List<String> listString = Util.getCodeValues(s);//得到string类型的codevalue
+			if(listString!=null){
+				int count = service.DocSignCount(num, listString);
 
-			if (pageNow != null) {
-				page = new Page(count, Integer.parseInt(pageNow.trim()));
-			} else {
-				page = new Page(count, 1);
+				if (pageNow != null) {
+					page = new Page(count, Integer.parseInt(pageNow.trim()));
+				} else {
+					page = new Page(count, 1);
+				}
+				List<HealthSign> list = service.HealthDocSignCount(num, listString, page.getStartPos(),page.getPageSize());
+				request.setAttribute("list", list);
+				request.setAttribute("page", page);
+				request.setAttribute("num", num);
+				return "healthdocsign";
+			}else{
+				return "500";
 			}
-			List<HealthSign> list = service.HealthDocSignCount(num, admin.getmPid(), page.getStartPos(),
-					page.getPageSize());
-
-			request.setAttribute("list", list);
-			request.setAttribute("page", page);
-			request.setAttribute("num", num);
-			return "healthdocsign";
-
 		} else {
 			return "404";
 		}

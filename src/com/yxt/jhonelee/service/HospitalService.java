@@ -8,5 +8,5 @@ public interface HospitalService {
 	
 	public List<Hospital> SelectHospital(int addressId);
 
-	public List<Hospital> SelectAllHospital(String mCodeValue);
+	public List<Hospital> SelectAllHospital(List<String> list);
 }

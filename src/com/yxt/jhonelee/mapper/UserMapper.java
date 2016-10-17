@@ -27,5 +27,8 @@ public interface UserMapper {
 			@Param(value = "mId") int mId);// 分页得到所有用户最新的数据
 
 	public int getHomeCount(@Param(value = "timeInt") int timeInt, @Param(value = "mId") int mId);// 得到首页的数据的总数
+	
+	
+	public String getCodeValueString(String mCodeValue);//得到codevalue下包括codevalue的所有值
 
 }

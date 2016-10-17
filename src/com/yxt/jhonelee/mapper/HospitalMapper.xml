@@ -13,27 +13,27 @@
 
 	<select id="SelectAllHospital" resultMap="HospitalMap"
 		resultType="Hospital">
-		SELECT
+		select
 		id,
 		`name`,
 		address_id
-		FROM
-		hospital h
-		WHERE
-		h.address_id IN (
-		SELECT
-		id
-		FROM
-		address a
-		WHERE
-		FIND_IN_SET(
-		pid,
-		fn_getaddress_childlist (#{mCodeValue})
-		)
-		OR
-		code_value = #{mCodeValue}
-		)
-
+		from
+		hospital
+		<where>
+			address_id in (
+			select
+			id
+			from
+			address
+			<where>
+				code_value in
+				<foreach item="item" index="index" collection="list" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
+			</where>
+			)
+		</where>
 	</select>
 
 </mapper>

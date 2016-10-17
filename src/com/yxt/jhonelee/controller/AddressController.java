@@ -16,6 +16,8 @@ import com.yxt.jhonelee.model.Admin;
 import com.yxt.jhonelee.model.Hospital;
 import com.yxt.jhonelee.service.AddressService;
 import com.yxt.jhonelee.service.HospitalService;
+import com.yxt.jhonelee.service.UserService;
+import com.yxt.jhonelee.util.Util;
 
 /**
  * 
@@ -31,6 +33,9 @@ public class AddressController {
 	@Autowired
 	private HospitalService Hservice;
 
+	@Autowired
+	private UserService userService;
+	
 	/**
 	 * 
 	 * @param request
@@ -41,10 +46,15 @@ public class AddressController {
 		HttpSession session = request.getSession();
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin != null) {
-			List<Hospital> lHospitals = Hservice.SelectAllHospital(admin.getmPid());
-			request.setAttribute("listHospitals", lHospitals);
+			String slist = userService.getCodeValueString(admin.getmPid());
+			String[] s = slist.split(",");
+			System.out.println(s.length);
+			List<String> listString = Util.getCodeValues(s);
+			if(listString!=null){
+				List<Hospital> lHospitals = Hservice.SelectAllHospital(listString);
+				request.setAttribute("listHospitals", lHospitals);
+			}
 		}
-
 		return "/main";
 	}
 

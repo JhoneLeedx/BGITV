@@ -27,16 +27,16 @@
 			from
 			address a
 			<where>
-				find_in_set(
-				pid,
-				fn_getaddress_childlist (#{mCodeValue})
-				)
-				or code_value = #{mCodeValue}
+				a.code_value in
+				<foreach item="item" index="index" collection="list" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
 			</where>
 			)
 			and h.id = dd.zp_hospital_id
-			and regist.DOCTOR_ID = dd.doctor_id
-			
+			and regist.doctor_id = dd.doctor_id
+
 			<if test="mTime==1">
 				and
 				PERIOD_DIFF(date_format(now(),'%Y%m'),
@@ -56,10 +56,10 @@
 				YEARWEEK(now())
 			</if>
 		</where>
-		group by to_days(REG_TIME)<!--  #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
+		group by to_days(REG_TIME)<!-- #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
 	</select>
-	
-		<select id="HomeSumCount" resultMap="homeBarMap" resultType="homeBar">
+
+	<select id="HomeSumCount" resultMap="homeBarMap" resultType="homeBar">
 		select
 		regist.REG_TIME,
 		sum(regist.SCAN_COUNT) cot
@@ -74,18 +74,19 @@
 			from
 			address a
 			<where>
-				find_in_set(
-				pid,
-				fn_getaddress_childlist (#{mCodeValue})
-				)
-				or code_value = #{mCodeValue}
+				a.code_value in
+				<foreach item="item" index="index" collection="list" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>
 			</where>
 			)
 			and h.id = dd.zp_hospital_id
 			and regist.DOCTOR_ID = dd.doctor_id
-			and regist.reg_state = #{mNum}
-			<if test="mTime==1">
 			and
+			regist.reg_state = #{mNum}
+			<if test="mTime==1"><!-- 1上月,2本月,3上周,4本周 -->
+				and
 				PERIOD_DIFF(date_format(now(),'%Y%m'),
 				date_format(regist.reg_time,'%Y%m')
 				) = 1
@@ -103,7 +104,7 @@
 				YEARWEEK(now())
 			</if>
 		</where>
-		group by to_days(REG_TIME)<!--  #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
+		group by to_days(REG_TIME)<!-- #预约状态 1-预约成功 2-通话完成 3-用户取消 -->
 	</select>
-	
+
 </mapper>

@@ -21,6 +21,8 @@ public interface UserService {
 	
 	public List<User> UserSignSum();
 	
+	
+	public String getCodeValueString(String mCodeValue);
 
 	
 }

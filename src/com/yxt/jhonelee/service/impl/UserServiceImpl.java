@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userSignMapper.UserSignSum();
 	}
+	@Override
+	public String getCodeValueString(String mCodeValue) {
+		// TODO Auto-generated method stub
+		return userMapper.getCodeValueString(mCodeValue);
+	}
 
 
 }
