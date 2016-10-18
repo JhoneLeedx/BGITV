@@ -6,10 +6,8 @@
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-
+<html>
 <head>
-
 <meta charset="utf-8">
 <title>预约协同服务中心</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,11 +15,10 @@
 <link rel="stylesheet" href="css/supersized.css">
 <link rel="stylesheet" href="css/login.css">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/jquery.form.js"></script>
 <script type="text/javascript" src="js/tooltips.js"></script>
 </head>
-
 <body>
 	<div class="page-container">
 		<div class="main_box" style="background-color: threedlightshadow;">
@@ -117,6 +114,19 @@
 		
 	}
 	
+	//控制ajax请求，session超时处理页面跳转
+	 $.ajaxSetup({   
+	       contentType:"application/x-www-form-urlencoded;charset=utf-8",   
+		   complete:function(XMLHttpRequest,textStatus){   
+		         var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); /* // 通过XMLHttpRequest取得响应头，sessionstatus， */
+		           if(sessionstatus=="timeout"){   
+		                 // 如果超时就处理 ，指定要跳转的页面	
+		        	     alert("页面过期，请重新登录"); 
+		                 window.top.location.href="<%=request.getContextPath()%>/logout";
+		                }  
+		              }     
+		           } 
+		      );   
 	</script>
 	
 	<!-- Javascript -->

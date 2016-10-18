@@ -67,7 +67,7 @@ public class HealthSignController {
 				return "500";
 			}
 		} else {
-			return "404";
+			return "500";
 		}
 	}
 
@@ -105,7 +105,7 @@ public class HealthSignController {
 				return "500";
 			}
 		} else {
-			return "404";
+			return "500";
 		}
 
 	}
