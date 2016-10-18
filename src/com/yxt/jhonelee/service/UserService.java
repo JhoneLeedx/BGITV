@@ -19,10 +19,11 @@ public interface UserService {
 	public List<User> selectUserByPage(int docid, int startPos, int pageSize, int timeInt);
 	
 	
-	public List<User> UserSignSum();
+	public List<User> UserSignSum();//首页扫码数据
+	public List<User> UserNoSignSum();//
 	
 	
-	public String getCodeValueString(String mCodeValue);
+	public String getCodeValueString(String mCodeValue);//得到codevalue
 
 	
 }

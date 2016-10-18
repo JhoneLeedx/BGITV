@@ -6,47 +6,38 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String signtime = (String) request.getAttribute("signtime");
+	String counts = (String) request.getAttribute("counts");
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
+<title>首页扫码</title>
 <link href="css/Index2.css" rel="stylesheet" />
+<script type="text/javascript" src="js/Chart.js"></script>
+<script type="text/javascript">
+	var barChartData = {
+
+		labels : [<%=signtime%>],
+		datasets : [ {
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,0.8)",
+			highlightFill : "rgba(151,187,205,0.75)",
+			highlightStroke : "rgba(151,187,205,1)",
+			data : [<%=counts%>]
+		} ]
+
+	}
+	window.onload = function() {
+		var ctx = document.getElementById("canvas").getContext("2d");
+		window.myBar = new Chart(ctx).Line(barChartData, {  /*Bar,Line,Radar  */
+			responsive : true
+		});
+	}
+</script>
 </head>
 <body>
-		<div class="row-fluid">
-			<div class="w">
-				<div class="span12">
-					<table class="table table-condensed table-bordered table-hover tab">
-						<thead>
-							<tr class="tableHead">
-								<th>序号</th>
-								<th>用户编号</th>
-								<th>用户姓名</th>
-								<th>最后一次扫码时间</th>
-								<th>扫码总次数</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-							<c:if test="${!empty list }">
-								<c:forEach items="${list}" var="user">
-									<tr class="patient">
-										<td>${user.mId }</td>
-										<td>${user.mUserId }</td>
-										<td>${user.mUserName }</td>
-										<td><fmt:formatDate value="${user.mRegTime }"
-												pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate> <%-- 	${user.mRegTime } --%>
-										</td>
-										<td>${user.mSu }</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-						</tbody>
-					</table>
-					<!-- 分页开始 -->
-				</div>
-			</div>
-		</div>
+<canvas id="canvas" width="5" height="2"></canvas>
 </body>
 </html>

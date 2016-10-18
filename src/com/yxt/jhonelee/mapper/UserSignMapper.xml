@@ -15,16 +15,28 @@
 	</resultMap>
 	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="UserSignSum" resultMap="userSignMap" resultType="User">
-		SELECT
+		select
 		id,user_id,user_name,is_sign,reg_time,scan_count,
-		SUM(scan_count) su
+		sum(scan_count) su
 		FROM
 		ITV_REGIST
 		<where>
 			is_sign=1
 		</where>
-		GROUP BY
-		user_name
+		group by
+		to_days(reg_time)
 	</select>
-
+	
+	<select id="UserNoSignSum" resultMap="userSignMap" resultType="User">
+		select
+		id,user_id,user_name,is_sign,reg_time,scan_count,
+		sum(scan_count) su
+		FROM
+		ITV_REGIST
+		<where>
+			is_sign=0
+		</where>
+		group by
+		to_days(reg_time)
+	</select>
 </mapper>

@@ -175,11 +175,45 @@ public class UserController {
 	public String userSign(HttpServletRequest request) {
 
 		List<User> list = userService.UserSignSum();
-		System.out.println(list);
-		request.setAttribute("list", list);
+		
+		if (list.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc = new StringBuilder();
+			for (int i = 0; i < list.size(); i++) {
+				sb.append("'" + new SimpleDateFormat("MM-dd").format(list.get(i).getmRegTime()) + "'" + ",");
+				sbc.append(list.get(i).getmSu() + ",");
+			}
+			String signtime = sb.toString().substring(0, sb.toString().length() - 1);
+			String counts = sbc.toString().substring(0, sbc.toString().length() - 1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime", signtime);
+			request.setAttribute("counts", counts);
+		}
 		return "usersign";
 	}
 
+	@RequestMapping("/userNoSign")
+	public String userNoSign(HttpServletRequest request) {
+		List<User> list = userService.UserNoSignSum();
+		if (list.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			StringBuilder sbc = new StringBuilder();
+			for (int i = 0; i < list.size(); i++) {
+				sb.append("'" + new SimpleDateFormat("MM-dd").format(list.get(i).getmRegTime()) + "'" + ",");
+				sbc.append(list.get(i).getmSu() + ",");
+			}
+			String signtime = sb.toString().substring(0, sb.toString().length() - 1);
+			String counts = sbc.toString().substring(0, sbc.toString().length() - 1);
+			System.out.println(signtime);
+			System.out.println(counts);
+			request.setAttribute("signtime", signtime);
+			request.setAttribute("counts", counts);
+		}
+		return "usersign";
+	}
+	
+	
 	@RequestMapping("/index")
 	public String UserHome(HttpServletRequest request) {
 		Admin admin = (Admin) request.getSession().getAttribute("admin");

@@ -68,7 +68,8 @@
 		regist.id)
 		<where>
 			dd.doctor_id = regist.DOCTOR_ID
-			AND dd.zp_hospital_id =#{mId}
+			and regist.is_sign = 1
+			and dd.zp_hospital_id =#{mId}
 		</where>
 		order by regist.REG_TIME desc) users 
 		<where>
@@ -92,19 +93,19 @@
 	<select id="getHomeCount" resultType="int">
 		select count(*) from
 		(select * from(
-		SELECT
+		select
 		dd.`name`,
 		regist.*,
-		re.ADMIN_ID,re.DOC_REASON,re.USER_REASON,re.HANDLE
-		FROM
+		re.admin_id,re.doc_reason,re.user_reason,re.handle
+		from
 		doctor_detail
 		dd,
 		ITV_REGIST regist
-		LEFT JOIN ITV_RECORD re ON (re.REGIST_ID =
-		regist.id)
+		left join ITV_RECORD re on (re.regist_id =regist.id)
 		<where>
-			dd.doctor_id = regist.DOCTOR_ID
-			AND dd.zp_hospital_id =#{mId}
+			dd.doctor_id = regist.doctor_id
+			and regist.is_sign = 1
+			and dd.zp_hospital_id =#{mId}
 		</where>
 		order by regist.REG_TIME desc) users 
 		<where>

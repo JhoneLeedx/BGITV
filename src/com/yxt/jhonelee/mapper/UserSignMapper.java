@@ -7,5 +7,5 @@ import com.yxt.jhonelee.model.User;
 public interface UserSignMapper {
 
 	public List<User> UserSignSum();
-	
+	public List<User> UserNoSignSum();
 }

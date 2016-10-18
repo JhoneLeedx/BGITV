@@ -69,7 +69,7 @@
 											style="background-color: #2B89BC; padding: 10px; color: white;">
 											家庭医生协同中心管理</h4>
 									</div>
-									<ul><li style="list-style-type:none;"><a data-toggle="collapse"
+									<ul><li style="list-style-type:none;padding-bottom: 10px"><a data-toggle="collapse"
 										 href="#collapseOne"> <img
 										 src="images/city.png" /><span>区域医院列表</span>
 									</a></li>
@@ -98,14 +98,14 @@
 											class="left-title">扫码信息统计</span>
 										</a>
 										
-																			<ul id="collapseTwo" class="collapse">
-										<li style="cursor: pointer"><a data-toggle="collapse" href="#user"><img alt="" src="images/code.png">用户首页扫码</a>
+									<ul id="collapseTwo" class="collapse">
+										<li style="cursor: pointer;padding-bottom: 10px"><a data-toggle="collapse" href="#user"><img alt="" src="images/code.png">用户首页扫码</a>
 											<ul id="user" class="collapse">
 												<li><a href="<%=path%>/userSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
 															<span class='left-body' title='（iptv首页）'>签约用户扫码</span>
 														</div></a></li>
-												<li><a href="#" target="right"><div
+												<li><a href="<%=path%>/userNoSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
 															<span class='left-body' title='（iptv首页）'>未签约用户扫码</span>
 														</div></a></li>
