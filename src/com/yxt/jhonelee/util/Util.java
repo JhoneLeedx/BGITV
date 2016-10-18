@@ -6,7 +6,10 @@ import java.util.List;
 public class Util {
 
 	
-	public static List<String> getCodeValues(String[] s){
+	public static List<String> getCodeValues(String slist){
+		
+		String[] s = slist.split(",");
+		System.out.println(s.length);
 		List<String> list = new ArrayList<String>();
 		if(s.length>0){
 			for(int i=0;i<s.length;i++){

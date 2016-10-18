@@ -47,9 +47,7 @@ public class AddressController {
 		Admin admin = (Admin) session.getAttribute("admin");
 		if (admin != null) {
 			String slist = userService.getCodeValueString(admin.getmPid());
-			String[] s = slist.split(",");
-			System.out.println(s.length);
-			List<String> listString = Util.getCodeValues(s);
+			List<String> listString = Util.getCodeValues(slist);
 			if(listString!=null){
 				List<Hospital> lHospitals = Hservice.SelectAllHospital(listString);
 				request.setAttribute("listHospitals", lHospitals);

@@ -65,52 +65,74 @@
 							<div class="accordion">
 								<div class="accordion-group">
 									<div class="accordion-heading">
-										<a class="accordion-toggle" data-toggle="collapse"
-											data-parent="#accordion2" href="#collapseOne"> <img
-											class="left-icon" src="images/list.png" /><span
-											class="left-title">区域医院列表</span>
-										</a>
+										<h4
+											style="background-color: #2B89BC; padding: 10px; color: white;">
+											家庭医生协同中心管理</h4>
 									</div>
+									<ul><li style="list-style-type:none;"><a data-toggle="collapse"
+										 href="#collapseOne"> <img
+										 src="images/city.png" /><span>区域医院列表</span>
+									</a></li>
 									<!--显示区域医院列表  -->
 									<ul id="collapseOne" class="collapse">
 										<c:if test="${!empty listHospitals }">
 											<c:forEach items="${listHospitals }" var="hospital">
 												<li style="cursor: pointer"><a
-													onclick="findDoc(this,'${hospital.mId}')" href="<%=request.getContextPath()%>/index?hospitalId=${hospital.mId}" target="right">									
-														<div class='accordion-inner'><img class='left-icon-child' src='images/hospital.png'/><span class='left-body' title=''>${hospital.mName}</span></div>
-														</a>
+													onclick="findDoc(this,'${hospital.mId}')"
+													href="<%=request.getContextPath()%>/index?hospitalId=${hospital.mId}"
+													target="right">
+														<div class='accordion-inner'>
+															<img class='left-icon-child' src='images/hospital.png' /><span
+																class='left-body' title=''>${hospital.mName}</span>
+														</div>
+												</a>
 													<ul style='display: none'></ul></li>
 
 											</c:forEach>
 										</c:if>
 									</ul>
- 						      <div class="accordion-heading">
-										<a class="accordion-toggle" data-toggle="collapse"
-											data-parent="#accordion2" href="#collapseTwo"> <img
-											class="left-icon" src="images/list.png" /><span
+								
+										<li style="list-style-type:none;"><a  data-toggle="collapse"
+											 href="#collapseTwo"> <img
+											class="left-icon" src="images/codes.png" /><span
 											class="left-title">扫码信息统计</span>
 										</a>
-									</div>
-									<ul id="collapseTwo" class="collapse">
-									    <li style="cursor: pointer"><a class="accordion-toggle" data-toggle="collapse" href="#user">用户首页扫码</a>
-									    <ul id="user" class="collapse">
-									    <li><a href="<%=path%>/userSign" target="right"><div class='accordion-inner'><span class='left-body' title='（iptv首页）'>签约用户扫码</span></div></a></li>
-									    <li>未签约用户</li>
-									    </ul>
-									    </li>
-									    <li style="cursor: pointer"><a class="accordion-toggle" data-toggle="collapse" href="#doctor">健康档案扫码</a>
-									    <ul id="doctor" class="collapse">
-									      <li><a href="<%=path%>/healthDocSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>签约医生</span></a></li>
-									      <li><a href="<%=path%>/healthUserSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>签约用户</span></a></li>
-									      <li><a href="<%=path%>/healthNoDocSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>未签约医生</span></a></li>
-									      <li><a href="<%=path%>/healthNoUserSign" target="right"><div class='accordion-inner'><span class='left-body' title='（健康档案扫码）'>未签约用户</span></a></li>
-									    </ul>
-									    </li>
-									</ul> 
+										
+																			<ul id="collapseTwo" class="collapse">
+										<li style="cursor: pointer"><a data-toggle="collapse" href="#user"><img alt="" src="images/code.png">用户首页扫码</a>
+											<ul id="user" class="collapse">
+												<li><a href="<%=path%>/userSign" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
+															<span class='left-body' title='（iptv首页）'>签约用户扫码</span>
+														</div></a></li>
+												<li><a href="#" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
+															<span class='left-body' title='（iptv首页）'>未签约用户扫码</span>
+														</div></a></li>
+											</ul></li>
+										<li style="cursor: pointer"><a data-toggle="collapse" href="#doctor"><img alt="" src="images/code.png">健康档案扫码</a>
+											<ul id="doctor" class="collapse">
+												<li><a href="<%=path%>/healthDocSign" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/>
+															<span class='left-body' title='（健康档案扫码）'>签约医生</span></a></li>
+												<li><a href="<%=path%>/healthUserSign" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
+															<span class='left-body' title='（健康档案扫码）'>签约用户</span></a></li>
+												<li><a href="<%=path%>/healthNoDocSign" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/>
+															<span class='left-body' title='（健康档案扫码）'>未签约医生</span></a></li>
+												<li><a href="<%=path%>/healthNoUserSign" target="right"><div
+															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
+															<span class='left-body' title='（健康档案扫码）'>未签约用户</span></a></li>
+											</ul></li>
+									</ul>
+										
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
-						<div class="span10 content-right" style="overflow:hidden;">
+						<div class="span10 content-right" style="overflow: hidden;">
 							<iframe name="right" src="<%=request.getContextPath()%>/home"
 								class="iframe"></iframe>
 						</div>

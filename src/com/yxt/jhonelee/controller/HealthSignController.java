@@ -46,9 +46,7 @@ public class HealthSignController {
 			}
 
 			String slist = userService.getCodeValueString(admin.getmPid());
-			String[] s = slist.split(",");
-			System.out.println(s.length);
-			List<String> listString = Util.getCodeValues(s);//得到string类型的codevalue
+			List<String> listString = Util.getCodeValues(slist);//得到string类型的codevalue
 			if(listString!=null){
 				
 				int count = service.UserSignCount(num, listString);
@@ -57,8 +55,10 @@ public class HealthSignController {
 				} else {
 					page = new Page(count, 1);
 				}
+				
 				List<HealthSign> list = service.HealthUserSignCount(num, listString, page.getStartPos(),
 						page.getPageSize());
+
 				request.setAttribute("list", list);
 				request.setAttribute("page", page);
 				request.setAttribute("num", num);
@@ -85,9 +85,7 @@ public class HealthSignController {
 				num = Integer.parseInt(mNum.trim());
 			}
 			String slist = userService.getCodeValueString(admin.getmPid());
-			String[] s = slist.split(",");
-			System.out.println(s.length);
-			List<String> listString = Util.getCodeValues(s);//得到string类型的codevalue
+			List<String> listString = Util.getCodeValues(slist);//得到string类型的codevalue
 			if(listString!=null){
 				int count = service.DocSignCount(num, listString);
 
@@ -96,7 +94,9 @@ public class HealthSignController {
 				} else {
 					page = new Page(count, 1);
 				}
-				List<HealthSign> list = service.HealthDocSignCount(num, listString, page.getStartPos(),page.getPageSize());
+				List<HealthSign> list = service.HealthDocSignCount(num, listString, page.getStartPos(),
+						page.getPageSize());
+
 				request.setAttribute("list", list);
 				request.setAttribute("page", page);
 				request.setAttribute("num", num);

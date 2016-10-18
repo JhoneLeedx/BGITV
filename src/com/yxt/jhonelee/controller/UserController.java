@@ -43,9 +43,8 @@ public class UserController {
 		Admin admin =(Admin) request.getSession().getAttribute("admin");
 		
 		String slist = userService.getCodeValueString(admin.getmPid());
-		String[] s = slist.split(",");
-		System.out.println(s.length);
-		List<String> listString = Util.getCodeValues(s);//得到string类型的codevalue
+
+		List<String> listString = Util.getCodeValues(slist);//得到string类型的codevalue
 		
 		String time = request.getParameter("time");
 		int mTime = 0;
