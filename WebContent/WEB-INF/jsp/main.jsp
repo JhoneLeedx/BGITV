@@ -138,9 +138,6 @@
 						</div>
 					</div>
 				</div>
-
-
-				<div style="text-align: center;"></div>
 			</c:when>
 			<c:otherwise>
 				<div style="margin: 20px;">

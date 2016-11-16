@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yxt.jhonelee.model.Admin;
 import com.yxt.jhonelee.service.AdminService;
+import com.yxt.jhonelee.util.Md5Util;
 
 @Controller
 public class AdminController {
@@ -33,12 +34,14 @@ public class AdminController {
 		request.setCharacterEncoding("utf-8");
 		String username = request.getParameter("adminName");
 		String password = request.getParameter("password");
+		String mPassword = Md5Util.EncoderByMd5(password);
+		
 		List<Admin> list = adService.SelectAllAdmin(username);
 		HttpSession session = request.getSession();
 		String r = null;
 		if (list.size() > 0) {
 			for (Admin admin : list) {
-				if (password.equals(admin.getmAdminPass())) {
+				if (mPassword.equals(admin.getmAdminPass())) {
 					if(admin.getmSysType()==1){
 						session.setAttribute("admin", admin);
 						r = "登录成功";
