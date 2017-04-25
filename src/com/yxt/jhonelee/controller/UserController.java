@@ -51,7 +51,8 @@ public class UserController {
 			mTime = Integer.parseInt(time.trim());
 		} // 得到时间int值（1,2,3,4）<!-- 1上月,2本月,3上周,4本周 -->
 		if (listString != null) {
-			List<HomeBar> list = homeBarService.HomeSum(listString, mTime);
+			//List<HomeBar> list = homeBarService.HomeSum(listString, mTime);
+			List<HomeBar> list = homeBarService.HomeSumCount(listString, 2, mTime);//显示本月数据
 			List<HomeBar> list1 = homeBarService.HomeSumCount(listString, 1, mTime);
 			List<HomeBar> list2 = homeBarService.HomeSumCount(listString, 2, mTime);
 			List<HomeBar> list3 = homeBarService.HomeSumCount(listString, 3, mTime);

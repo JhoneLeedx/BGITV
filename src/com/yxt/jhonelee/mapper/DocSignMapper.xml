@@ -5,18 +5,18 @@
 	<resultMap type="DocSign" id="DocSignResultMap">
 		<id property="mId" column="id" />
 		<result property="mKeyId" column="key_id" />
-		<result property="mSignTime" column="sign_time" />
-		<result property="mState" column="state" />
+		<result property="mSignTime" column="scan_time" />
+		<result property="mState" column="from" />
 		<result property="mToken" column="token" />
 		<result property="mCu" column="cu" />
 
 	</resultMap>
 	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
-		select id,key_id,sign_time,state,token,count(SIGN_TIME) cu from
+		select id,key_id,scan_time,from,token,count(scan_time) cu from
 		ITV_SIGNIN where key_id =
-		#{id} and state=201
+		#{id} and from=201
 		GROUP BY
-		TO_DAYS(sign_time)
+		TO_DAYS(scan_time)
 	</select>
 </mapper>

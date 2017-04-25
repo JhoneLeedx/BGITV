@@ -21,7 +21,8 @@
 		FROM
 		ITV_REGIST
 		<where>
-			is_sign=1
+			is_sign=1 and DATE_FORMAT(reg_time, '%Y%m' ) = DATE_FORMAT(
+				CURDATE() , '%Y%m' )
 		</where>
 		group by
 		to_days(reg_time)
@@ -34,7 +35,8 @@
 		FROM
 		ITV_REGIST
 		<where>
-			is_sign=0
+			is_sign=0 and DATE_FORMAT(reg_time, '%Y%m' ) = DATE_FORMAT(
+				CURDATE() , '%Y%m' )
 		</where>
 		group by
 		to_days(reg_time)

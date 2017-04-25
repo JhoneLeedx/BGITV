@@ -103,27 +103,27 @@
 											<ul id="user" class="collapse">
 												<li><a href="<%=path%>/userSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
-															<span class='left-body' title='（iptv首页）'>签约用户扫码</span>
+															<span class='left-body' title='（iptv首页）'>签约用户</span>
 														</div></a></li>
 												<li><a href="<%=path%>/userNoSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
-															<span class='left-body' title='（iptv首页）'>未签约用户扫码</span>
+															<span class='left-body' title='（iptv首页）'>未签约用户</span>
 														</div></a></li>
 											</ul></li>
 										<li style="cursor: pointer"><a data-toggle="collapse" href="#doctor"><img alt="" src="images/code.png">健康档案扫码</a>
 											<ul id="doctor" class="collapse">
 												<li><a href="<%=path%>/healthDocSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/>
-															<span class='left-body' title='（健康档案扫码）'>签约医生</span></a></li>
+															<span class='left-body' title='（健康档案扫码）'>家庭医生（亦是用户）</span></a></li>
 												<li><a href="<%=path%>/healthUserSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
-															<span class='left-body' title='（健康档案扫码）'>签约用户</span></a></li>
+															<span class='left-body' title='（健康档案扫码）'>签约用户（非医生）</span></a></li>
 												<li><a href="<%=path%>/healthNoDocSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/doctoricon.jpg'/>
-															<span class='left-body' title='（健康档案扫码）'>未签约医生</span></a></li>
+															<span class='left-body' title='（健康档案扫码）'>家庭医生（非用户）</span></a></li>
 												<li><a href="<%=path%>/healthNoUserSign" target="right"><div
 															class='accordion-inner'><img class='left-icon-child' src='images/32/user.png'/>
-															<span class='left-body' title='（健康档案扫码）'>未签约用户</span></a></li>
+															<span class='left-body' title='（健康档案扫码）'>非用户（非医生）</span></a></li>
 											</ul></li>
 									</ul>
 										

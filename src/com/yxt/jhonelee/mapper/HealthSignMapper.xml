@@ -18,7 +18,7 @@
 		resultMap="HealthSignResultMap"><!--用户扫码查看健康档案 -->
 		select addres.id,addres.name placename,hos.name hospitalname,
 		dd.doctor_id docid,dd.name docname,signin.key_id userid,
-		vitv.user_name username,max(signin.sign_time) sign_time,
+		vitv.user_name username,max(signin.scan_time) sign_time,
 		count(signin.id) cu from
 		ITV_SIGNIN signin,address addres,doctor_detail dd,
 		v_itv_is_contract vitv,(
@@ -39,21 +39,19 @@
 		<where>
 			hos.id = dd.zp_hospital_id
 			and dd.doctor_id = vitv.doctor_id
-			and
-			vitv.user_id = signin.key_id
-			and signin.state = 102
+			and signin.from = 102
 			and hos.address_id
 			= addres.id
 			<if test="mNum==1">
-				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+				and to_days(signin.scan_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and yearweek(date_format(signin.sign_time,'%Y-%m-%d')) =
+				and yearweek(date_format(signin.scan_time,'%Y-%m-%d')) =
 				yearweek(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
 				and
-				date_format(signin.sign_time,'%Y%m')=date_format(curdate(),'%Y%m')
+				date_format(signin.scan_time,'%Y%m')=date_format(curdate(),'%Y%m')
 				<!--#查询本月签到记录 -->
 			</if>
 		</where>
@@ -68,7 +66,7 @@
 		dd. NAME docname,
 		signin.key_id userid,
 		vitv.user_name username,
-		max(signin.sign_time) sign_time,
+		max(signin.scan_time) sign_time,
 		count(signin.id) cu
 		FROM
 		ITV_SIGNIN
@@ -101,19 +99,17 @@
 		<where>
 			hos.id = dd.zp_hospital_id
 			AND dd.doctor_id = vitv.doctor_id
-			AND
-			vitv.user_id = signin.key_id
-			AND signin.state = 102
+			AND signin.from = 102
 			<if test="mNum==1">
-				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+				and to_days(signin.scan_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(signin.scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
 				AND
-				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+				DATE_FORMAT(signin.scan_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
 				<!--#查询本月签到记录 -->
 			</if>
 		</where>
@@ -130,7 +126,7 @@
 		hos. NAME hospitalname,
 		signin.key_id docid,
 		dd. NAME docname,
-		max(signin.sign_time) sign_time,
+		max(signin.scan_time) sign_time,
 		count(signin.id) cu
 		FROM
 		ITV_SIGNIN signin,
@@ -161,21 +157,19 @@
 		) hos
 		<where>
 			hos.id = dd.zp_hospital_id
-			and dd.doctor_id =
-			signin.key_id
 			and
-			signin.state = 201
+			signin.from = 201
 			and hos.address_id = addres.id
 			<if test="mNum==1">
-				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+				and to_days(signin.scan_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(signin.scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
 				AND
-				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
+				DATE_FORMAT(signin.scan_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
 					#查询本月签到记录 -->
 			</if>
 		</where>
@@ -192,7 +186,7 @@
 		NAME hospitalname,
 		signin.key_id docid,
 		dd. NAME docname,
-		max(signin.sign_time) sign_time,
+		max(signin.scan_time) sign_time,
 		count(signin.id) cu
 		FROM
 		ITV_SIGNIN
@@ -226,18 +220,18 @@
 			and dd.doctor_id =
 			signin.key_id
 			and
-			signin.state = 201
+			signin.from = 201
 			and hos.address_id = addres.id
 			<if test="mNum==1">
-				and to_days(signin.sign_time) = to_days(now())<!-- #查询当天签到记录 -->
+				and to_days(signin.scan_time) = to_days(now())<!-- #查询当天签到记录 -->
 			</if>
 			<if test="mNum==2">
-				and YEARWEEK(date_format(signin.sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(signin.scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())<!-- #查询本周签到记录 -->
 			</if>
 			<if test="mNum==3">
 				AND
-				DATE_FORMAT(signin.sign_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
+				DATE_FORMAT(signin.scan_time,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')<!-- 
 					#查询本月签到记录 -->
 			</if>
 		</where>
@@ -247,63 +241,61 @@
 
 
 	<select id="noUserSign" resultType="HealthSign" resultMap="HealthSignResultMap">
-		select sign_time, count(key_id) cu
+		select scan_time sign_time, count(key_id) cu
 		from ITV_SIGNIN
 		<where>
-			key_id=0
-			and state = 102
+			`from` = 201
 			<!--1表示查询上个个月数据，2表示查询本月数据，3表示查询上周数据，4表示查询本周数据 -->
 			<if test="mTime==1">
 				and
 				PERIOD_DIFF(date_format(now(),'%Y%m'),
-				date_format(sign_time,'%Y%m')
+				date_format(scan_time,'%Y%m')
 				) = 1
 			</if>
 			<if test="mTime==2">
-				and DATE_FORMAT(sign_time, '%Y%m' ) = DATE_FORMAT(
+				and DATE_FORMAT(scan_time, '%Y%m' ) = DATE_FORMAT(
 				CURDATE() , '%Y%m' )
 			</if>
 			<if test="mTime==3">
-				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())-1
 			</if>
 			<if test="mTime==4">
-				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())
 			</if>
 		</where>
 		GROUP BY
-		TO_DAYS(sign_time)
+		TO_DAYS(scan_time)
 	</select>
 
 	<select id="noDocSign" resultType="HealthSign" resultMap="HealthSignResultMap">
 		select
-		sign_time, count(key_id) cu
+		scan_time sign_time, count(key_id) cu
 		from ITV_SIGNIN
 		<where>
-			key_id=0
-			and state = 201
+			 `from` = 201
 			<!--1表示查询上个个月数据，2表示查询本月数据，3表示查询上周数据，4表示查询本周数据 -->
 			<if test="mTime==1">
 				and
 				PERIOD_DIFF(date_format(now(),'%Y%m'),
-				date_format(sign_time,'%Y%m')
+				date_format(scan_time,'%Y%m')
 				) = 1
 			</if>
 			<if test="mTime==2">
-				and DATE_FORMAT(sign_time,'%Y%m') = DATE_FORMAT(
+				and DATE_FORMAT(scan_time,'%Y%m') = DATE_FORMAT(
 				CURDATE(),'%Y%m' )
 			</if>
 			<if test="mTime==3">
-				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())-1
 			</if>
 			<if test="mTime==4">
-				and YEARWEEK(date_format(sign_time,'%Y-%m-%d')) =
+				and YEARWEEK(date_format(scan_time,'%Y-%m-%d')) =
 				YEARWEEK(now())
 			</if>
 		</where>
-		GROUP BY TO_DAYS(sign_time)
+		GROUP BY TO_DAYS(scan_time)
 	</select>
 
 
