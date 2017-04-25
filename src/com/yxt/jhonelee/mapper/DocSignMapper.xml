@@ -13,9 +13,9 @@
 	</resultMap>
 	<cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
 	<select id="findAllDocSign" resultType="DocSign" resultMap="DocSignResultMap">
-		select id,key_id,scan_time,from,token,count(scan_time) cu from
+		select id,key_id,scan_time,`from`,token,count(scan_time) cu from
 		ITV_SIGNIN where key_id =
-		#{id} and from=201
+		#{id} and `from`=201
 		GROUP BY
 		TO_DAYS(scan_time)
 	</select>
